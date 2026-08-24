@@ -8,6 +8,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 
 import static com.hbm.items.ModItems.*;
 
@@ -244,8 +245,12 @@ public class ModItemsArmor {
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
-				.setRadResist(1D /*90%*/)
+				.setHazardClass(ArmorUtil.FULL_PACKAGE).setRadResist(1D /*90%*/)
 				.setUnlocalizedName("bj_helmet").setTextureName(RefStrings.MODID + ":bj_helmet");
+		bj_eyepatch = new ArmorBJEyepatch(aMatBJ, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100)
+				.cloneStats((ArmorFSB) bj_helmet)
+				.setHazardClass(HazardClass.LIGHT, HazardClass.SAND)
+				.setUnlocalizedName("bj_eyepatch").setTextureName(RefStrings.MODID + ":bj_helmet");
 		bj_plate = new ArmorBJ(aMatBJ, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_plate").setTextureName(RefStrings.MODID + ":bj_plate");
 		bj_plate_jetpack = new ArmorBJJetpack(aMatBJ, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_plate_jetpack").setTextureName(RefStrings.MODID + ":bj_plate_jetpack");
 		bj_legs = new ArmorBJ(aMatBJ, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 10000000, 10000, 1000, 100).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_legs").setTextureName(RefStrings.MODID + ":bj_legs");

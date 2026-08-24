@@ -1946,6 +1946,7 @@ public class ModItems {
 	public static Item bismuth_plate;
 	public static Item bismuth_legs;
 	public static Item bismuth_boots;
+	public static Item bj_eyepatch;
 	public static Item bj_helmet;
 	public static Item bj_plate;
 	public static Item bj_plate_jetpack;
@@ -7018,6 +7019,7 @@ public class ModItems {
 		GameRegistry.registerItem(ncrpa_legs, ncrpa_legs.getUnlocalizedName());
 		GameRegistry.registerItem(ncrpa_boots, ncrpa_boots.getUnlocalizedName());
 		GameRegistry.registerItem(bj_helmet, bj_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(bj_eyepatch, bj_eyepatch.getUnlocalizedName());
 		GameRegistry.registerItem(bj_plate, bj_plate.getUnlocalizedName());
 		GameRegistry.registerItem(bj_plate_jetpack, bj_plate_jetpack.getUnlocalizedName());
 		GameRegistry.registerItem(bj_legs, bj_legs.getUnlocalizedName());
