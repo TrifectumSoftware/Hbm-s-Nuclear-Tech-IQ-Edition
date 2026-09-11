@@ -44,28 +44,14 @@ import com.hbm.items.special.*;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.items.tool.*;
 import com.hbm.items.tool.ItemToolAbility.EnumToolType;
-import com.hbm.items.weapon.BSword;
-import com.hbm.items.weapon.GunB92;
-import com.hbm.items.weapon.GunB92Cell;
-import com.hbm.items.weapon.ItemAmmo;
-import com.hbm.items.weapon.ItemAmmoArty;
-import com.hbm.items.weapon.ItemAmmoHIMARS;
-import com.hbm.items.weapon.ItemCrucible;
-import com.hbm.items.weapon.ItemCustomMissile;
-import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.*;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.items.weapon.ItemCustomMissilePart.Rarity;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
-import com.hbm.items.weapon.ItemCustomRocket;
-import com.hbm.items.weapon.ItemDisperser;
-import com.hbm.items.weapon.ItemGrenadeDynamite;
-import com.hbm.items.weapon.ItemGrenadeFishing;
-import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.items.weapon.ItemMissile.MissileTier;
-import com.hbm.items.weapon.WeaponizedCell;
 import com.hbm.items.weapon.grenade.ItemGrenadeExtra;
 import com.hbm.items.weapon.grenade.ItemGrenadeFilling;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze;
@@ -1601,6 +1587,7 @@ public class ModItems {
 	public static Item ammo_dgk;
 	public static Item ammo_arty;
 	public static Item ammo_himars;
+	public static Item ammo_railgun;
 
 	public static Item gun_b92;
 	public static Item gun_b92_ammo;
@@ -4127,6 +4114,7 @@ public class ModItems {
 		ammo_misc = new ItemAmmo(AmmoMisc.class).setUnlocalizedName("ammo_misc");
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");
 		ammo_himars = new ItemAmmoHIMARS().setUnlocalizedName("ammo_himars");
+		ammo_railgun = new ItemAmmoRailgun().setUnlocalizedName("ammo_railgun");
 
 		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_alt");
 		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92");
@@ -6564,6 +6552,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_dgk, ammo_dgk.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_arty, ammo_arty.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_himars, ammo_himars.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_railgun, ammo_railgun.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_container, ammo_container.getUnlocalizedName());
 

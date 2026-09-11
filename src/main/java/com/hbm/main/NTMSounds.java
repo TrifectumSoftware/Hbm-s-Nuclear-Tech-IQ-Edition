@@ -36,10 +36,10 @@ public class NTMSounds {
 	public static final String GUN_FATMAN_RELOAD = "hbm:weapon.reload.fatmanFull";
 	public static final String GRENADE_TECH = "hbm:weapon.reload.grenadeTech";
 	public static final String GRENADE_NUKA = "hbm:weapon.reload.grenadeNuka";
-	
+
 	/// FOLEY ///
 	public static final String GUN_WHACK = "hbm:weapon.foley.gunWhack";
-	
+
 	/// FIRING ///
 	public static final String GUN_LOCKON = "hbm:weapon.fire.lockon";
 	public static final String GUN_SMACK = "hbm:weapon.fire.smack"; // hitting people with the butt of the gun
@@ -83,20 +83,20 @@ public class NTMSounds {
 	public static final String GUN_EXTINGUISHER_FIRE = "hbm:weapon.extinguisher";
 	public static final String GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS = "hbm:weapon.fire.loudestNoiseOnEarth"; // folly fires
 	public static final String GUN_VYLET_PONY_CUTIEMARKS_AND_THE_THINGS_THAT_BIND_US_INTRO_JINGLE = "hbm:weapon.fire.vstar"; // you know how we do it
-	
+
 	/// WEAPON SPECIAL EFFECTS ///
 	public static final String GUN_GO_GO_GADGET_FUCK_EVERYTHING_IN_THIS_GENERAL_DIRECTION = "hbm:alarm.trainHorn";
 	public static final String GUN_SOLDIER_TF2_BOAT_EXE_WAV_MP3 = "hbm:weapon.boat";
 	public static final String GUN_MINI_NUKE_EXPLOSION = "hbm:weapon.mukeExplosion";
-	
+
 	/// TURRETS ///
 	public static final String TURRET_50BMG = "hbm:turret.chekhov_fire";
 	public static final String TURRET_CIWS_RELOAD = "hbm:turret.howard_reload";
-	
+
 	/// PEEP NOISES ///
 	public static final String PLAYER_GULP = "hbm:player.gulp";
 	public static final String PLAYER_GROAN = "hbm:player.groan";
-	
+
 	/// BLOCKS ///
 	public static final String BLOCK_PLUSHY = "hbm:block.squeakyToy"; // squee
 	public static final String BLOCK_HUNDUNS_MAGNIFICENT_HOWL = "hbm:block.hunduns_magnificent_howl"; // tragic yuri
@@ -104,7 +104,7 @@ public class NTMSounds {
 	public static final String LEVER_START = "hbm:block.leverStart";
 	public static final String LEVER_STOP = "hbm:block.leverStop";
 	public static final String SPARK = "hbm:block.spark";
-	
+
 	/// MACHINE SOUNDS, MOSTLY LOOPS ///
 	public static final String ELECTRIC_MOTOR_LOOP = "hbm:block.motor";
 	public static final String ENGINE_LOOP = "hbm:block.engine"; // diesel engine
@@ -126,7 +126,7 @@ public class NTMSounds {
 	public static final String HEPHAESTUS_LOOP = "hbm:block.hephaestusRunning";
 	public static final String STEAM_ENGINE_HIT = "hbm:block.steamEngineOperate";
 	public static final String REACTOR_GEIGER_LOOP = "hbm:block.reactorLoop";
-	
+
 	/// MISC ///
 	public static final String TECH_BOOP = "hbm:item.techBoop"; // boop
 	public static final String TECH_BLEEP = "hbm:item.techBleep"; // blee-boo-bee-boop
@@ -148,7 +148,8 @@ public class NTMSounds {
 	public static final String SLICE = "hbm:weapon.slice";
 	public static final String KAPENG = "hbm:weapon.kapeng"; // third degree
 	public static final String METAL_IMPACT = "hbm:block.metalImpact"; // ow
-	
+	public static final String NUKE_CHARGE = "hbm:block.nukeCharge"; // cool charging sound
+
 	/// VANILLA CRAP I CANNOT BE ASSED TO REMEMBER ///
 	public static final String VANILLA_ORB = "random.orb"; // xp orb ping
 	public static final String VANILLA_PLINK = "random.break"; // item breaks

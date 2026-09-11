@@ -151,6 +151,7 @@ public class EntityMappings {
 		addEntity(EntityNukeTorex.class, "entity_effect_torex", 250, false);
 		addEntity(EntityArtilleryShell.class, "entity_artillery_shell", 1000);
 		addEntity(EntityArtilleryRocket.class, "entity_himars", 1000);
+		addEntity(EntityRailgunProjectile.class, "entity_railgun_sabot", 1000);
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
