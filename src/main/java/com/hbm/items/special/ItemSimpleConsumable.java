@@ -8,7 +8,6 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.potion.HbmPotion;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.Tuple.Pair;
 
@@ -82,11 +81,6 @@ public class ItemSimpleConsumable extends ItemCustomLore {
 		}
 	}
 	
-	public static void doRadaway(ItemStack stack, EntityPlayer user, int duration) {
-		giveSoundAndDecrement(stack, user, "hbm:item.radaway", new ItemStack(ModItems.iv_empty));
-		addPotionEffect(user, HbmPotion.radaway, duration, 0);
-	}
-	
 	//this formatting style probably already has a name but i will call it "the greg"
 	public ItemSimpleConsumable setUseAction(		BiConsumer<ItemStack, EntityPlayer> delegate) {								this.useAction = delegate;			return this; }
 	public ItemSimpleConsumable setUseActionServer(	BiConsumer<ItemStack, EntityPlayer> delegate) {								this.useActionServer = delegate;	return this; }
@@ -99,12 +93,14 @@ public class ItemSimpleConsumable extends ItemCustomLore {
 		ModItems.iv_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
 			giveSoundAndDecrement(stack, user, "hbm:item.syringe", new ItemStack(ModItems.iv_blood));
 			user.setHealth(Math.max(user.getHealth() - 5F, 0F));
+			com.hbm.extprop.HbmBloodstreamProps.getData(user).drainBlood(100F);
 			if(user.getHealth() <= 0) user.onDeath(DamageSource.magic);
 		}).setUnlocalizedName("iv_empty").setTextureName(RefStrings.MODID + ":iv_empty");
 
 		ModItems.iv_blood = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
 			giveSoundAndDecrement(stack, user, "hbm:item.radaway", new ItemStack(ModItems.iv_empty));
 			user.heal(5F);
+			com.hbm.extprop.HbmBloodstreamProps.getData(user).addBlood(100F);
 		}).setUnlocalizedName("iv_blood").setTextureName(RefStrings.MODID + ":iv_blood");
 
 		ModItems.iv_xp_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
@@ -118,18 +114,5 @@ public class ItemSimpleConsumable extends ItemCustomLore {
 			giveSoundAndDecrement(stack, user, "random.orb", new ItemStack(ModItems.iv_xp_empty));
 			EnchantmentUtil.addExperience(user, 100, false);
 		}).setUnlocalizedName("iv_xp").setTextureName(RefStrings.MODID + ":iv_xp");
-
-		/// RADAWAY ///
-		ModItems.radaway = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
-			doRadaway(stack, user, 140);
-		}).setUnlocalizedName("radaway").setTextureName(RefStrings.MODID + ":radaway");
-
-		ModItems.radaway_strong = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
-			doRadaway(stack, user, 350);
-		}).setUnlocalizedName("radaway_strong").setTextureName(RefStrings.MODID + ":radaway_strong");
-
-		ModItems.radaway_flush = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
-			doRadaway(stack, user, 500);
-		}).setUnlocalizedName("radaway_flush").setTextureName(RefStrings.MODID + ":radaway_flush");
 	}
 }

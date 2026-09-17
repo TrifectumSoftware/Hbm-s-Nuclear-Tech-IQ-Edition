@@ -79,6 +79,11 @@ public class LegoClient {
 		if(length <= 0) return;
 		renderBulletStandard(Tessellator.instance, 0xC60404, 0xFF6D6D, length, true);
 	};
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_MAGNETIC_BULLET = (bullet, interp) -> {
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length <= 0) return;
+		renderBulletStandard(Tessellator.instance, 0x808080, 0xD0D0D0, length, true);
+	};
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_LACED_BULLET = (bullet, interp) -> {
 		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
 		if(length <= 0) return;

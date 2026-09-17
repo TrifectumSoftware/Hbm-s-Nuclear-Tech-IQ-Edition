@@ -20,6 +20,7 @@ import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ItemSymbol;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModSpecial;
@@ -130,6 +131,12 @@ public class PedestalRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.plant_item, 1, ItemEnums.EnumPlantType.ROPE), new ComparableStack(ModItems.symbol_guilt), new ComparableStack(ModItems.plant_item, 1, ItemEnums.EnumPlantType.ROPE),
 				null, new ComparableStack(ModItems.plant_item, 1, ItemEnums.EnumPlantType.ROPE), null)
 					.ritual());
+
+		register(new PedestalRecipe(new ItemStack(ModItems.symbol_guilt, 1, ItemSymbol.SymbolType.JUSTICE.ordinal()),
+				null, new OreDictStack(STEEL.plate()), null,
+				new ComparableStack(ModItems.big_sword), new ComparableStack(ModItems.symbol_guilt, 1, ItemSymbol.SymbolType.JUSTICE.ordinal()), new ComparableStack(ModItems.rag_piss),
+				null, new OreDictStack(STEEL.plate()), null)
+					.extra(PedestalExtraCondition.SUN).ritual());
 	}
 
 	public static void register(PedestalRecipe recipe) {

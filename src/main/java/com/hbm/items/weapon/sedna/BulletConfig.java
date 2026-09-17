@@ -14,6 +14,7 @@ import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.inventory.fluid.trait.Injectables;
 import com.hbm.inventory.fluid.FluidType;
@@ -225,6 +226,60 @@ public class BulletConfig implements Cloneable {
 			}
 		}
 	};
+
+	public static Consumer<Entity> LAMBDA_MAGNETIC_HOMING = (entity) -> {
+
+		if(entity.worldObj.isRemote) return;
+
+		double range = 24D;
+		EntityLivingBase target = null;
+		double best = range;
+
+		for(Object o : entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, entity.boundingBox.expand(range, range, range))) {
+			EntityLivingBase living = (EntityLivingBase) o;
+			if(!wearsFSBPowered(living)) continue;
+			if(entity instanceof EntityBulletBaseMK4 && living == ((EntityBulletBaseMK4) entity).getThrower()) continue;
+
+			double dist = entity.getDistanceToEntity(living);
+			if(dist < best) {
+				best = dist;
+				target = living;
+			}
+		}
+
+		if(target == null) return;
+
+		double dx = target.posX - entity.posX;
+		double dy = (target.posY + target.height * 0.5) - entity.posY;
+		double dz = target.posZ - entity.posZ;
+		double len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+		if(len <= 0.01) return;
+
+
+		double accel = 6.0D / len;
+		if(accel > 1.0D) accel = 1.0D;
+		entity.motionX += (dx / len) * accel;
+		entity.motionY += (dy / len) * accel;
+		entity.motionZ += (dz / len) * accel;
+
+
+	double speed = Math.sqrt(entity.motionX * entity.motionX + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ);
+		if(speed > 15.0D) {
+			double scale = 15.0D / speed;
+			entity.motionX *= scale;
+			entity.motionY *= scale;
+			entity.motionZ *= scale;
+		}
+	};
+
+
+	private static boolean wearsFSBPowered(EntityLivingBase living) {
+		for(int i = 1; i <= 4; i++) {
+			ItemStack armor = living.getEquipmentInSlot(i);
+			if(armor != null && armor.getItem() instanceof ArmorFSBPowered) return true;
+		}
+		return false;
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_LACED_ENTITY_HIT = (bullet, mop) -> {
 		BulletConfig.LAMBDA_STANDARD_ENTITY_HIT.accept(bullet, mop);

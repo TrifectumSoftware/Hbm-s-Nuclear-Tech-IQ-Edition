@@ -52,11 +52,11 @@ public class BlockLoot extends BlockContainer {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		
+
 		if(!world.isRemote) {
 			TileEntityLoot entity = (TileEntityLoot) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				
+
 				for(Quartet<ItemStack, Double, Double, Double> quartet : entity.items) {
 					ItemStack stack = quartet.getW();
 					EntityItem item = stack != null && stack.getItem() instanceof ItemSymbol
@@ -65,10 +65,10 @@ public class BlockLoot extends BlockContainer {
 					world.spawnEntityInWorld(item);
 				}
 			}		}
-		
+
 		super.breakBlock(world, x, y, z, block, meta);
 	}
-	
+
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
@@ -82,14 +82,14 @@ public class BlockLoot extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
+
 		if(world.isRemote) {
 			return true;
-			
+
 		} else if(!player.isSneaking()) {
 			world.setBlockToAir(x, y, z);
 			return true;
-			
+
 		} else {
 			return false;
 		}
@@ -101,14 +101,14 @@ public class BlockLoot extends BlockContainer {
 	}
 
 	public static class TileEntityLoot extends TileEntity {
-		
+
 		public List<Quartet<ItemStack, Double, Double, Double>> items = new ArrayList();
 
 		@Override
 		public boolean canUpdate() {
 			return false;
 		}
-		
+
 		public TileEntityLoot addItem(ItemStack stack, double x, double y, double z) {
 			items.add(new Quartet(stack, x, y, z));
 			return this;
@@ -120,7 +120,7 @@ public class BlockLoot extends BlockContainer {
 			this.writeToNBT(nbt);
 			return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
 		}
-		
+
 		@Override
 		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 			this.readFromNBT(pkt.func_148857_g());
@@ -129,9 +129,9 @@ public class BlockLoot extends BlockContainer {
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
-			
+
 			int count = nbt.getInteger("count");
-			
+
 			for(int i = 0; i < count; i++) {
 				ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("item" + i));
 				if(stack == null || stack.getItem() == null) continue;
@@ -145,9 +145,9 @@ public class BlockLoot extends BlockContainer {
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
-			
+
 			nbt.setInteger("count", items.size());
-			
+
 			for(int i = 0; i < items.size(); i++) {
 				Quartet<ItemStack, Double, Double, Double> item = items.get(i);
 				if(item == null || item.getW() == null) continue;
@@ -159,12 +159,12 @@ public class BlockLoot extends BlockContainer {
 				nbt.setDouble("z" + i, item.getZ());
 			}
 		}
-		
+
 		AxisAlignedBB bb = null;
-		
+
 		@Override
 		public AxisAlignedBB getRenderBoundingBox() {
-			
+
 			if(bb == null) {
 				bb = AxisAlignedBB.getBoundingBox(
 						xCoord - 1,
@@ -175,7 +175,7 @@ public class BlockLoot extends BlockContainer {
 						zCoord + 2
 						);
 			}
-			
+
 			return bb;
 		}
 	}

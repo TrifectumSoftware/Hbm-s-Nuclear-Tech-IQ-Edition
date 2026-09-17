@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.NBTStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
@@ -22,6 +23,7 @@ import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ItemEnums.EnumPages;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemStamp.StampType;
@@ -65,7 +67,11 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.FLAT, new OreDictStack(EMERALD.dust()),						Items.emerald);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.biomass),					ModItems.biomass_compressed);
 		makeRecipe(StampType.FLAT, new OreDictStack(ANY_COKE.gem()),						ModItems.ingot_graphite);
-		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword_reforged),	ModItems.meteorite_sword_hardened);
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword[2]),	new ItemStack(ModItems.meteorite_sword[3]));
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_pickaxe[2]),	new ItemStack(ModItems.meteorite_pickaxe[3]));
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_axe[2]),		new ItemStack(ModItems.meteorite_axe[3]));
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_shovel[2]),	new ItemStack(ModItems.meteorite_shovel[3]));
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_hoe[2]),		new ItemStack(ModItems.meteorite_hoe[3]));
 		makeRecipe(StampType.FLAT, new ComparableStack(Blocks.log, 1, 3),					ModItems.ball_resin);
 
 		makeRecipe(StampType.FLAT, new OreDictStack(COAL.dust()),							DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.COAL));

@@ -92,6 +92,9 @@ public class BlockCrop extends BlockBush implements IGrowable, IPlantableBreathi
 		if(this == ModBlocks.crop_paraffin) {
 			return ModItems.paraffin_seeds;
 		}
+		if(this == ModBlocks.crop_heartfruit) {
+			return ModItems.heartfruit;
+		}
 
 		return Item.getItemFromBlock(this);
 	}
@@ -184,6 +187,15 @@ public class BlockCrop extends BlockBush implements IGrowable, IPlantableBreathi
 				if(world.rand.nextInt(15) <= metadata) {
 					ret.add(new ItemStack(ModItems.paraffin_seeds));
 					ret.add(new ItemStack(ModItems.oil_tar, 1, EnumTarType.WAX.ordinal()));
+				}
+			}
+		}
+
+		if(this == ModBlocks.crop_heartfruit && metadata >= 7) {
+			ret.add(new ItemStack(ModItems.heartfruit_seeds, 1));
+			for(int i = 0; i < 2 + fortune; ++i) {
+				if(world.rand.nextInt(15) <= metadata) {
+					ret.add(new ItemStack(ModItems.heartfruit_seeds, 1, 0));
 				}
 			}
 		}

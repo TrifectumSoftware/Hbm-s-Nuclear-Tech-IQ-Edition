@@ -26,7 +26,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public interface IWeaponAbility extends IBaseAbility {
 	// Note: tool is currently unused in weapon abilities
@@ -248,7 +251,7 @@ public interface IWeaponAbility extends IBaseAbility {
 		@Override
 		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
 			int divider = dividerAtLevel[level];
-			
+
 			if(victim instanceof EntityLivingBase) {
 				EntityLivingBase living = (EntityLivingBase) victim;
 
@@ -259,7 +262,7 @@ public interface IWeaponAbility extends IBaseAbility {
 						living.entityDropItem(new ItemStack(ModItems.nitra_small), 1);
 						world.spawnEntityInWorld(new EntityXPOrb(world, living.posX, living.posY, living.posZ, 1));
 					}
-					
+
 					ConfettiUtil.gib(living);
 					world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "hbm:weapon.chainsaw", 0.5F, 1.0F);
 				}
@@ -340,9 +343,46 @@ public interface IWeaponAbility extends IBaseAbility {
 			}
 		}
 	};
-	// endregion handlers
 
-	static final IWeaponAbility[] abilities = { NONE, RADIATION, VAMPIRE, STUN, PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE };
+	public static final IWeaponAbility CLEAVE = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.cleave";
+		}
+
+		public final float[] radiusAtLevel = { 2F, 3F, 4F, 5F, 6F, 8F, 10F };
+
+		@Override
+		public int levels() {
+			return radiusAtLevel.length;
+		}
+
+		@Override
+		public String getExtension(int level) {
+			return " (" + radiusAtLevel[level] + ")";
+		}
+
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 9;
+		}
+
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			float radius = radiusAtLevel[level];
+			List list = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(victim.posX - radius, victim.posY - radius, victim.posZ - radius, victim.posX + radius, victim.posY + radius, victim.posZ + radius));
+
+			for(Object o : list) {
+				EntityLivingBase living = (EntityLivingBase) o;
+				if(living == player || living == victim) continue;
+				float dist = victim.getDistanceToEntity(living);
+				if(dist > radius) continue;
+				living.attackEntityFrom(DamageSource.causePlayerDamage(player), (radius - dist) * 2F);
+			}
+		}
+	};
+
+	static final IWeaponAbility[] abilities = { NONE, RADIATION, VAMPIRE, STUN, PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE, CLEAVE };
 
 	static IWeaponAbility getByName(String name) {
 		for(IWeaponAbility ability : abilities) {

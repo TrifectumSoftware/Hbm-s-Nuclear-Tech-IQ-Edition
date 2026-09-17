@@ -1,13 +1,15 @@
 package com.hbm.extprop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.hbm.config.RadiationConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
-import com.hbm.config.ServerConfig;
 import com.hbm.entity.mob.EntityDuck;
+import com.hbm.handler.contagion.DiseaseInstance;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -28,10 +30,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.util.Constants;
 
 public class HbmLivingProps implements IExtendedEntityProperties {
 
@@ -49,7 +53,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
-	private int contagion;
 	private int oil;
 	private float activation;
 	private int oxygen = 100;
@@ -61,6 +64,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private List<ContaminationEffect> contamination = new ArrayList();
 	private CBT_Atmosphere atmosphere;
 	private boolean gravity = false;
+	private Map<String, DiseaseInstance> diseases = new HashMap<String, DiseaseInstance>();
 
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -313,14 +317,21 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		getData(entity).bombTimer = bombTimer;
 	}
 
-	/// CONTAGION ///
-	public static int getContagion(EntityLivingBase entity) {
-		if(!ServerConfig.ENABLE_MKU.get()) return 0;
-		return getData(entity).contagion;
+	/// MOB DISEASES ///
+	public static Map<String, DiseaseInstance> getDiseases(EntityLivingBase entity) {
+		return getData(entity).diseases;
 	}
 
-	public static void setContagion(EntityLivingBase entity, int contageon) {
-		getData(entity).contagion = contageon;
+	public static boolean hasDisease(EntityLivingBase entity, String frameId) {
+		return getData(entity).diseases.containsKey(frameId);
+	}
+
+	public static void addDisease(EntityLivingBase entity, DiseaseInstance instance) {
+		getData(entity).diseases.put(instance.frameId, instance);
+	}
+
+	public static void removeDisease(EntityLivingBase entity, String frameId) {
+		getData(entity).diseases.remove(frameId);
 	}
 
 	/// OIL ///
@@ -351,7 +362,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		buf.writeFloat(digamma);
 		buf.writeInt(asbestos);
 		buf.writeInt(bombTimer);
-		buf.writeInt(contagion);
 		buf.writeInt(blacklung);
 		buf.writeInt(oil);
 		buf.writeInt(oxygen);
@@ -373,7 +383,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			digamma = buf.readFloat();
 			asbestos = buf.readInt();
 			bombTimer = buf.readInt();
-			contagion = buf.readInt();
 			blacklung = buf.readInt();
 			oil = buf.readInt();
 			oxygen = buf.readInt();
@@ -400,7 +409,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setFloat("hfr_digamma", digamma);
 		props.setInteger("hfr_asbestos", asbestos);
 		props.setInteger("hfr_bomb", bombTimer);
-		if(ServerConfig.ENABLE_MKU.get()) props.setInteger("hfr_contagion", contagion);
 		props.setInteger("hfr_blacklung", blacklung);
 		props.setInteger("hfr_oil", oil);
 		props.setInteger("hfr_oxygen", oxygen);
@@ -418,6 +426,14 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			this.contamination.get(i).save(props, i);
 		}
 
+		NBTTagList diseaseList = new NBTTagList();
+		for(Map.Entry<String, DiseaseInstance> entry : this.diseases.entrySet()) {
+			NBTTagCompound tag = new NBTTagCompound();
+			entry.getValue().writeToNBT(tag);
+			diseaseList.appendTag(tag);
+		}
+		props.setTag("hfr_diseases", diseaseList);
+
 		nbt.setTag("HbmLivingProps", props);
 	}
 
@@ -432,7 +448,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			digamma = props.getFloat("hfr_digamma");
 			asbestos = props.getInteger("hfr_asbestos");
 			bombTimer = props.getInteger("hfr_bomb");
-			if(ServerConfig.ENABLE_MKU.get()) contagion = props.getInteger("hfr_contagion");
 			blacklung = props.getInteger("hfr_blacklung");
 			oil = props.getInteger("hfr_oil");
 			activation = props.getFloat("hfr_activation");
@@ -448,6 +463,16 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 
 			for(int i = 0; i < cont; i++) {
 				this.contamination.add(ContaminationEffect.load(props, i));
+			}
+
+			NBTTagList diseaseList = props.getTagList("hfr_diseases", Constants.NBT.TAG_COMPOUND);
+			for(int i = 0; i < diseaseList.tagCount(); i++) {
+				NBTTagCompound tag = diseaseList.getCompoundTagAt(i);
+				DiseaseInstance instance = DiseaseInstance.readFromNBT(tag);
+				if(instance.frameId != null && !instance.frameId.isEmpty()) {
+					this.diseases.put(instance.frameId, instance);
+					com.hbm.handler.contagion.DiseaseRegistry.restore(instance.frameId, tag);
+				}
 			}
 		}
 	}
@@ -498,9 +523,9 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		public static ContaminationEffect load(NBTTagCompound nbt, int index) {
 			NBTTagCompound me = (NBTTagCompound) nbt.getTag("cont_" + index);
 			float maxRad = me.getFloat("maxRad");
-			int maxTime = nbt.getInteger("maxTime");
-			int time = nbt.getInteger("time");
-			boolean ignoreArmor = nbt.getBoolean("ignoreArmor");
+			int maxTime = me.getInteger("maxTime");
+			int time = me.getInteger("time");
+			boolean ignoreArmor = me.getBoolean("ignoreArmor");
 
 			ContaminationEffect effect = new ContaminationEffect(maxRad, maxTime, ignoreArmor);
 			effect.time = time;

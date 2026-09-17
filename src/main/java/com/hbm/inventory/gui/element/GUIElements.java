@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui.element;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -346,6 +347,94 @@ public class GUIElements {
 			RenderHelper.enableStandardItemLighting();
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
+	}
+
+	public static void drawDivider(int x, int y, int width, int color) {
+		float a = (float) (color >> 24	& 255) / 255F;
+		float r = (float) (color >> 16	& 255) / 255F;
+		float g = (float) (color >> 8	& 255) / 255F;
+		float b = (float) (color		& 255) / 255F;
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		tess.setColorRGBA_F(r, g, b, a);
+		tess.addVertex(x, y + 1, 0);
+		tess.addVertex(x + width, y + 1, 0);
+		tess.addVertex(x + width, y, 0);
+		tess.addVertex(x, y, 0);
+		tess.draw();
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
+
+	public static List<String> wrapText(List<String> lines, int max) {
+		List<String> out = new ArrayList<String>();
+		for(String line : lines) {
+			String s = line;
+			while(s.length() > max) {
+				out.add(s.substring(0, max));
+				s = s.substring(max);
+			}
+			out.add(s);
+		}
+		return out;
+	}
+
+	public static void drawHelix(double x0, double x1, double cy, double z, double radius, double turns, double spin, double phase, int bits, int strandColor) {
+		int strandSteps = 120;
+		double bitPhase = Math.toRadians(3.0);
+		double strandOffset = Math.PI * 0.95;
+		double xDiv = 60.0;
+		int[] segColors = {0xFFFF5555, 0xFF55FFFF, 0xFF55FF55};
+		int strandColorDark = 0xFF00A000;
+		Tessellator tess = Tessellator.instance;
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glLineWidth(3.5F);
+
+		tess.startDrawing(GL11.GL_LINES);
+		for(int i = 0; i < bits; i++) {
+			double t = (i + 0.5) / bits;
+			double x = x0 + t * (x1 - x0);
+			double a = helixPhase(x, x0, x1, xDiv, turns, bits, bitPhase) + phase;
+			double y0 = radius * spin * Math.cos(a);
+			double y1 = radius * spin * Math.cos(a + strandOffset);
+			tess.setColorOpaque_I(segColors[segmentOf(i)]);
+			tess.addVertex(x, cy + y0, z);
+			tess.addVertex(x, cy + y1, z);
+		}
+		tess.draw();
+
+		for(int s = 0; s < 2; s++) {
+			tess.startDrawing(GL11.GL_LINE_STRIP);
+			tess.setColorOpaque_I(s == 0 ? strandColor : strandColorDark);
+			double off = s == 0 ? 0 : strandOffset;
+			for(int i = 0; i <= strandSteps; i++) {
+				double t = i / (double) strandSteps;
+				double x = x0 + t * (x1 - x0);
+				double a = helixPhase(x, x0, x1, xDiv, turns, bits, bitPhase) + phase;
+				double y = radius * spin * Math.cos(a + off);
+				tess.addVertex(x, cy + y, z);
+			}
+			tess.draw();
+		}
+
+		GL11.glLineWidth(1.0F);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
+
+	private static double helixPhase(double x, double x0, double x1, double xDiv, double turns, int bits, double bitPhase) {
+		double t = (x - x0) / (x1 - x0);
+		return (x - x0) / xDiv + t * turns * Math.PI * 2 + t * bits * bitPhase;
+	}
+
+	private static int segmentOf(int bit) {
+		return bit < 8 ? 0 : bit < 16 ? 1 : 2;
 	}
 
 	/** Colors don't use the RGBA, but rather ARGB (evil route) */

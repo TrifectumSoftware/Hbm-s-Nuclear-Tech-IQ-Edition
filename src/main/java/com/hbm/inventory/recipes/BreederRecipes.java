@@ -10,8 +10,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.NBTStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.items.machine.ItemBreedingRod.*;
 
 import net.minecraft.item.Item;
@@ -30,12 +32,11 @@ public class BreederRecipes extends SerializableRecipe {
 		setRecipe(BreedingRodType.U235, BreedingRodType.NP237, 300);
 		setRecipe(BreedingRodType.NP237, BreedingRodType.PU238, 200);
 		setRecipe(BreedingRodType.PU238, BreedingRodType.PU239, 1000);
-		setRecipe(BreedingRodType.U238, BreedingRodType.RGP, 300);
-		setRecipe(BreedingRodType.URANIUM, BreedingRodType.RGP, 200);
-		setRecipe(BreedingRodType.RGP, BreedingRodType.WASTE, 200);
-		
-		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
-	}
+	setRecipe(BreedingRodType.U238, BreedingRodType.RGP, 300);
+	setRecipe(BreedingRodType.URANIUM, BreedingRodType.RGP, 200);
+	setRecipe(BreedingRodType.RGP, BreedingRodType.WASTE, 200);
+
+}
 	
 	/** Sets recipes for single, dual, and quad rods **/
 	public static void setRecipe(BreedingRodType inputType, BreedingRodType outputType, int flux) {

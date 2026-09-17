@@ -271,11 +271,13 @@ public class MainRegistry {
 
 		loadConfig(PreEvent);
 		HbmPotion.init();
+		com.hbm.handler.contagion.SymptomPool.init();
 
 		/* For whichever fucking reason, replacing the bolt items with a bolt autogen broke all autogen items, most likely due to the load order.
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
 		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
+		com.hbm.handler.contagion.DiseaseRegistry.seedDefaults();
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -353,6 +355,8 @@ public class MainRegistry {
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.no9), 1, 1, 7));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(com.hbm.handler.contagion.WildDisease.makeSyringe(new Random()), 1, 1, 1));
+		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(com.hbm.handler.contagion.WildDisease.makeSyringe(new Random()), 1, 1, 1));
 
 		EntityMappings.writeMappings();
 		//CompatNER.init();
@@ -688,6 +692,8 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(commonHandler);
 		MinecraftForge.TERRAIN_GEN_BUS.register(commonHandler);
 		MinecraftForge.ORE_GEN_BUS.register(commonHandler);
+
+		MinecraftForge.EVENT_BUS.register(new EventHandlerIndustrialPipette());
 
 		ModEventHandlerImpact impactHandler = new ModEventHandlerImpact();
 		FMLCommonHandler.instance().bus().register(impactHandler);

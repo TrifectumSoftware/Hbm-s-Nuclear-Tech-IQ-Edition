@@ -27,6 +27,7 @@
 	"block.igeneratorOperate": {"category": "block", "sounds": [{"name": "block/igeneratorOperate", "stream": false}]},
 	"block.turbofanOperate": {"category": "block", "sounds": [{"name": "block/turbofanOperate", "stream": true}]},
 	"block.pressOperate": {"category": "block", "sounds": [{"name": "block/pressOperate", "stream": false}]},
+	"block.spraypaint": {"category": "block", "sounds": [{"name": "block/spraypaint", "stream": false}]},
 	"block.broadcast1": {"category": "block", "sounds": [{"name": "block/broadcast1", "stream": true}]},
 	"block.broadcast2": {"category": "block", "sounds": [{"name": "block/broadcast2", "stream": true}]},
 	"block.broadcast3": {"category": "block", "sounds": [{"name": "block/broadcast3", "stream": true}]},
@@ -155,6 +156,7 @@
 	"music.recordGodSpeed": {"category": "record", "sounds": [{"name": "music/recordGodSpeed", "stream": true}]},
 	"music.recordGoop": {"category": "record", "sounds": [{"name": "music/recordGoop", "stream": true}]},
 	"music.recordEthereal": {"category": "record", "sounds": [{"name": "music/recordEthereal", "stream": true}]},
+	"music.turkishRage": {"category": "record", "sounds": [{"name": "music/erik_dali", "stream": true}]},
 
 	"music.game.space": {"category": "music", "sounds": [
 		{"name": "music/spaceBreak", "stream": true},
@@ -387,6 +389,7 @@
 	"player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
 	"player.oil": {"category": "player", "sounds": [{"name": "player/oil", "stream": false}]},
 	"player.cough": {"category": "player", "sounds": ["player/cough1", "player/cough2", "player/cough3", "player/cough4"]},
+	"player.sneeze": {"category": "player", "sounds": [{"name": "player/sneeze", "stream": false}]},
 	"player.gulp": {"category": "player", "sounds": ["player/gulp1", "player/gulp2", "player/gulp3", "player/gulp4"]},
 	"player.groan": {"category": "player", "sounds": ["player/groan1", "player/groan2", "player/groan3"]},
 	"player.dash": {"category": "player", "sounds": [{"name": "player/dash", "stream": false}]},
@@ -430,5 +433,7 @@
 	"alarm.ping": {"category": "player", "sounds": [{"name": "alarm/alarmping", "stream": false}]},
 
 	"dig.plantsquish": {"category": "block", "sounds": ["plantsquish0", "plantsquish1", "plantsquish2", "plantsquish3", "plantsquish4"]},
-	"step.plantsquish": {"category": "block", "sounds": ["plantsquish0", "plantsquish1", "plantsquish2", "plantsquish3", "plantsquish4"]}
+	"step.plantsquish": {"category": "block", "sounds": ["plantsquish0", "plantsquish1", "plantsquish2", "plantsquish3", "plantsquish4"]},
+
+	"magnetic": {"category": "block", "sounds": [{"name": "magnetic", "stream": false}]}
 }

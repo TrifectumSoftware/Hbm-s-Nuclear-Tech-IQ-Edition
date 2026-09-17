@@ -17,7 +17,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.ShadyUtil;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -275,14 +274,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 		EntityPlayer player = event.player;
 		boolean step = true;
-
-		if(player.getUniqueID().equals(ShadyUtil.the_NCR) || player.getUniqueID().equals(ShadyUtil.Barnaby99_x)) {
-			step = false;
-
-			if(player.worldObj.isRemote && player.onGround) {
-				steppy(player, "hbm:step.powered");
-			}
-		}
 
 		if(ArmorFSB.hasFSBArmor(player)) {
 

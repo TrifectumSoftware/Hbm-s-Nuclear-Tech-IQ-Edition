@@ -540,6 +540,32 @@ public class ItemRenderLibrary {
 		        ResourceManager.microwave.renderPart("window_Cube.002");
 			}});
 
+		renderers.put(Item.getItemFromBlock(ModBlocks.block_blood_centrifuge), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(-2, 0.7, 2);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(3, 3, 3);
+				GL11.glRotated(180, 0, 1, 0);
+				bindTexture(ResourceManager.vampire_black_tex);
+				ResourceManager.vampire.renderAll();
+			}});
+
+		renderers.put(Item.getItemFromBlock(ModBlocks.block_sample_synthesizer), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(-2, 0.7, 2);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(3, 3, 3);
+				GL11.glRotated(180, 0, 1, 0);
+				bindTexture(ResourceManager.vampire_white_tex);
+				ResourceManager.vampire.renderAll();
+			}});
+
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_solar_boiler), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -2.5, 0);

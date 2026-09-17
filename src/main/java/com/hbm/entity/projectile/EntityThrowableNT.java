@@ -2,6 +2,7 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.handler.SymbolBehaviors;
 import com.hbm.util.TrackerUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -199,6 +200,11 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 						MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);
 	
 						if(hitMop != null) {
+							
+							if(entity instanceof EntityPlayer && SymbolBehaviors.hasJustice((EntityPlayer) entity)) {
+								SymbolBehaviors.deflect(this, (EntityPlayer) entity, hitMop.hitVec.xCoord, hitMop.hitVec.yCoord, hitMop.hitVec.zCoord);
+								return;
+							}
 							
 							// if penetration is enabled, run impact for all intersecting entities
 							if(this.doesPenetrate()) {

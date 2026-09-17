@@ -73,7 +73,7 @@ public class ItemPoolsPile {
 					weighted(filledSyringe(ModItems.combat_syringe, Fluids.MEDX), 1, 1, 1),
 					weighted(filledSyringe(ModItems.combat_syringe, Fluids.PSYCHO), 1, 1, 1),
 					weighted(filledSyringe(ModItems.combat_syringe, Fluids.SUPER_STIMPAK), 1, 1, 1),
-					weighted(ModItems.iv_blood, 0, 1, 1, 10),
+					weighted(filledSyringe(ModItems.syringe, Fluids.RADAWAY), 1, 1, 10),
 					weighted(Items.experience_bottle, 0, 1, 3, 5),
 			};
 		}};
@@ -158,9 +158,9 @@ public class ItemPoolsPile {
 		}};
 		new ItemPool(POOL_PILE_MED_PILLS) {{
 			this.pool = new WeightedRandomChestContent[] {
-					weighted(ModItems.radaway, 0, 1, 1, 10),
-					weighted(ModItems.radx, 0, 1, 1, 10),
-					weighted(ModItems.iv_blood, 0, 1, 1, 15),
+					weighted(filledSyringe(ModItems.syringe, Fluids.RADAWAY), 1, 1, 10),
+					weighted(filledSyringe(ModItems.syringe, Fluids.RADX), 1, 1, 10),
+					weighted(filledSyringe(ModItems.syringe, Fluids.RADAWAY), 1, 1, 15),
 					weighted(ModItems.siox, 0, 1, 1, 5),
 			};
 		}};

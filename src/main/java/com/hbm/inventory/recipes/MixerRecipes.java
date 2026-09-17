@@ -100,8 +100,11 @@ public class MixerRecipes extends SerializableRecipe {
 		register(Fluids.ELBOWGREASE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.REFORMGAS, 500)).setStack2(new FluidStack(Fluids.SYNGAS, 500)));
 
 		register(Fluids.HTCO4, new MixerRecipe(250, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModItems.nugget_technetium)));
-
-		register(Fluids.MINSOL, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModBlocks.ore_mineral, 1, OreDictionary.WILDCARD_VALUE)));
+		register(Fluids.CONSTRUCTION_FOAM, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)));
+		register(Fluids.MINSOL, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new OreDictStack(MIN.ore())));
+		register(Fluids.RADAWAY, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.BLOOD, 500)).setStack2(new FluidStack(Fluids.AMBROSIA, 100)).setSolid(new OreDictStack(COAL.dust())));
+		register(Fluids.RADX, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.WATER, 500)).setStack2(new FluidStack(Fluids.AMBROSIA, 100)).setSolid(new OreDictStack(F.dust())));
+	register(Fluids.CAY, new MixerRecipe(10, 10000).setStack1(new FluidStack(Fluids.CURDLING_BLOOD, 1000)).setSolid(new ComparableStack(ModItems.tea_leaf, 64)));
 		register(Fluids.REDMUD, new MixerRecipe(50, 100).setStack1(new FluidStack(Fluids.HCL, 1400)).setSolid(new ComparableStack(ModBlocks.duna_sands, 4)));
 
 		register(Fluids.DICYANOACETYLENE, new MixerRecipe(750, 50).setStack1(new FluidStack(Fluids.AMMONIA, 300)).setStack2(new FluidStack(Fluids.UNSATURATEDS, 500))); //too powerful, needs change
@@ -112,6 +115,7 @@ public class MixerRecipes extends SerializableRecipe {
 		register(Fluids.ETHANOL, new MixerRecipe(450, 30).setStack1(new FluidStack(Fluids.CHLOROETHANE, 250)).setStack2(new FluidStack(Fluids.REDMUD, 300)));
 
 		register(Fluids.SCUTTERBLOOD, new MixerRecipe(550, 50).setStack1(new FluidStack(Fluids.HCL, 300)).setSolid(new ComparableStack(ModItems.scuttertail)));
+		register(Fluids.DIALYSATE, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.WATER, 500)).setSolid(new ComparableStack(ModItems.powder_calcium)));
 
 		register(Fluids.BAUXITE_SOLUTION, new MixerRecipe(300, 80).setStack1(new FluidStack(Fluids.LYE, 50)).setSolid(new ComparableStack(ModBlocks.stone_resource, 1, BlockEnums.EnumStoneType.BAUXITE.ordinal())));
 		register(Fluids.LYE, new MixerRecipe(100, 100).setStack1(new FluidStack(Fluids.WATER, 100)).setSolid(new ComparableStack(ModItems.powder_ash, 1, EnumAshType.WOOD)));
@@ -147,6 +151,16 @@ public class MixerRecipes extends SerializableRecipe {
 		register(Fluids.MUSKY_PHEROMONE, new MixerRecipe(1000, 30).setStack1(new FluidStack(Fluids.BURNING_BLOATMUSK, 700)).setStack2(new FluidStack(Fluids.BRIMTUMEN, 300)));
 		register(Fluids.ANTIDOTE, new MixerRecipe(500, 30).setStack1(new FluidStack(Fluids.MILK, 400)).setSolid(new ComparableStack(Items.nether_wart, 4)));
 		register(Fluids.POISON, new MixerRecipe(500, 30).setStack1(new FluidStack(Fluids.WATER, 400)).setSolid(new ComparableStack(Items.spider_eye, 4)));
+
+		register(Fluids.INK_ORANGE, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_RED, 500)).setStack2(new FluidStack(Fluids.INK_YELLOW, 500)));
+		register(Fluids.INK_LIME, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_GREEN, 500)).setStack2(new FluidStack(Fluids.INK_WHITE, 500)));
+		register(Fluids.INK_LIGHT_BLUE, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_BLUE, 500)).setStack2(new FluidStack(Fluids.INK_WHITE, 500)));
+		register(Fluids.INK_CYAN, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_BLUE, 500)).setStack2(new FluidStack(Fluids.INK_GREEN, 500)));
+		register(Fluids.INK_PURPLE, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_BLUE, 500)).setStack2(new FluidStack(Fluids.INK_RED, 500)));
+		register(Fluids.INK_PINK, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_RED, 500)).setStack2(new FluidStack(Fluids.INK_WHITE, 500)));
+		register(Fluids.INK_GRAY, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_BLACK, 500)).setStack2(new FluidStack(Fluids.INK_WHITE, 500)));
+		register(Fluids.INK_LIGHT_GRAY, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_GRAY, 500)).setStack2(new FluidStack(Fluids.INK_WHITE, 500)));
+		register(Fluids.INK_MAGENTA, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.INK_PURPLE, 500)).setStack2(new FluidStack(Fluids.INK_PINK, 500)));
 	}
 
 	public static void register(FluidType type, MixerRecipe... rec) {

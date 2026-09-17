@@ -101,7 +101,18 @@ public class SolarSystem {
 							.withColor(0.6F, 0.882F, 0.764F)
 							.withBlockTextures(RefStrings.MODID + ":textures/blocks/minmus_stone.png", RefStrings.MODID + ":textures/blocks/minmus_regolith.png")
 							.withTraits(new CBT_Water(Fluids.MILK))
-							.withIce(true)
+							.withIce(true),
+
+						new CelestialBody("dross", SpaceConfig.drossDimension, Body.DROSS)
+							.withMassRadius(1.346e19F, 50)
+							.withOrbitalParameters(47_000, 0, 64.0F, 6.0F, 120.0F)
+							.withRotationalPeriod(20_200)
+							.withColor(0.6F, 0.882F, 0.764F)
+							.withBlockTextures(RefStrings.MODID + ":textures/blocks/dross_waste.png", RefStrings.MODID + ":textures/blocks/dross_waste.png")
+							.withTraits(new CBT_Atmosphere(Fluids.DROSSAIR, 1.0D), new CBT_Temperature(500), new CBT_Water(Fluids.DROSSAIR))
+							.withIce(false)
+
+
 
 					),
 
@@ -330,6 +341,7 @@ public class SolarSystem {
 		TEKTO("tekto"),
 		//THATMO("thatmo"), sit this one out buddy :)
 		CZECHOSLOWAKIA("czechoslowakia"),
+		DROSS("dross"),
 		;
 
 		public String name;

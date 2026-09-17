@@ -13,25 +13,47 @@ import com.hbm.potion.HbmPotion;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class FT_Drug extends FluidTrait {
 
 	public int consumption = 1;
-	public int duration;
+	public float threshold;
+	public float dissipationRate = 3.4F;
 	private List<FT_Consumable.ConsumableEffect> effects = new ArrayList();
 	private List<String> specialEffects = new ArrayList();
+	private List<String> sideEffects = new ArrayList();
 
 	public FT_Drug setConsumption(int rate) {
 		this.consumption = rate;
 		return this;
 	}
 
-	public FT_Drug setDuration(int duration) {
-		this.duration = duration;
+	public FT_Drug setThreshold(float threshold) {
+		this.threshold = threshold;
 		return this;
+	}
+
+	public FT_Drug setDissipationRate(float rate) {
+		this.dissipationRate = rate;
+		return this;
+	}
+
+	public float getDecayFactor() {
+		return (float) Math.pow(0.5, 1.0 / (this.dissipationRate * 20));
+	}
+
+	public float getDecayFactor(float concentration) {
+		float hl = this.dissipationRate / (1F + concentration * 2F);
+		return (float) Math.pow(0.5, 1.0 / (hl * 20));
+	}
+
+	public int getEffectDuration() {
+		float dose = Math.max(10, consumption * 10F);
+		float factor = getDecayFactor(0F);
+		double halfLives = Math.log(0.5 / dose) / Math.log(factor);
+		return (int) (halfLives / 20F);
 	}
 
 	public FT_Drug addEffect(int potionId, int amplifier) {
@@ -44,8 +66,21 @@ public class FT_Drug extends FluidTrait {
 		return this;
 	}
 
+	public FT_Drug addSideEffect(String symptomKey) {
+		sideEffects.add(symptomKey);
+		return this;
+	}
+
 	public boolean hasSpecialEffect(String key) {
 		return specialEffects.contains(key);
+	}
+
+	public List<FT_Consumable.ConsumableEffect> getEffects() {
+		return effects;
+	}
+
+	public List<String> getSideEffects() {
+		return sideEffects;
 	}
 
 	@Override
@@ -54,7 +89,6 @@ public class FT_Drug extends FluidTrait {
 
 		if(effects.isEmpty() && specialEffects.isEmpty()) {
 			info.add(EnumChatFormatting.YELLOW + "   - " + I18nUtil.resolveKey("hbmfluid.trait.noEffects"));
-			return;
 		}
 
 		for(FT_Consumable.ConsumableEffect effect : effects) {
@@ -69,16 +103,29 @@ public class FT_Drug extends FluidTrait {
 
 		info.add(EnumChatFormatting.YELLOW + "   " + I18nUtil.resolveKey("hbmfluid.trait.consumption", consumption));
 
-		if(duration > 0) {
-			info.add(EnumChatFormatting.YELLOW + "   " + I18nUtil.resolveKey("desc.item.syringe.whenInjected", duration));
-		} else {
-			info.add(EnumChatFormatting.YELLOW + "   " + I18nUtil.resolveKey("desc.item.syringe.instant"));
+		if(threshold > 0) {
+			info.add(EnumChatFormatting.RED + "   " + I18nUtil.resolveKey("hbmfluid.trait.whenInjected"));
+			info.add(EnumChatFormatting.RED + "   " + I18nUtil.resolveKey("hbmfluid.trait.threshold", (int) (threshold * 100) + "%"));
+		}
+
+		if(!sideEffects.isEmpty()) {
+			info.add(EnumChatFormatting.RED + "   " + I18nUtil.resolveKey("hbmfluid.trait.sideEffects"));
+			for(String key : sideEffects) {
+				com.hbm.handler.contagion.SymptomPool.Symptom symptom = com.hbm.handler.contagion.SymptomPool.getSymptom(key);
+				String name = symptom != null && !symptom.effects.isEmpty() && Potion.potionTypes[symptom.effects.get(0).potionId] != null ? StatCollector.translateToLocal(Potion.potionTypes[symptom.effects.get(0).potionId].getName()) : key;
+				info.add(EnumChatFormatting.RED + "   - " + name);
+			}
+		}
+
+		if(dissipationRate > 0) {
+			info.add(EnumChatFormatting.GRAY + "   " + I18nUtil.resolveKey("hbmfluid.trait.dissipation", getEffectDuration()));
 		}
 	}
 
 	public void apply(EntityLivingBase entity, double intensity) {
 		if(entity == null || !entity.isEntityAlive()) return;
 
+		if(this.getFluidType() != null) com.hbm.extprop.HbmBloodstreamProps.getData(entity).addDrug(this.getFluidType().getID(), (int) Math.max(1, intensity * this.consumption));
 		for(String special : specialEffects) {
 			if("clear_effects".equals(special)) {
 				entity.clearActivePotions();
@@ -96,18 +143,12 @@ public class FT_Drug extends FluidTrait {
 				}
 			}
 		}
-
-		for(FT_Consumable.ConsumableEffect effect : effects) {
-			int ticks = this.duration > 0 ? (int)(20 * this.duration * intensity) : 40;
-			int scaledAmp = (int)((effect.amplifier + 1) * intensity - 1);
-			int effTicks = (effect.potionId == Potion.harm.id || effect.potionId == Potion.heal.id) ? 1 : Math.max(ticks, 20);
-			entity.addPotionEffect(new PotionEffect(effect.potionId, effTicks, Math.max(scaledAmp, 0)));
-		}
 	}
 
 	@Override public void serializeJSON(JsonWriter writer) throws IOException {
 		writer.name("consumption").value(consumption);
-		writer.name("duration").value(duration);
+		writer.name("threshold").value(threshold);
+		writer.name("dissipationRate").value(dissipationRate);
 		writer.name("effects").beginArray();
 		for(FT_Consumable.ConsumableEffect effect : effects) {
 			writer.beginArray();
@@ -120,11 +161,17 @@ public class FT_Drug extends FluidTrait {
 			writer.value(effect);
 		}
 		writer.endArray();
+		writer.name("sideEffects").beginArray();
+		for(String effect : sideEffects) {
+			writer.value(effect);
+		}
+		writer.endArray();
 	}
 
 	@Override public void deserializeJSON(JsonObject obj) {
 		if(obj.has("consumption")) this.consumption = obj.get("consumption").getAsInt();
-		if(obj.has("duration")) this.duration = obj.get("duration").getAsInt();
+		if(obj.has("threshold")) this.threshold = obj.get("threshold").getAsFloat();
+		if(obj.has("dissipationRate")) this.dissipationRate = obj.get("dissipationRate").getAsFloat();
 		JsonArray array = obj.get("effects").getAsJsonArray();
 		for(int i = 0; i < array.size(); i++) {
 			JsonArray entry = array.get(i).getAsJsonArray();
@@ -135,6 +182,12 @@ public class FT_Drug extends FluidTrait {
 			JsonArray special = obj.get("specialEffects").getAsJsonArray();
 			for(int i = 0; i < special.size(); i++) {
 				this.specialEffects.add(special.get(i).getAsString());
+			}
+		}
+		if(obj.has("sideEffects")) {
+			JsonArray side = obj.get("sideEffects").getAsJsonArray();
+			for(int i = 0; i < side.size(); i++) {
+				this.sideEffects.add(side.get(i).getAsString());
 			}
 		}
 	}

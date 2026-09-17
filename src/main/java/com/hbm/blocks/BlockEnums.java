@@ -60,6 +60,33 @@ public class BlockEnums {
 		STARMETAL
 	}
 
+	public static enum EnumRawOreBlockType {
+		IRON,
+		GOLD,
+		COPPER,
+		TITANIUM,
+		THORIUM,
+		MORKITE,
+		NICKEL,
+		MINERAL,
+		ZINC,
+		LITHIUM,
+		NIOBIUM,
+		PALLADIUM,
+		IODINE,
+		ARSENIC,
+		CADMIUM,
+		TUNGSTEN,
+		ALUMINIUM,
+		LEAD,
+		BERYLLIUM,
+		SILICON,
+		AUSTRALIUM,
+		LANTHANIUM,
+		URANIUM,
+		SCHRABIDIUM
+	}
+
 	public static enum EnumBiomeType {
 		DESERT,
 		WOODLAND
@@ -144,5 +171,24 @@ public class BlockEnums {
 		LIGHT_BLUE,
 		MAGENTA,
 		ORANGE
+	}
+
+	public static enum SheetmetalType {
+		BLACK,
+		RED,
+		GREEN,
+		BROWN,
+		BLUE,
+		PURPLE,
+		CYAN,
+		LIGHT_GRAY,
+		GRAY,
+		PINK,
+		LIME,
+		YELLOW,
+		LIGHT_BLUE,
+		MAGENTA,
+		ORANGE,
+		WHITE
 	}
 }

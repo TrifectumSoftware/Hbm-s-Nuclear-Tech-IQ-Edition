@@ -109,14 +109,6 @@ public class PUREXRecipes extends GenericRecipes<PUREXRecipe> {
 						new ItemStack(ModItems.nuclear_waste_tiny, 2))
 				.setIconToFirstIngredient());
 
-		this.register((PUREXRecipe) new PUREXRecipe("purex.bloatate").setup(100, zirnoxPower).setNameWrapper("purex.recycle")
-				.inputItems(new ComparableStack(ModItems.rbmk_pellet_bloatate))
-				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
-				.outputItems(new ItemStack(ModItems.powder_balefire, 1),
-						new ItemStack(ModItems.powder_thorium, 1),
-						new ItemStack(ModItems.nuclear_waste_tiny, 2))
-				.setIconToFirstIngredient());
-
 		this.register((PUREXRecipe) new PUREXRecipe("purex.zirnoxmox").setup(100, zirnoxPower).setNameWrapper("purex.recycle").setGroup(autoZirnox, this)
 				.inputItems(new ComparableStack(ModItems.waste_mox))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))

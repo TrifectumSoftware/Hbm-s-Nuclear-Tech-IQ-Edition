@@ -14,6 +14,7 @@ public class XFactory45 {
 	public static BulletConfig p45_ap;
 	public static BulletConfig p45_du;
 	public static BulletConfig p45_desh;
+	public static BulletConfig p45_magnetic;
 	public static BulletConfig p45_laced;
 	
 	public static void init() {
@@ -30,6 +31,7 @@ public class XFactory45 {
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p45du"));
 		p45_desh = new BulletConfig().setItem(EnumAmmo.P45_DESH).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.5F).setRicochetAngle(90F).setRicochetCount(100).setLife(800)
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p45desh"));
-			p45_laced = new BulletConfig().setItem(EnumAmmo.P45_LACED).setCasing(EnumCasingType.SMALL, 8).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
+			p45_magnetic = new BulletConfig().setItem(EnumAmmo.P45_MAGNETIC).setDamage(1.0F).setVel(6F).setLife(600).setRicochetAngle(90F).setRicochetCount(100).setOnUpdate(BulletConfig.LAMBDA_MAGNETIC_HOMING);
+		p45_laced = new BulletConfig().setItem(EnumAmmo.P45_LACED).setCasing(EnumCasingType.SMALL, 8).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
 	}
 }

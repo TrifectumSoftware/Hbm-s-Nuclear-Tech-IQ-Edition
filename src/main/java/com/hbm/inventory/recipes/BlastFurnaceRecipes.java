@@ -20,10 +20,12 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.NBTStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Triplet;
 
@@ -59,7 +61,11 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(GOLD.plate(),							ModItems.plate_mixed,							new ItemStack(ModItems.plate_paa, 2));
 		addRecipe(BIGMT,								ModItems.ingot_meteorite,						new ItemStack(ModItems.ingot_starmetal, 2));
 		addRecipe(CO,									ModItems.powder_meteorite,						new ItemStack(ModItems.ingot_meteorite));
-		addRecipe(ModItems.meteorite_sword_hardened,	CO,												new ItemStack(ModItems.meteorite_sword_alloyed));
+		addRecipe(new ComparableStack(ModItems.meteorite_sword[3]),	CO,	new ItemStack(ModItems.meteorite_sword[4]));
+		addRecipe(new ComparableStack(ModItems.meteorite_pickaxe[3]),	CO,	new ItemStack(ModItems.meteorite_pickaxe[4]));
+		addRecipe(new ComparableStack(ModItems.meteorite_axe[3]),		CO,	new ItemStack(ModItems.meteorite_axe[4]));
+		addRecipe(new ComparableStack(ModItems.meteorite_shovel[3]),	CO,	new ItemStack(ModItems.meteorite_shovel[4]));
+		addRecipe(new ComparableStack(ModItems.meteorite_hoe[3]),		CO,	new ItemStack(ModItems.meteorite_hoe[4]));
 
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) {
 			addRecipe(ModItems.canister_empty, COAL, new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()));
@@ -71,7 +77,11 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 			IMCBlastFurnace.buffer.clear();
 		}
 
-		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_sword_alloyed));
+		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_sword[4]));
+		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_pickaxe[4]));
+		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_axe[4]));
+		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_shovel[4]));
+		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_hoe[4]));
 	}
 
 	public static void addRecipe(Object in1, Object in2, ItemStack out) {

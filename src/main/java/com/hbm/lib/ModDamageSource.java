@@ -53,6 +53,11 @@ public class ModDamageSource extends DamageSource {
 
 	// not sure why this still exists here, should we take it behind the barn james?
 	public static DamageSource nitan = (new DamageSource("nitan")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
+public static DamageSource aorta = (new DamageSource("aorta")).setDamageIsAbsolute().setDamageBypassesArmor();
+public static DamageSource bleed = (new DamageSource("bleed")).setDamageBypassesArmor();
+public static DamageSource septic = (new DamageSource("septic")).setDamageBypassesArmor();
+public static DamageSource cardiac = (new DamageSource("cardiac")).setDamageIsAbsolute().setDamageBypassesArmor();
+public static DamageSource fever = (new DamageSource("fever")).setDamageBypassesArmor();
 
 
 	

@@ -221,6 +221,16 @@ public class CBT_Weather extends CelestialBodyTrait {
 		boolean stateChanged = false;
 		WorldServer world = DimensionManager.getWorld(body.dimensionId);
 		float lightningSeverity = getLightningSeverity(body);
+
+		if("dross".equals(body.name)) {
+			if(!raining) {
+				raining = true;
+				rainTime = 12000;
+				stateChanged = true;
+			}
+			rainTime = Math.max(rainTime, 1);
+		}
+
 		boolean lightningAllowed = sampleCanSpawnLightning(world);
 		if(canSpawnLightning != lightningAllowed) {
 			canSpawnLightning = lightningAllowed;

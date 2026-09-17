@@ -14,6 +14,8 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.trait.FT_Ink;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats.MaterialStack;
@@ -91,6 +93,10 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(RUTILE.gem()))
 				.inputFluids(new FluidStack(Fluids.CHLORINE, 1000))
 				.outputFluids(new FluidStack(Fluids.TICL4, 1000), new FluidStack(Fluids.HEAVY_SAND_SLOP, 500)));
+
+		this.register(new GenericRecipe("chem.sulfuricacidalt").setupNamed(20, 400).setIcon(ModItems.gas_full, Fluids.SULFUR_DIOXIDE.getID())
+			.inputFluids(new FluidStack(Fluids.SULFUR_DIOXIDE, 1_000), new FluidStack(Fluids.OXYGEN, 5_000))
+			.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1_000)));
 
 		/// OILS ///
 		this.register(new GenericRecipe("chem.ethanol").setupNamed(50, 100).setIcon(ModItems.canister_full, Fluids.ETHANOL.getID())
@@ -181,27 +187,27 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("chem.dye_red").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.bloodclot))
 				.inputFluids(new FluidStack(Fluids.GALL, 400), new FluidStack(Fluids.BLOOD_OF_THE_MARTYR, 500))
-				.outputItems(new ItemStack(ModItems.chemical_dye, 4, EnumChemDye.RED.ordinal())));
+			    .outputFluids(new FluidStack(Fluids.INK_RED, 6_000)));
 		this.register(new GenericRecipe("chem.dye_green").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.bloodclot))
 				.inputFluids(new FluidStack(Fluids.GALL, 400), new FluidStack(Fluids.VERDIGRIS, 500))
-				.outputItems(new ItemStack(ModItems.chemical_dye, 4, EnumChemDye.GREEN.ordinal())));
+			    .outputFluids(new FluidStack(Fluids.INK_GREEN, 6_000)));
 		this.register(new GenericRecipe("chem.dye_blue").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.bloodclot))
 				.inputFluids(new FluidStack(Fluids.GALL, 400), new FluidStack(Fluids.BLOATSPIRIT, 500))
-				.outputItems(new ItemStack(ModItems.chemical_dye, 4, EnumChemDye.BLUE.ordinal())));
+			    .outputFluids(new FluidStack(Fluids.INK_BLUE, 6_000)));
 		this.register(new GenericRecipe("chem.dye_yellow").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.bloodclot))
 				.inputFluids(new FluidStack(Fluids.GALL, 400), new FluidStack(Fluids.BRIMSTONE, 500))
-				.outputItems(new ItemStack(ModItems.chemical_dye, 4, EnumChemDye.YELLOW.ordinal())));
+			    .outputFluids(new FluidStack(Fluids.INK_YELLOW, 6_000)));
 		this.register(new GenericRecipe("chem.dye_white").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.bloodclot))
 				.inputFluids(new FluidStack(Fluids.GALL, 400), new FluidStack(Fluids.MORNINGSTARS_FIRE, 500))
-				.outputItems(new ItemStack(ModItems.chemical_dye, 4, EnumChemDye.WHITE.ordinal())));
+			    .outputFluids(new FluidStack(Fluids.INK_WHITE, 6_000)));
 		this.register(new GenericRecipe("chem.dye_black").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.bloodclot))
 				.inputFluids(new FluidStack(Fluids.GALL, 400), new FluidStack(Fluids.WORMWOOD, 500))
-				.outputItems(new ItemStack(ModItems.chemical_dye, 4, EnumChemDye.BLACK.ordinal())));
+		     	.outputFluids(new FluidStack(Fluids.INK_BLACK, 6_000)));
 
 		/// BATTERIES ///
 		this.register(new GenericRecipe("chem.batterylead").setup(100, 100)
@@ -260,6 +266,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(S.dust()), new OreDictStack(ZI.dust()))
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_rubber, 2)));
+
+		this.register(new GenericRecipe("chem.rubber_vanadium").setup(100, 200)
+				.inputItems(new OreDictStack(S.dust()), new OreDictStack(V.dust()))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
+				.outputItems(new ItemStack(ModItems.ingot_rubber, 4)));
 
 		this.register(new GenericRecipe("chem.vinylrubber").setupNamed(100, 400)
 				.inputFluids(new FluidStack(Fluids.VINYL, 500), new FluidStack(Fluids.UNSATURATEDS, 400, GeneralConfig.enable528 ? 2 : 0))
@@ -434,11 +445,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 
 		this.register(new GenericRecipe("chem.balefire").setup(100, 10_000).setIcon(ModItems.fluid_icon, Fluids.BALEFIRE.getID())
 				.inputItems(new ComparableStack(ModItems.egg_balefire_shard))
-				.inputFluids(new FluidStack(Fluids.KEROSENE, 6_000))
-				.outputItems(new ItemStack(ModItems.powder_balefire))
-				.outputFluids(new FluidStack(Fluids.BALEFIRE, 8_000)));
-		this.register(new GenericRecipe("chem.bloatate_balefire").setup(100, 10_000).setIcon(ModItems.fluid_icon, Fluids.BALEFIRE.getID())
-				.inputItems(new ComparableStack(ItemScraps.create(new MaterialStack(Mats.MAT_BLOATATE, MaterialShapes.INGOT.q(1)))))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 6_000))
 				.outputItems(new ItemStack(ModItems.powder_balefire))
 				.outputFluids(new FluidStack(Fluids.BALEFIRE, 8_000)));

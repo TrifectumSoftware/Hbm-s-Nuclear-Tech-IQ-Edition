@@ -68,6 +68,7 @@ public class EntityMappings {
 		addEntity(EntityEMPBlast.class, "entity_emp_blast", 1000);
 		addEntity(EntityRubble.class, "entity_rubble", 1000);
 		addEntity(EntityShrapnel.class, "entity_shrapnel", 1000);
+		addEntity(EntityWasteShrapnel.class, "entity_waste_shrapnel", 1000);
 		addEntity(EntityBlackHole.class, "entity_black_hole", 250);
 		addEntity(EntityMinecartTest.class, "entity_minecart_test", 1000);
 		addEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 1000);
@@ -125,6 +126,8 @@ public class EntityMappings {
 		addEntity(EntityMovingPackage.class, "entity_c_package", 1000);
 		addEntity(EntityDeliveryDrone.class, "entity_delivery_drone", 250, false);
 		addEntity(EntityRequestDrone.class, "entity_request_drone", 250, false);
+		addEntity(EntitySpelunkingDrone.class, "entity_spelunking_drone", 250, false);
+		addEntity(EntityQuarryDrone.class, "entity_quarry_drone", 250, false);
 		addEntity(EntityCloudTom.class, "entity_moonstone_blast", 1000);
 		addEntity(EntityFireworks.class, "entity_firework_ball", 1000);
 		addEntity(EntityWastePearl.class, "entity_waste_pearl", 1000);
@@ -176,6 +179,8 @@ public class EntityMappings {
 		addEntity(EntityWaypoint.class, "entity_waypoint", 250, false);
 
 		addEntity(EntityDepress.class, "entity_depress", 250, false);
+		addEntity(EntityRedLightning.class, "entity_red_lightning", 100, false);
+		addEntity(EntityGreenLightning.class, "entity_green_lightning", 100, false);
 
 		addMob(EntityWarBehemoth.class, "entity_war_behemoth", 0x204131, 0x75CE00);
 		addMob(EntityTankbot.class, "entity_tankbot", 0x204131, 0x75CE00);
@@ -206,6 +211,7 @@ public class EntityMappings {
 
 		addMob(EntityFBI.class, "entity_ntm_fbi", 0x008000, 0x404040);
 		addMob(EntityFBIDrone.class, "entity_ntm_fbi_drone", 0x008000, 0x404040);
+		addMob(EntityDrossDrone.class, "entity_dross_drone", 0x5F5A4B, 0x3B3429);
 		addMob(EntityRADBeast.class, "entity_ntm_radiation_blaze", 0x303030, 0x008000);
 		addMob(EntityGlyphid.class, "entity_glyphid", 0x724A21, 0xD2BB72);
 		addMob(EntityGlyphidBrawler.class, "entity_glyphid_brawler", 0x273038, 0xD2BB72);
@@ -231,7 +237,6 @@ public class EntityMappings {
 		addMob(EntityDummy.class, "entity_ntm_test_dummy", 0xffffff, 0x000000);
 		addMob(EntityUndeadSoldier.class, "entity_ntm_undead_soldier", 0x749F30, 0x6C5B44);
 
-		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperGold.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityPlasticBag.class, 1, 1, 3, EnumCreatureType.waterCreature, BiomeDictionary.getBiomesForType(Type.OCEAN));

@@ -37,6 +37,7 @@ public class StructureConfig {
 	public static int desertShack1SpawnWeight = 18;
 	public static int desertShack2SpawnWeight = 20;
 	public static int desertShack3SpawnWeight = 22;
+	public static int desertAtomSpawnWeight = 15;
 
 	public static int laboratorySpawnWeight = 20;
 	public static int lighthouseSpawnWeight = 4;
@@ -56,6 +57,7 @@ public class StructureConfig {
 
 	public static int spireSpawnWeight = 2;
 	public static int craneSpawnWeight = 20;
+	public static int excavatorSpawnWeight = 15;
 	public static int bunkerSpawnWeight = 6;
 	public static int dishSpawnWeight = 20;
 	public static int featuresSpawnWeight = 50;
@@ -100,6 +102,7 @@ public class StructureConfig {
 		desertShack1SpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.20_desertShack1SpawnWeight", "Spawn weight for desert shack 1 structure.", 18);
 		desertShack2SpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.21_desertShack2SpawnWeight", "Spawn weight for desert shack 2 structure.", 20);
 		desertShack3SpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.22_desertShack3SpawnWeight", "Spawn weight for desert shack 3 structure.", 22);
+		desertAtomSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.23a_desertAtomSpawnWeight", "Spawn weight for desert atom structure.", 15);
 		laboratorySpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.23_laboratorySpawnWeight", "Spawn weight for laboratory structure/", 20);
 		forestPostSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.24_forestPostSpawnWeight", "Spawn weight for forest post structure.", 30);
 		ruinsASpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.25_ruinASpawnWeight", "Spawn weight for ruin A structure.", 10);
@@ -121,6 +124,7 @@ public class StructureConfig {
 		towerBaseSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.41_towerBaseSpawnWeight", "Spawn weight for tower base.", 30);
 		waterPumpSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.42_waterPumpSpawnWeight", "Spawn weight for water pump structure.", 15);
 		deadDishSmallSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.43_deadDishSmallSpawnWeight", "Spawn weight for dead dish small structure.", 15);
+		excavatorSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.44_excavatorSpawnWeight", "Spawn weight for excavator structure.", 15);
 
 
 		structureMinChunks = CommonConfig.setDef(structureMinChunks, 4);

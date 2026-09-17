@@ -23,9 +23,21 @@ public class MapGenTiltedSpires extends MapGenBase {
 	public float maxTilt = 2.5F;
 	public boolean curve = false;
 	public int mid = 64;
+	public int maxY = 127;
 
 	public Block regolith;
 	public Block rock;
+	public Block rock2;
+	public float rock2Chance = 0F;
+
+	// hollowed stuffs
+	public float hollowChance = 0F;
+	public float hollowScale = 0.55F;
+	public float hollowFracture = 0F;
+	public float biteChance = 0F;
+	public float biteOffset = 0.4F;
+	public float biteRadius = 0.55F;
+	public int biteThickness = 3;
 
 	private DoublePerlinNoiseSampler perlin;
 
@@ -63,6 +75,11 @@ public class MapGenTiltedSpires extends MapGenBase {
 			float stretch = 1F / (rand.nextFloat() * rand.nextFloat() * (maxPoint - minPoint) + minPoint);
 			float direction = rand.nextFloat() * (float)Math.PI * 2F;
 			float tilt = rand.nextFloat() * (maxTilt - minTilt) + minTilt;
+			boolean hollow = rand.nextFloat() < hollowChance;
+			boolean bitten = rand.nextFloat() < biteChance;
+			// the bite is a circle punched out of the spire's side, roughly a third of the way up
+			float biteDir = rand.nextFloat() * (float)Math.PI * 2F;
+			float biteHeight = (coneRadius / stretch) * (0.25F + rand.nextFloat() * 0.3F);
 
 			if(curve) tilt *= 0.01;
 
@@ -81,7 +98,7 @@ public class MapGenTiltedSpires extends MapGenBase {
 				for(int bz = 15; bz >= 0; bz--) {
 					int d = 0;
 
-					for(int y = mid + 63; y >= 0; y--) {
+					for(int y = maxY; y >= 0; y--) {
 						int index = (bx * 16 + bz) * 256 + y;
 
 						// Run until the first opaque block
@@ -98,12 +115,32 @@ public class MapGenTiltedSpires extends MapGenBase {
 							z += tz * factor;
 
 							float rs = x * x + z * z;
-							float radiusSqr = coneRadius - oy * stretch;
-							if(radiusSqr > 0) radiusSqr *= radiusSqr;
+							float radius = coneRadius - oy * stretch;
+							float radiusSqr = radius > 0 ? radius * radius : 0;
 
 							if(rs < radiusSqr) {
-								blocks[index] = rock;
-								if(d == 1) blocks[index + 1] = regolith;
+								if(hollow && radius > 1) {
+									float inner = radius * hollowScale;
+									if(rs < inner * inner) {
+										continue;
+									}
+									if(hollowFracture > 0 && rand.nextFloat() < hollowFracture) {
+										continue;
+									}
+								}
+								if(bitten && Math.abs(oy - biteHeight) < biteThickness) {
+									// a circular bite punched out of the side, cutting into the center
+									float bix = (float)Math.cos(biteDir) * (radius * biteOffset) + (tx * factor);
+									float biz = (float)Math.sin(biteDir) * (radius * biteOffset) + (tz * factor);
+									float biteR = radius * biteRadius;
+									float ddx = x - bix;
+									float ddz = z - biz;
+									if(ddx * ddx + ddz * ddz < biteR * biteR) {
+										continue;
+									}
+								}
+								blocks[index] = rock2 != null && rand.nextFloat() < rock2Chance ? rock2 : rock;
+								if(d == 1 && regolith != null) blocks[index + 1] = regolith;
 								d++;
 							} else if(d > 0) {
 								break;

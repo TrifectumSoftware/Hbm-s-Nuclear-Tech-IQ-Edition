@@ -109,7 +109,7 @@ public class ToxicBlock extends BlockFluidClassic {
 
 	@Override
 	public int tickRate(World p_149738_1_) {
-		return 15;
+		return 30;
 	}
 
 }

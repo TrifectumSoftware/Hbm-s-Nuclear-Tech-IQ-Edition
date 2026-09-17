@@ -73,7 +73,7 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti, ITo
 		this(mat);
 		vanillaMap.put(vanillaBlock, this);
 	}
-	
+
 	@Override
 	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int meta) {
 		if(this == ModBlocks.ore_oil) return false;
@@ -140,7 +140,39 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti, ITo
 		if(this == ModBlocks.ore_brine) return Item.getItemFromBlock(ModBlocks.ore_brine_empty);
 		if(this == ModBlocks.ore_tekto) return Item.getItemFromBlock(ModBlocks.ore_tekto_empty);
 
+		int rawMeta = getRawOreMeta();
+		if(rawMeta >= 0) return ModItems.raw_ore;
+
 		return Item.getItemFromBlock(this);
+	}
+
+	// ore chunk ores and their metadata so we can map them to the ore items
+	public int getRawOreMeta() {
+		if(this == ModBlocks.ore_iron) return 0;
+		if(this == ModBlocks.ore_gold) return 1;
+		if(this == ModBlocks.ore_copper) return 2;
+		if(this == ModBlocks.ore_titanium) return 3;
+		if(this == ModBlocks.ore_thorium) return 4;
+		if(this == ModBlocks.ore_morkite) return 5;
+		if(this == ModBlocks.ore_nickel) return 6;
+		if(this == ModBlocks.ore_mineral) return 7;
+		if(this == ModBlocks.ore_zinc) return 8;
+		if(this == ModBlocks.ore_lithium) return 9;
+		if(this == ModBlocks.ore_niobium) return 10;
+		if(this == ModBlocks.ore_palladium) return 11;
+		if(this == ModBlocks.ore_iodine) return 12;
+		if(this == ModBlocks.ore_arsenic) return 13;
+		if(this == ModBlocks.ore_cadmium) return 14;
+		if(this == ModBlocks.ore_tungsten) return 15;
+		if(this == ModBlocks.ore_aluminium) return 16;
+		if(this == ModBlocks.ore_lead) return 17;
+		if(this == ModBlocks.ore_beryllium) return 18;
+		if(this == ModBlocks.ore_silicon) return 19;
+		if(this == ModBlocks.ore_australium) return 20;
+		if(this == ModBlocks.ore_lanthanium) return 21;
+		if(this == ModBlocks.ore_uranium) return 22;
+		if(this == ModBlocks.ore_schrabidium) return 23;
+		return -1;
 	}
 
 	@Override
@@ -218,6 +250,8 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti, ITo
 	public int damageDropped(int meta) {
 		if(this == ModBlocks.ore_rare) return EnumChunkType.RARE.ordinal();
 		if(this == ModBlocks.ore_lapis) return 4;
+		int rawMeta = getRawOreMeta();
+		if(rawMeta >= 0) return rawMeta;
 		if(getItemDropped(0, null, 0) != Item.getItemFromBlock(this)) return 0;
 		return rectify(meta);
 	}

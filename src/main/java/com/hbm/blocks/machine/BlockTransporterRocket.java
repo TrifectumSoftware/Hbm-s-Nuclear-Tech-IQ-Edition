@@ -1,12 +1,19 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.dim.CelestialBody;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.items.ModItems;
 import com.hbm.main.ChunkLoaderManager;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityTransporterBase;
 import com.hbm.tileentity.machine.TileEntityTransporterRocket;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -15,12 +22,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockTransporterRocket extends BlockDummyable {
+public class BlockTransporterRocket extends BlockDummyable implements ILookOverlay {
 
 	public BlockTransporterRocket(Material mat) {
 		super(mat);
+	}
+
+	@Override
+	@cpw.mods.fml.relauncher.SideOnly(cpw.mods.fml.relauncher.Side.CLIENT)
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+		CelestialBody body = CelestialBody.getBody(world);
+		if(body == null || !"dross".equals(body.name)) return;
+
+		List<String> text = new ArrayList<String>();
+		text.add("&[" + (BobMathUtil.getBlink() ? 0xffff00 : 0xff3030) + "&]" + I18nUtil.resolveKey("transporter.drossBlocked"));
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(this.getUnlocalizedName() + ".name"), 0xff0000, 0x400000, text);
 	}
 
 	@Override

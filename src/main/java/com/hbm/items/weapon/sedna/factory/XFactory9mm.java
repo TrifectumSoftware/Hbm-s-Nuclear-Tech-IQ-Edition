@@ -40,6 +40,7 @@ public class XFactory9mm {
 	public static BulletConfig p9_jhp;
 	public static BulletConfig p9_ap;
 	public static BulletConfig p9_desh;
+	public static BulletConfig p9_magnetic;
 	public static BulletConfig p9_laced;
 
 	public static void init() {
@@ -54,13 +55,14 @@ public class XFactory9mm {
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p9ap"));
 		p9_desh = new BulletConfig().setItem(EnumAmmo.P9_DESH).setCasing(EnumCasingType.SMALL_STEEL, 12).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.5F).setRicochetAngle(90F).setRicochetCount(100).setLife(800)
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p9desh"));
+		p9_magnetic = new BulletConfig().setItem(EnumAmmo.P9_MAGNETIC).setDamage(1.0F).setVel(6F).setLife(600).setRicochetAngle(90F).setRicochetCount(100).setOnUpdate(BulletConfig.LAMBDA_MAGNETIC_HOMING);
 			p9_laced = new BulletConfig().setItem(EnumAmmo.P9_LACED).setCasing(EnumCasingType.SMALL, 12).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
 
 		ModItems.gun_greasegun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(20).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(3F).delay(4).dry(40).auto(true).spread(0.015F).reload(60).jam(55).sound(NTMSounds.GUN_GREASEGUN_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced))
+						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced, p9_magnetic))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_GREASEGUN))
 				.setupStandardConfiguration()
@@ -72,7 +74,7 @@ public class XFactory9mm {
 				.dura(1_700).draw(7).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(4).dry(10).spread(0.005F).reload(53).jam(44).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 17).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced))
+						.mag(new MagazineFullReload(0, 17).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced, p9_magnetic))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().fire(LAMBDA_FIRE_LAG).recoil(LAMBDA_RECOIL_LAG))
 				.setupStandardConfiguration()
@@ -83,7 +85,7 @@ public class XFactory9mm {
 				.dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(3F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound(NTMSounds.GUN_UZI_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced))
+						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced, p9_magnetic))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
 				.setupStandardConfiguration()
@@ -94,7 +96,7 @@ public class XFactory9mm {
 				new GunConfig().dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(3F).spreadHipfire(0F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound(NTMSounds.GUN_UZI_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced))
+						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced, p9_magnetic))
 						.offset(1, -0.0625 * 2.5, 0.375D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
@@ -103,7 +105,7 @@ public class XFactory9mm {
 				new GunConfig().dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(3F).spreadHipfire(0F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound(NTMSounds.GUN_UZI_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(1, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced))
+						.mag(new MagazineFullReload(1, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap, p9_desh, p9_laced, p9_magnetic))
 						.offset(1, -0.0625 * 2.5, -0.375D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)

@@ -50,7 +50,7 @@ public class MapGenBubble extends MapGenBaseMeta {
 	protected void func_151538_a(World world, int offsetX, int offsetZ, int chunkX, int chunkZ, Block[] blocks) {
 		
 		int effecFreq = frequency;
-		BiomeGenBase biome = world.getBiomeGenForCoords(offsetX * 16, offsetZ * 16);
+		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(offsetX * 16, offsetZ * 16);
 		if(biome.temperature >= 2 && biome.rainfall < 0.1) effecFreq /= 3;
 		if(effecFreq <= 0) effecFreq = 1;
 		

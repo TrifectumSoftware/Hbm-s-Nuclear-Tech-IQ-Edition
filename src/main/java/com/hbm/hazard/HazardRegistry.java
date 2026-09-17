@@ -557,6 +557,13 @@ public class HazardRegistry {
 		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.block_crystal_2), 1, 7), makeData(HYDROACTIVE, 1F * crystal * 4));
 		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.block_crystal_2), 1, 6), makeData(RADIATION, trx * crystal * 4));
 
+		HazardSystem.register(new ItemStack(ModItems.raw_ore, 1, 4), makeData(RADIATION, th232 * ingot));
+		HazardSystem.register(new ItemStack(ModItems.raw_ore, 1, 22), makeData(RADIATION, u * ingot));
+		HazardSystem.register(new ItemStack(ModItems.raw_ore, 1, 23), makeData(RADIATION, sa326 * ingot));
+		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.block_raw_ore), 1, 4), makeData(RADIATION, th232 * ingot * 9));
+		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.block_raw_ore_2), 1, 6), makeData(RADIATION, u * ingot * 9));
+		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.block_raw_ore_2), 1, 7), makeData(RADIATION, sa326 * ingot * 9));
+
 		//nuke parts
 		HazardSystem.register(boy_propellant, makeData(EXPLOSIVE, 2F));
 

@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockOre;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.main.StructureManager;
@@ -165,6 +166,9 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
 			return;
 
 		if(world.provider.dimensionId == 0)
+			return;
+
+		if(world.provider.dimensionId == SpaceConfig.drossDimension)
 			return;
 
 		WorldProviderCelestial celestialProvider = (WorldProviderCelestial)world.provider;

@@ -105,6 +105,24 @@ public class EntityMist extends Entity {
 			for(Entity e : affected) {
 				this.affect(e, intensity);
 			}
+
+			if(type.hasTrait(FT_Ink.class)) {
+				FT_Ink ink = type.getTrait(FT_Ink.class);
+				float width = this.dataWatcher.getWatchableObjectFloat(11);
+				int minX = (int) Math.floor(posX - width / 2);
+				int maxX = (int) Math.floor(posX + width / 2);
+				int minY = (int) Math.floor(posY) - 1;
+				int maxY = (int) Math.floor(posY + height);
+				int minZ = (int) Math.floor(posZ - width / 2);
+				int maxZ = (int) Math.floor(posZ + width / 2);
+				for(int bx = minX; bx <= maxX; bx++) {
+					for(int by = minY; by <= maxY; by++) {
+						for(int bz = minZ; bz <= maxZ; bz++) {
+							ink.applyColor(worldObj, bx, by, bz, worldObj.getBlock(bx, by, bz));
+						}
+					}
+				}
+			}
 		} else {
 
 			for(int i = 0; i < 2; i++) {

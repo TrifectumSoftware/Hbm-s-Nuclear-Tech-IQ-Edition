@@ -29,6 +29,7 @@ public class GunConfig {
 
 	public static final String O_RECEIVERS =					"O_RECEIVERS";
 	public static final String F_DURABILITY =					"F_DURABILITY";
+	public static final String F_WEAR =						"F_WEAR";
 	public static final String I_DRAWDURATION =					"I_DRAWDURATION";
 	public static final String I_INSPECTDURATION =				"I_INSPECTDURATION";
 	public static final String I_INSPECTCANCEL =				"I_INSPECTCANCEL";

@@ -16,7 +16,7 @@ public class EntityAIFireGun extends EntityAIBase {
 	private final EntityLiving host;
 
 	public double attackMoveSpeed = 1.0D; // how fast we move while in this state
-	public double maxRange = 20; // how far our target can be before we stop shooting
+	public double maxRange = 40; // how far our target can be before we stop shooting
 	public int burstTime = 10; // maximum number of ticks in a burst (for automatic weapons)
 	public int minWait = 10; // minimum number of ticks to wait between bursts/shots
 	public int maxWait = 40; // maximum number of ticks to wait between bursts/shots

@@ -228,13 +228,13 @@ public class Compat {
 		MainRegistry.logger.info("#######################################################");
 	}
 
-	public static Class getChunkBiomeHook() {
-		try {
-			return Class.forName("com.falsepattern.endlessids.mixin.helpers.ChunkBiomeHook");
-		} catch(ClassNotFoundException e) {
-			return null;
+		public static Class getChunkBiomeHook() {
+			try {
+				return Class.forName("com.falsepattern.endlessids.mixin.helpers.ChunkBiomeHook");
+			} catch(ClassNotFoundException e) {
+				return null;
+			}
 		}
-	}
 
 	public static Method getBiomeShortArray;
 

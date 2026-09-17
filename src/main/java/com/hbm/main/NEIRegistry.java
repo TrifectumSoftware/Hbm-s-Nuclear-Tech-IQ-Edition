@@ -23,6 +23,7 @@ public class NEIRegistry {
 		handlers.add(new AnvilRecipeHandler());
 		handlers.add(new SmithingRecipeHandler());
 		handlers.add(new PressRecipeHandler());
+		handlers.add(new SpraypainterRecipeHandler());
 		handlers.add(new ShredderRecipeHandler());
 		handlers.add(new CrucibleSmeltingHandler());
 		handlers.add(new CrucibleAlloyingHandler());
@@ -42,6 +43,7 @@ public class NEIRegistry {
 		handlers.add(new ReformingHandler());
 		handlers.add(new HydrotreatingHandler());
 		handlers.add(new PUREXRecipeHandler());
+		handlers.add(new HaemodialysisRecipeHandler());
 		handlers.add(new OreSlopperHandler()); //before acidizing
 		handlers.add(new CrystallizerRecipeHandler());
 		handlers.add(new BookRecipeHandler());

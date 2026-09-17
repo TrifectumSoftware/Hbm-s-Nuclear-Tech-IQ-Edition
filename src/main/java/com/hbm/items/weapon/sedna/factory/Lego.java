@@ -28,6 +28,7 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleTypeBase;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.BlackPowderCreator;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
@@ -267,7 +268,7 @@ public class Lego {
 
 		if(player != null) player.addStat(MainRegistry.statBullets, 1);
 		mag.useUpAmmo(stack, ctx.inventory, 1);
-		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
+		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + XWeaponModManager.eval(config.wear, stack, GunConfig.F_WEAR, ctx.config, index), ctx.config.getDurability(stack)));
 	}
 
 	public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {

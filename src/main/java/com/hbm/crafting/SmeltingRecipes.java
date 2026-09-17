@@ -6,6 +6,7 @@ import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.items.machine.ItemArcElectrode.EnumElectrodeType;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumChunkType;
@@ -74,6 +75,23 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_lanthanium), new ItemStack(ModItems.ingot_lanthanium), 4.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_niobium), new ItemStack(ModItems.ingot_niobium), 4.0F);
+
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 0), new ItemStack(Items.iron_ingot), 0.7F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 1), new ItemStack(Items.gold_ingot), 1.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 2), new ItemStack(ModItems.ingot_copper), 2.5F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 3), new ItemStack(ModItems.ingot_titanium), 3.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 4), new ItemStack(ModItems.ingot_th232), 3.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 6), DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.PENTLANDITE, 1), 2.5F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 8), new ItemStack(ModItems.ingot_zinc), 2.5F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 10), new ItemStack(ModItems.ingot_niobium), 4.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 15), new ItemStack(ModItems.ingot_tungsten), 6.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 16), DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.CRYOLITE, 1), 2.5F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 17), new ItemStack(ModItems.ingot_lead), 3.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 18), new ItemStack(ModItems.ingot_beryllium), 2.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 20), new ItemStack(ModItems.nugget_australium), 2.5F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 21), new ItemStack(ModItems.ingot_lanthanium), 4.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 22), new ItemStack(ModItems.ingot_uranium), 6.0F);
+		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 23), new ItemStack(ModItems.ingot_schrabidium), 128.0F);
 
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.ore_meteor, EnumMeteorType.IRON), new ItemStack(Items.iron_ingot, 16), 10.0F);
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.ore_meteor, EnumMeteorType.COPPER), new ItemStack(ModItems.ingot_copper, 16), 10.0F);
@@ -212,7 +230,11 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.ingot_meteorite, ItemHot.heatUp(new ItemStack(ModItems.ingot_meteorite)), 0.0F);
 		GameRegistry.addSmelting(ModItems.ingot_meteorite_forged, ItemHot.heatUp(new ItemStack(ModItems.ingot_meteorite_forged)), 0.0F);
 		GameRegistry.addSmelting(ModItems.blade_meteorite, ItemHot.heatUp(new ItemStack(ModItems.blade_meteorite)), 0.0F);
-		GameRegistry.addSmelting(ModItems.meteorite_sword, ItemHot.heatUp(new ItemStack(ModItems.meteorite_sword_seared)), 0.0F);
+		GameRegistry.addSmelting(ModItems.meteorite_sword[0], new ItemStack(ModItems.meteorite_sword[1]), 0.0F);
+		GameRegistry.addSmelting(ModItems.meteorite_pickaxe[0], new ItemStack(ModItems.meteorite_pickaxe[1]), 0.0F);
+		GameRegistry.addSmelting(ModItems.meteorite_axe[0], new ItemStack(ModItems.meteorite_axe[1]), 0.0F);
+		GameRegistry.addSmelting(ModItems.meteorite_shovel[0], new ItemStack(ModItems.meteorite_shovel[1]), 0.0F);
+		GameRegistry.addSmelting(ModItems.meteorite_hoe[0], new ItemStack(ModItems.meteorite_hoe[1]), 0.0F);
 
 		GameRegistry.addSmelting(new ItemStack(ModItems.scrap_plastic, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.ingot_polymer), 0.1F);
 

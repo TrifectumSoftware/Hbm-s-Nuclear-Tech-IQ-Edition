@@ -71,6 +71,7 @@ public class XFactory12ga {
 	public static BulletConfig g12_explosive;
 	public static BulletConfig g12_phosphorus;
 	public static BulletConfig g12_desh;
+	public static BulletConfig g12_magnetic;
 	public static BulletConfig g12_laced;
 	//public static BulletConfig g12_anthrax;
 	public static BulletConfig g12_equestrian_bj;
@@ -269,7 +270,8 @@ public class XFactory12ga {
 		g12 = new BulletConfig().setItem(EnumAmmo.G12).setCasing(EnumCasingType.BUCKSHOT, 6).setProjectiles(8).setDamage(1F/8F).setSpread(buckshotSpread).setRicochetAngle(15).setThresholdNegation(2F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA"));
 		g12_slug = new BulletConfig().setItem(EnumAmmo.G12_SLUG).setCasing(EnumCasingType.BUCKSHOT, 6).setHeadshot(1.5F).setSpread(0.0F).setRicochetAngle(25).setThresholdNegation(4F).setArmorPiercing(0.15F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x393939, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_SLUG"));
 	g12_desh = new BulletConfig().setItem(EnumAmmo.G12_DESH).setCasing(EnumCasingType.BUCKSHOT, 6).setSpread(0.0F).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.5F).setRicochetAngle(90F).setRicochetCount(100).setLife(800).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xC60404, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_DESH"));
-	g12_laced = new BulletConfig().setItem(EnumAmmo.G12_LACED).setCasing(EnumCasingType.BUCKSHOT, 6).setSpread(0.0F).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
+			g12_magnetic = new BulletConfig().setItem(EnumAmmo.G12_MAGNETIC).setProjectiles(8).setDamage(1F/8F).setVel(6F).setLife(600).setRicochetAngle(90F).setRicochetCount(100).setOnUpdate(BulletConfig.LAMBDA_MAGNETIC_HOMING);
+		g12_laced = new BulletConfig().setItem(EnumAmmo.G12_LACED).setCasing(EnumCasingType.BUCKSHOT, 6).setSpread(0.0F).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
 		g12_flechette = new BulletConfig().setItem(EnumAmmo.G12_FLECHETTE).setCasing(EnumCasingType.BUCKSHOT, 6).setProjectiles(8).setDamage(1F/8F).setThresholdNegation(5F).setArmorPiercing(0.2F).setSpread(0.025F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x3C80F0, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_FLECHETTE"));
 		g12_magnum = new BulletConfig().setItem(EnumAmmo.G12_MAGNUM).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setProjectiles(4).setDamage(2F/4F).setSpread(magnumSpread).setRicochetAngle(15).setThresholdNegation(4F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x278400, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_MAGNUM"));
 		g12_explosive = new BulletConfig().setItem(EnumAmmo.G12_EXPLOSIVE).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setDamage(2.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE).setSpread(0F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xDA4127, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_EXPLOSIVE"));
@@ -279,7 +281,7 @@ public class XFactory12ga {
 		g12_equestrian_bj = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOAT).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN).setScale(0.75F).register("12gaEquestrianBJ"));
 		g12_equestrian_tkr = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN).setScale(0.75F).register("12gaEquestrianTKR"));
 
-		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus, g12_desh, g12_laced};
+		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus, g12_desh, g12_laced, g12_magnetic};
 
 		g12_sub =					makeShredderSubmunition(g12);
 		g12_sub_slug =				makeShredderSubmunition(g12_slug);

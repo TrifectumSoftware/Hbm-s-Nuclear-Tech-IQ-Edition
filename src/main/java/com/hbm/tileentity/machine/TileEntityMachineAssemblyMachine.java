@@ -13,6 +13,8 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineAssemblyMachine;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.IMeteoriteTool;
+import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -119,8 +121,8 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 			if(this.assemblerModule.markDirty) this.markDirty();
 			
 			if(didProcess) {
-				if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
-					slots[0] = new ItemStack(ModItems.meteorite_sword_machined);
+				if(slots[0] != null && slots[0].getItem() instanceof IMeteoriteTool && ItemMeteoriteBase.getTier(slots[0]) == 4)
+					slots[0] = new ItemStack(ItemMeteoriteBase.upgrade(slots[0].getItem()));
 			}
 			
 			this.networkPackNT(100);

@@ -11,6 +11,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineFluid;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 
 import api.hbm.fluidmk2.IFillableItem;
@@ -93,9 +94,12 @@ public class ItemGunChemthrower extends ItemGunBaseNT implements IFillableItem {
 
 		EntityChemical chem = new EntityChemical(entity.worldObj, entity, sideOffset, heightOffset, forwardOffset);
 		chem.setFluid((FluidType) mag.getType(stack, ctx.inventory));
+		if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("pharma")) {
+			chem.setPayload(stack.stackTagCompound.getCompoundTag("pharma"));
+		}
 		entity.worldObj.spawnEntityInWorld(chem);
 
 		mag.useUpAmmo(stack, ctx.inventory, CONSUMPTION);
-		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + 1F, ctx.config.getDurability(stack)));
+		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + XWeaponModManager.eval(1F, stack, GunConfig.F_WEAR, ctx.config, index), ctx.config.getDurability(stack)));
 	};
 }

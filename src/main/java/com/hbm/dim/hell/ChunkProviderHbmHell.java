@@ -7,6 +7,10 @@ import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.Ev
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.util.Compat;
+import com.hbm.world.WorldUtil;
+
+import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.entity.EnumCreatureType;
@@ -250,8 +254,14 @@ public class ChunkProviderHbmHell implements IChunkProvider {
 		Chunk chunk = new Chunk(this.worldObj, blocks, cx, cz);
 		BiomeGenBase[] biomes = this.worldObj.getWorldChunkManager()
 				.loadBlockGeneratorData(null, cx * 16, cz * 16, 16, 16);
-		byte[] biomeArr = chunk.getBiomeArray();
-		for(int i = 0; i < biomeArr.length; i++) biomeArr[i] = (byte) biomes[i].biomeID;
+
+		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
+			short[] biomeArr = WorldUtil.getBiomeShortArray(chunk);
+			for(int i = 0; i < biomeArr.length; i++) biomeArr[i] = (short) biomes[i].biomeID;
+		} else {
+			byte[] biomeArr = chunk.getBiomeArray();
+			for(int i = 0; i < biomeArr.length; i++) biomeArr[i] = (byte) biomes[i].biomeID;
+		}
 
 		chunk.resetRelightChecks();
 		return chunk;

@@ -39,6 +39,9 @@ public class NTMSounds {
 	
 	/// FOLEY ///
 	public static final String GUN_WHACK = "hbm:weapon.foley.gunWhack";
+
+	/// MAGNETIC ///
+	public static final String MAGNETIC = "hbm:magnetic";
 	
 	/// FIRING ///
 	public static final String GUN_LOCKON = "hbm:weapon.fire.lockon";

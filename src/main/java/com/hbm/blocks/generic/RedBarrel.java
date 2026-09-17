@@ -54,7 +54,7 @@ public class RedBarrel extends BlockDetonatable {
 		int ix = MathHelper.floor_double(x), iy = MathHelper.floor_double(y), iz = MathHelper.floor_double(z);
 
 		if(this == ModBlocks.red_barrel || this == ModBlocks.pink_barrel) {
-			world.newExplosion(entity, x, y, z, 2.5F, true, true);
+			world.newExplosion(entity, x, y, z, 4.0F, true, true);
 		} else if(this == ModBlocks.lox_barrel) {
 			world.newExplosion(entity, x, y, z, 1F, false, false);
 

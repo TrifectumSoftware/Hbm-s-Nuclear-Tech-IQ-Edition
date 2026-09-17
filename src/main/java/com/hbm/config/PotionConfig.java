@@ -30,6 +30,23 @@ public class PotionConfig {
 	public static int medxID = 79;
 	public static int roidRageID = 80;
 	public static int wobbleID = 81;
+
+	public static int symptomFeverID = 82;
+	public static int symptomCoughID = 83;
+	public static int symptomSneezeID = 84;
+	public static int symptomSchizophreniaID = 85;
+	public static int symptomParalysisID = 86;
+	public static int symptomHemorrhageID = 87;
+	public static int symptomSepticID = 88;
+	public static int symptomComaID = 89;
+	public static int symptomRashID = 90;
+	public static int symptomVomitID = 92;
+	public static int symptomSeizureID = 93;
+	public static int symptomAorticID = 94;
+	public static int symptomNecrosisID = 95;
+	public static int symptomCardiacID = 96;
+	public static int turkishRageID = 97;
+	public static int ganjaID = 98;
 	
 	public static void loadFromConfig(Configuration config) {
 

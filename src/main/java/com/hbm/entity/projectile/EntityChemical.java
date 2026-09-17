@@ -10,6 +10,7 @@ import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.atmosphere.ChunkAtmosphereHandler;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
+import com.hbm.handler.contagion.PharmaProfile;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -35,6 +36,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -78,11 +80,28 @@ public class EntityChemical extends EntityThrowableNT {
 	@Override
 	protected void entityInit() {
 		this.dataWatcher.addObject(10, new Integer(0));
+		this.dataWatcher.addObject(11, new Byte((byte) 0));
 	}
 
 	public EntityChemical setFluid(FluidType fluid) {
 		this.dataWatcher.updateObject(10, fluid.getID());
 		return this;
+	}
+
+	public EntityChemical setPayload(NBTTagCompound payload) {
+		if(payload == null || payload.hasNoTags()) {
+			this.dataWatcher.updateObject(11, (byte) 0);
+			this.getEntityData().removeTag("payload");
+		} else {
+			this.dataWatcher.updateObject(11, (byte) 1);
+			this.getEntityData().setTag("payload", payload);
+		}
+		return this;
+	}
+
+	public NBTTagCompound getPayload() {
+		if(this.dataWatcher.getWatchableObjectByte(11) == 0) return null;
+		return this.getEntityData().getCompoundTag("payload");
 	}
 
 	public FluidType getType() {
@@ -219,6 +238,13 @@ public class EntityChemical extends EntityThrowableNT {
 		}
 		if(type.hasTrait(FT_Drug.class)) {
 			Injectables.process(living, type, 0, 1.0F, false);
+		}
+
+		if(type.hasTrait(FT_Pharma.class) && living != null) {
+			NBTTagCompound payload = this.getPayload();
+			if(payload != null) {
+				FT_Pharma.apply(PharmaProfile.readFromNBT(payload), living, 1.0F);
+			}
 		}
 
 		if(style == ChemicalStyle.LIQUID) {
@@ -521,6 +547,14 @@ public class EntityChemical extends EntityThrowableNT {
 						worldObj.setBlock(x, y, z, Blocks.dirt);
 						ChunkAtmosphereManager.proxy.addGrowth(worldObj, block, Blocks.dirt, x, y, z, 4, 6);
 					}
+				}
+
+				if(type.hasTrait(FT_Ink.class)) {
+					type.getTrait(FT_Ink.class).applyColor(worldObj, x, y, z, block);
+				}
+
+				if(type.hasTrait(FT_ConstructionFoam.class)) {
+					type.getTrait(FT_ConstructionFoam.class).applyFoam(worldObj, mop);
 				}
 
 				this.setDead();

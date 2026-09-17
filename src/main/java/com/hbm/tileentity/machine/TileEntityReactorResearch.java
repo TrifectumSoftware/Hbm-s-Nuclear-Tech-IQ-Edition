@@ -14,6 +14,8 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerReactorResearch;
 import com.hbm.inventory.gui.GUIReactorResearch;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.IMeteoriteTool;
+import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -339,8 +341,8 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 				continue;
 			}
 			
-			if(slots[i].getItem() == ModItems.meteorite_sword_bred)
-				slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
+			if(slots[i].getItem() instanceof IMeteoriteTool && ItemMeteoriteBase.getTier(slots[i]) == 8)
+				slots[i] = new ItemStack(ItemMeteoriteBase.upgrade(slots[i].getItem()));
 			
 			slotFlux[i] = 0;
 		}

@@ -1,12 +1,22 @@
 package com.hbm.entity.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.blocks.generic.BlockOre;
+import com.hbm.items.ModItems;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class EntityDroneBase extends Entity {
 
@@ -110,7 +120,7 @@ public abstract class EntityDroneBase extends Entity {
 				this.motionY = dist.yCoord * speed;
 				this.motionZ = dist.zCoord * speed;
 			}
-			if(isCollidedHorizontally){
+			if(isCollidedHorizontally && canClimbWalls()){
 				motionY += 1;
 			}
 			this.loadNeighboringChunks();
@@ -124,6 +134,65 @@ public abstract class EntityDroneBase extends Entity {
 
 	public double getSpeed() {
 		return 0.125D;
+	}
+
+	protected boolean canClimbWalls() {
+		return true;
+	}
+
+
+	protected boolean hasDroneNearby(int x, int y, int z) {
+		List<EntityDroneBase> drones = worldObj.getEntitiesWithinAABB(EntityDroneBase.class, AxisAlignedBB.getBoundingBox(x - 1.5, y - 1.5, z - 1.5, x + 2.5, y + 2.5, z + 2.5));
+		for(EntityDroneBase drone : drones) {
+			if(drone != this) return true;
+		}
+		return false;
+	}
+
+	protected boolean isOre(Block block, int meta) {
+		int[] ids = OreDictionary.getOreIDs(new ItemStack(block, 1, meta));
+		for(int id : ids) {
+			if(OreDictionary.getOreName(id).startsWith("ore")) return true;
+		}
+		return false;
+	}
+
+	// maybe silk touch drones in the future could overrid this optionally
+	protected List<ItemStack> getMinedDrops(Block block, int x, int y, int z, int meta) {
+		BlockOre ore = BlockOre.vanillaMap.get(block);
+		if(ore != null) {
+			int rawMeta = ore.getRawOreMeta();
+			if(rawMeta >= 0) {
+				List<ItemStack> drops = new ArrayList();
+				int count = ore.quantityDroppedWithBonus(0, worldObj.rand);
+				drops.add(new ItemStack(ModItems.raw_ore, count, rawMeta));
+				return drops;
+			}
+		}
+
+		List<ItemStack> drops = block.getDrops(worldObj, x, y, z, meta, 0);
+		return drops != null ? drops : new ArrayList();
+	}
+
+	protected boolean addToStorage(ItemStack[] slots, ItemStack stack) {
+
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null && slots[i].isItemEqual(stack) && ItemStack.areItemStackTagsEqual(slots[i], stack)) {
+				int canAdd = Math.min(stack.stackSize, slots[i].getMaxStackSize() - slots[i].stackSize);
+				slots[i].stackSize += canAdd;
+				stack.stackSize -= canAdd;
+				if(stack.stackSize <= 0) return true;
+			}
+		}
+
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] == null) {
+				slots[i] = stack.copy();
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@SideOnly(Side.CLIENT)

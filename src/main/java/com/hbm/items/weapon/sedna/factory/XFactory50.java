@@ -43,6 +43,7 @@ public class XFactory50 {
 	public static BulletConfig bmg50_du;
 	public static BulletConfig bmg50_he;
 	public static BulletConfig bmg50_desh;
+	public static BulletConfig bmg50_magnetic;
 	public static BulletConfig bmg50_laced;
 	public static BulletConfig bmg50_sm;
 	public static BulletConfig bmg50_black;
@@ -78,7 +79,8 @@ public class XFactory50 {
 				.setCasing(casing50.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50he"));
 		bmg50_desh = new BulletConfig().setItem(EnumAmmo.BMG50_DESH).setCasing(EnumCasingType.LARGE_STEEL, 12).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.5F).setRicochetAngle(90F).setRicochetCount(100).setLife(800)
 				.setCasing(casing50.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50desh"));
-			bmg50_laced = new BulletConfig().setItem(EnumAmmo.BMG50_LACED).setCasing(EnumCasingType.LARGE, 12).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
+			bmg50_magnetic = new BulletConfig().setItem(EnumAmmo.BMG50_MAGNETIC).setDamage(1.0F).setVel(6F).setLife(600).setRicochetAngle(90F).setRicochetCount(100).setOnUpdate(BulletConfig.LAMBDA_MAGNETIC_HOMING);
+		bmg50_laced = new BulletConfig().setItem(EnumAmmo.BMG50_LACED).setCasing(EnumCasingType.LARGE, 12).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
 		bmg50_sm = new BulletConfig().setItem(EnumAmmo.BMG50_SM).setCasing(EnumCasingType.LARGE_STEEL, 6).setWear(10F).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(2.5F).setThresholdNegation(30F).setArmorPiercing(0.35F)
 				.setCasing(casing50.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50sm"));
 		bmg50_black = new BulletConfig().setItem(EnumAmmoSecret.BMG50_BLACK).setWear(5F).setDoesPenetrate(true).setDamageFalloffByPen(false).setSpectral(true).setDamage(1.5F).setHeadshot(3F).setThresholdNegation(30F).setArmorPiercing(0.35F)
@@ -90,7 +92,7 @@ public class XFactory50 {
 				.dura(350).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(30F).delay(25).dry(25).spreadHipfire(0.05F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_desh, bmg50_laced))
+						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_desh, bmg50_laced, bmg50_magnetic))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
 				.setupStandardConfiguration()
@@ -100,7 +102,7 @@ public class XFactory50 {
 				.dura(1_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(50F).delay(25).dry(25).spreadHipfire(0.05F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_equestrian, bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_desh, bmg50_laced))
+						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_equestrian, bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_desh, bmg50_laced, bmg50_magnetic))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
 				.setupStandardConfiguration()
@@ -110,7 +112,7 @@ public class XFactory50 {
 				.dura(5_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope_thermal).thermalSights(true).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(45F).delay(25).dry(25).spreadHipfire(0F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_SILENCER, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_desh, bmg50_black))
+						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_desh, bmg50_black, bmg50_magnetic))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
 				.setupStandardConfiguration()
@@ -121,7 +123,7 @@ public class XFactory50 {
 				.dura(3_000).draw(10).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(7.5F).delay(2).dry(10).auto(true).spread(0.005F).sound(NTMSounds.TURRET_50BMG, 1.0F, 1.0F)
-						.mag(new MagazineBelt().addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_he, bmg50_desh, bmg50_laced))
+						.mag(new MagazineBelt().addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_he, bmg50_desh, bmg50_laced, bmg50_magnetic))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_M2))
 				.setupStandardConfiguration()

@@ -78,6 +78,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
 		}
+
 	}
 
 	@Override
@@ -155,6 +156,9 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 				// Saves memory and ensures consistency between crafted crates and mined ones
 				if (crate.hasSpiders) {
 					nbt.setBoolean("spiders", true);
+				}
+				if (crate.isMagnetic) {
+					nbt.setBoolean("magnetic", true);
 				}
 			}
 
@@ -237,6 +241,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 			if(inv instanceof TileEntityCrateBase) {
 				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
 				crate.hasSpiders = stack.stackTagCompound.getBoolean("spiders");
+				crate.isMagnetic = stack.stackTagCompound.getBoolean("magnetic");
 
 				if (stack.hasDisplayName()) {
 					crate.setCustomName(stack.getDisplayName());
@@ -324,6 +329,10 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		if(stack.hasTagCompound()) {
+
+			if(stack.stackTagCompound.getBoolean("magnetic")) {
+				list.add(EnumChatFormatting.AQUA + "(Magnetized)");
+			}
 
 			if(stack.stackTagCompound.getBoolean("spiders")) {
 				if(stack.stackTagCompound.hasKey("lock")) {

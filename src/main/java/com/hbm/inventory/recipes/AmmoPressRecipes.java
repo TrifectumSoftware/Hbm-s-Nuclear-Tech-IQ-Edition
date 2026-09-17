@@ -46,6 +46,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack wp = new OreDictStack(P_WHITE.ingot());
 		OreDictStack rp = new OreDictStack(P_RED.dust());
 		OreDictStack desh = new OreDictStack(DESH.ingot());
+		OreDictStack neodymium = new OreDictStack(ND.ingot());
 		OreDictStack pipe = new OreDictStack(STEEL.pipe());
 		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
 		ComparableStack rocket = new ComparableStack(ModItems.rocket_fuel);
@@ -268,6 +269,47 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	sSmall,			null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_DESH, 6),
 				null,	desh,			null,
+				null,	smokeful,		null,
+				null,	pShell,			null));
+
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_MAGNETIC, 8),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_MAGNETIC, 6),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P22_MAGNETIC, 24),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_MAGNETIC, 12),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P45_MAGNETIC, 8),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R556_MAGNETIC, 8),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R762_MAGNETIC, 6),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.BMG50_MAGNETIC, 12),
+				null,	neodymium,		null,
+				null,	smokeless.copy(6),	null,
+				null,	sBig,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.B75_MAGNETIC, 8),
+				null,	neodymium,		null,
+				null,	smokeless,		null,
+				null,	sSmall,			null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_MAGNETIC, 6),
+				null,	neodymium,		null,
 				null,	smokeful,		null,
 				null,	pShell,			null));
 

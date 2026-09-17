@@ -129,6 +129,8 @@ public class XWeaponModManager {
 		new WeaponModDefinition(EnumModGeneric.BIGMT_DURA).addMod(bigmtGuns, new WeaponModGenericDurability(115));
 		new WeaponModDefinition(EnumModGeneric.BRONZE_DAMAGE).addMod(bronzeGuns, new WeaponModGenericDamage(116));
 		new WeaponModDefinition(EnumModGeneric.BRONZE_DURA).addMod(bronzeGuns, new WeaponModGenericDurability(117));
+		new WeaponModDefinition(EnumModGeneric.VANADIUM_DAMAGE).addMod(wsteelGuns, new WeaponModVanadiumDamage(118));
+		new WeaponModDefinition(EnumModGeneric.VANADIUM_DURA).addMod(wsteelGuns, new WeaponModVanadiumDurability(119));
 
 		new WeaponModDefinition(EnumModSpecial.SPEEDLOADER).addMod(ModItems.gun_liberator, new WeaponModLiberatorSpeedloader(200));
 		new WeaponModDefinition(EnumModSpecial.SILENCER).addMod(new Item[] {ModItems.gun_am180, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_star_f, ModItems.gun_star_f_akimbo, ModItems.gun_g3, ModItems.gun_amat}, new WeaponModSilencer(ID_SILENCER));

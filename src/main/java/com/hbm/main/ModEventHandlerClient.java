@@ -99,6 +99,7 @@ import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -152,6 +153,8 @@ public class ModEventHandlerClient {
 	public static final int shakeDuration = 1_500;
 	public static long shakeTimestamp;
 
+	private static boolean rageSongPlaying = false;
+
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 
@@ -180,6 +183,34 @@ public class ModEventHandlerClient {
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 			GL11.glDepthMask(true);
 			return;
+		}
+
+		/// SYMPTOM OVERLAYS ///
+		if(event.type == ElementType.HOTBAR) {
+			float pulse = 0.5F + 0.5F * (float) Math.sin(Minecraft.getMinecraft().thePlayer.ticksExisted / 10.0D);
+			if(player.isPotionActive(HbmPotion.symptomRash)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_hemorrhage", 0.2F + 0.1F * pulse);
+			if(player.isPotionActive(HbmPotion.symptomHemorrhage)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_hemorrhage", 0.35F);
+			if(player.isPotionActive(HbmPotion.symptomSeptic)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_septic", 0.3F + 0.2F * pulse);
+			if(player.isPotionActive(HbmPotion.symptomAortic)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_aortic", 0.4F + 0.4F * pulse);
+			if(player.isPotionActive(HbmPotion.symptomComa) || player.isPotionActive(HbmPotion.symptomCardiac)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_blackout", 0.75F);
+			if(player.isPotionActive(HbmPotion.symptomFever)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_fever", 0.2F);
+			if(player.isPotionActive(HbmPotion.symptomVomit)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_vomit", 0.25F);
+			if(player.isPotionActive(HbmPotion.symptomSchizophrenia) || player.isPotionActive(HbmPotion.symptomSeizure)) RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_symptom_schizophrenia", 0.3F);
+
+			if(player.isPotionActive(HbmPotion.turkishRage)) {
+				RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_turkish_rage", 0.45F + 0.15F * pulse);
+
+				if(!rageSongPlaying) {
+					rageSongPlaying = true;
+					player.playSound(RefStrings.MODID + ":music.turkishRage", 1.0F, 1.0F);
+				}
+			} else {
+				rageSongPlaying = false;
+			}
+
+			if(player.isPotionActive(HbmPotion.ganja)) {
+				RenderScreenOverlay.renderSymptomOverlay(event.resolution, "overlay_ganja", 0.45F + 0.15F * pulse);
+			}
 		}
 
 		/*if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gun_aberrator) {
@@ -669,10 +700,10 @@ public class ModEventHandlerClient {
 		}
 
 		if(player.getCurrentArmor(2) == null && !player.isPotionActive(Potion.invisibility)) {
-			if(player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) ||		player.getDisplayName().equals("HbMinecraft"))		RenderAccessoryUtility.renderWings(event, 2);
-			if(player.getUniqueID().toString().equals(ShadyUtil.the_NCR) ||			player.getDisplayName().equals("the_NCR"))			RenderAccessoryUtility.renderWings(event, 3);
-			if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) ||		player.getDisplayName().equals("pheo7"))			RenderAccessoryUtility.renderAxePack(event);
-			if(player.getUniqueID().toString().equals(ShadyUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage"))	RenderAccessoryUtility.renderFaggot(event);
+			if(player.getUniqueID().toString().equals(SONUtil.HbMinecraft) ||		player.getDisplayName().equals("HbMinecraft"))		RenderAccessoryUtility.renderWings(event, 2);
+			if(player.getUniqueID().toString().equals(SONUtil.the_NCR) ||			player.getDisplayName().equals("the_NCR"))			RenderAccessoryUtility.renderWings(event, 3);
+			if(player.getUniqueID().toString().equals(SONUtil.Barnaby99_x) ||		player.getDisplayName().equals("pheo7"))			RenderAccessoryUtility.renderAxePack(event);
+			if(player.getUniqueID().toString().equals(SONUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage"))	RenderAccessoryUtility.renderFaggot(event);
 		}
 	}
 
@@ -1001,6 +1032,8 @@ public class ModEventHandlerClient {
 	static boolean isRenderingItems = false;
 	private static boolean roidRagePhosphorActive = false;
 	private static boolean wobbleShaderActive = false;
+	private static boolean symptomDesaturateActive = false;
+	private static boolean symptomSchizoActive = false;
 
 	@SubscribeEvent
 	public void clientTick(ClientTickEvent event) {
@@ -1045,6 +1078,33 @@ public class ModEventHandlerClient {
 					SuperSecretShader.apply("shaders/post/wobble.json");
 				} else {
 					SuperSecretShader.remove("shaders/post/wobble.json");
+				}
+			}
+
+			boolean hasParalysis = mc.thePlayer.isPotionActive(HbmPotion.symptomParalysis) || mc.thePlayer.isPotionActive(HbmPotion.symptomNecrosis);
+			if(hasParalysis != symptomDesaturateActive) {
+				symptomDesaturateActive = hasParalysis;
+				if(hasParalysis) {
+					SuperSecretShader.apply("shaders/post/desaturate.json");
+				} else {
+					SuperSecretShader.remove("shaders/post/desaturate.json");
+				}
+			}
+
+			boolean hasSchizo = mc.thePlayer.isPotionActive(HbmPotion.symptomSchizophrenia);
+			if(hasSchizo != symptomSchizoActive) {
+				symptomSchizoActive = hasSchizo;
+				if(hasSchizo) {
+					int idx = mc.thePlayer.getEntityData().getInteger("schizoShader");
+					String[] shaders = {"shaders/post/wobble.json", "shaders/post/desaturate.json", "shaders/post/phosphor.json", "shaders/post/invert.json"};
+					if(idx >= 0 && idx < shaders.length) {
+						SuperSecretShader.apply(shaders[idx]);
+					}
+				} else {
+					SuperSecretShader.remove("shaders/post/wobble.json");
+					SuperSecretShader.remove("shaders/post/desaturate.json");
+					SuperSecretShader.remove("shaders/post/phosphor.json");
+					SuperSecretShader.remove("shaders/post/invert.json");
 				}
 			}
 
@@ -1638,3 +1698,4 @@ public class ModEventHandlerClient {
 		}
 	}
 }
+

@@ -16,6 +16,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumTarType;
+import com.hbm.items.machine.ItemChemicalDye.EnumChemDye;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.ModItems;
 import com.hbm.util.Tuple.Pair;
@@ -121,6 +122,22 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(XYLENE);
 		registerSFAuto(BALEFIRE, 24_000_000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
 
+		registerRecipe(INK_WHITE,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.WHITE.ordinal()));
+		registerRecipe(INK_ORANGE,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.ORANGE.ordinal()));
+		registerRecipe(INK_MAGENTA,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.MAGENTA.ordinal()));
+		registerRecipe(INK_LIGHT_BLUE,	500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.LIGHTBLUE.ordinal()));
+		registerRecipe(INK_YELLOW,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.YELLOW.ordinal()));
+		registerRecipe(INK_LIME,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.LIME.ordinal()));
+		registerRecipe(INK_PINK,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.PINK.ordinal()));
+		registerRecipe(INK_GRAY,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.GRAY.ordinal()));
+		registerRecipe(INK_LIGHT_GRAY,	500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.SILVER.ordinal()));
+		registerRecipe(INK_CYAN,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.CYAN.ordinal()));
+		registerRecipe(INK_PURPLE,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.PURPLE.ordinal()));
+		registerRecipe(INK_BLUE,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.BLUE.ordinal()));
+		registerRecipe(INK_BROWN,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.BROWN.ordinal()));
+		registerRecipe(INK_GREEN,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.GREEN.ordinal()));
+		registerRecipe(INK_RED,			500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.RED.ordinal()));
+		registerRecipe(INK_BLACK,		500, new ItemStack(ModItems.chemical_dye, 1, EnumChemDye.BLACK.ordinal()));
 	}
 
 	private static void registerSFAuto(FluidType fluid) {

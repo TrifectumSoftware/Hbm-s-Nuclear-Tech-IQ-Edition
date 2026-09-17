@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,8 @@ import net.minecraft.util.IIcon;
 public class ItemSymbol extends Item {
 
 	public static enum SymbolType {
-		GUILT
+		GUILT,
+		JUSTICE
 	}
 
 	private IIcon[] icons;
@@ -39,6 +41,13 @@ public class ItemSymbol extends Item {
 		return type != null ? this.icons[type.ordinal()] : this.icons[0];
 	}
 
+	@Override
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		for(int i = 0; i < SymbolType.values().length; i++) {
+			list.add(new ItemStack(item, 1, i));
+		}
+	}
+
 	public SymbolType getSymbolType(ItemStack stack) {
 		return fromMeta(stack.getItemDamage());
 	}
@@ -60,6 +69,9 @@ public class ItemSymbol extends Item {
 		switch(type) {
 		case GUILT:
 			list.add(EnumChatFormatting.RED + "The weight of your sin tugs on your neck");
+			break;
+		case JUSTICE:
+			list.add(EnumChatFormatting.YELLOW + "Shall not the Judge of all the earth do right?");
 			break;
 		default:
 			break;

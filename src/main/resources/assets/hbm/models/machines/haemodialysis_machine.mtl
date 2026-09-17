@@ -1,0 +1,12 @@
+﻿# Blender 5.0.1 MTL File: 'None'
+# www.blender.org
+
+newmtl m_667128fe-1a6a-5c0d-a453-63265566e0bf
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd haemodialysis_machine.png

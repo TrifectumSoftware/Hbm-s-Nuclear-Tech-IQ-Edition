@@ -170,6 +170,7 @@ public class TileMappings {
 		put(TileEntityMachineGasDock.class, "tileentity_gas_dock");
 		put(TileEntityMachineEPress.class, "tileentity_electric_press");
 		put(TileEntityConveyorPress.class, "tileentity_conveyor_press");
+		put(com.hbm.tileentity.machine.TileEntityConveyorSpraypainter.class, "tileentity_conveyor_spraypainter");
 		put(TileEntityCoreEmitter.class, "tileentity_v0_emitter");
 		put(TileEntityCoreReceiver.class, "tileentity_v0_receiver");
 		put(TileEntityCoreInjector.class, "tileentity_v0_injector");
@@ -177,6 +178,8 @@ public class TileMappings {
 		put(TileEntityCore.class, "tileentity_v0");
 		put(TileEntityGeysir.class, "tileentity_geysir");
 		put(TileEntityCyst.class, "tileentity_cyst");
+		put(TileEntityWasteGeysir.class, "tileentity_geysir_waste");
+		put(TileEntityWasteGeysirMassive.class, "tileentity_geysir_waste_massive");
 		put(TileEntityMachineMissileAssembly.class, "tileentity_missile_assembly");
 		put(TileEntityMachineRocketAssembly.class, "tileentity_rocket_assembly");
 		put(TileEntityMachineHephaestus.class, "tileentity_hephaestus");
@@ -399,6 +402,7 @@ public class TileMappings {
 		put(TileEntityMachineChemicalPlant.class, "tileentity_chemicalplant");
 		put(TileEntityMachineChemicalFactory.class, "tileentity_chemicalfactory");
 		put(TileEntityMachinePUREX.class, "tileentity_purex");
+		put(TileEntityMachineHaemodialysis.class, "tileentity_haemodialysis");
 
 		put(TileEntityMachineOilWell.class, "tileentity_derrick");
 		put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
@@ -522,6 +526,8 @@ public class TileMappings {
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
 
 		put(TileEntityPipeAnchor.class, "tileentity_pioe_anchor");
+		put(TileEntityPipeAnchorIndustrial.class, "tileentity_pipe_anchor_industrial");
+		put(TileEntityPipeAnchorPressurizer.class, "tileentity_pipe_anchor_pressurizer");
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");
@@ -550,6 +556,8 @@ public class TileMappings {
 		put(TileEntityRadioTorchController.class, "tileentity_rtty_controller");
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
 		put(TileEntityRadioAUTOCAL.class, "tileentity_rtty_autocal");
+		put(TileEntityGenomeSequencer.class, "tileentity_genome_sequencer");
+		put(TileEntityMedicineSynthesizer.class, "tileentity_medicine_synthesizer");
 
 		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");
 		put(TileEntityDroneCrate.class, "tileentity_drone_crate");
@@ -557,10 +565,14 @@ public class TileMappings {
 		put(TileEntityDroneDock.class, "tileentity_drone_dock");
 		put(TileEntityDroneProvider.class, "tileentity_drone_provider");
 		put(TileEntityDroneRequester.class, "tileentity_drone_requester");
+		put(TileEntityQuarryMarker.class, "tileentity_quarry_marker");
 
 		put(TileEntityRailSwitch.class, "tileentity_rail_switch");
 
 		put(TileEntityRebar.class, "tileentity_rebar");
+
+		put(TileEntityBloodCentrifuge.class, "tileentity_blood_centrifuge");
+		put(TileEntitySampleSynthesizer.class, "tileentity_sample_synthesizer");
 
 		// OC Compat items
 		boolean ocPresent = Loader.isModLoaded("OpenComputers");

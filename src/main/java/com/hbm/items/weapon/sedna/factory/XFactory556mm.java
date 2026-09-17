@@ -45,6 +45,7 @@ public class XFactory556mm {
 	public static BulletConfig r556_jhp;
 	public static BulletConfig r556_ap;
 	public static BulletConfig r556_desh;
+	public static BulletConfig r556_magnetic;
 	public static BulletConfig r556_laced;
 
 	public static BulletConfig r556_inc_sp;
@@ -71,7 +72,8 @@ public class XFactory556mm {
 				.setCasing(casing556.clone().setColor(SpentCasing.COLOR_CASE_44).register("r556ap"));
 		r556_desh = new BulletConfig().setItem(EnumAmmo.R556_DESH).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.5F).setRicochetAngle(90F).setRicochetCount(100).setLife(800)
 				.setCasing(casing556.clone().setColor(SpentCasing.COLOR_CASE_44).register("r556desh"));
-			r556_laced = new BulletConfig().setItem(EnumAmmo.R556_LACED).setCasing(EnumCasingType.SMALL, 8).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
+			r556_magnetic = new BulletConfig().setItem(EnumAmmo.R556_MAGNETIC).setDamage(1.0F).setVel(6F).setLife(600).setRicochetAngle(90F).setRicochetCount(100).setOnUpdate(BulletConfig.LAMBDA_MAGNETIC_HOMING);
+		r556_laced = new BulletConfig().setItem(EnumAmmo.R556_LACED).setCasing(EnumCasingType.SMALL, 8).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
 
 		r556_inc_sp = r556_sp.clone().setOnImpact(INCENDIARY);
 		r556_inc_fmj = r556_fmj.clone().setOnImpact(INCENDIARY);
@@ -82,7 +84,7 @@ public class XFactory556mm {
 				.dura(3_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(2).auto(true).dry(15).reload(50).jam(47).sound(NTMSounds.GUN_ASSAULT_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap, r556_desh, r556_laced))
+						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap, r556_desh, r556_laced, r556_magnetic))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_G3))
 				.setupStandardConfiguration().ps(Lego.LAMBDA_STANDARD_CLICK_SECONDARY)
@@ -103,7 +105,7 @@ public class XFactory556mm {
 				.dura(3_000).draw(10).inspect(125).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(2).dry(15).auto(true).reload(46).jam(0).sound(NTMSounds.GUN_ASSAULT_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap, r556_desh, r556_laced))
+						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap, r556_desh, r556_laced, r556_magnetic))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STG))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD).pt(Lego.LAMBDA_TOGGLE_AIM)

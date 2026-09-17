@@ -1,5 +1,7 @@
 package com.hbm.inventory.recipes;
 
+import com.hbm.blocks.BlockEnums.EnumCrystalBlockType;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
@@ -71,6 +73,18 @@ public class SludgeProcessorRecipes extends GenericRecipes<SludgeProcessorRecipe
 			)
 			.outputFluids(
 				new FluidStack(Fluids.WATER, 2000)
+			));
+
+		this.register((SludgeProcessorRecipe) new SludgeProcessorRecipe("sludge.iron_crystal")
+			.setup(100, 20_000).setNameWrapper("sludge.iron_crystal")
+			.inputItems(new ComparableStack(ModBlocks.block_crystal, 1, EnumCrystalBlockType.IRON))
+			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
+			.outputItems(
+				new ItemStack(ModItems.powder_iron, 32)
+			)
+			.outputFluids(
+				new FluidStack(Fluids.SULFUR_DIOXIDE, 1000),
+				new FluidStack(Fluids.SODIUM_METAVANADATE, 100)
 			));
 	}
 }

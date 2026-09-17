@@ -8,6 +8,7 @@ import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.nbt.JigsawPiece;
 import com.hbm.world.gen.nbt.NBTStructure;
 import com.hbm.world.gen.nbt.SpawnCondition;
+import com.hbm.world.gen.nbt.SpawnCondition.WorldCoordinate;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -187,6 +188,20 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = StructureConfig.desertShack3SpawnWeight;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition("desert_atom") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			canSpawnAt = coords -> {
+				int cx = coords.coords.chunkXPos * 16 + 8;
+				int cz = coords.coords.chunkZPos * 16 + 8;
+				return coords.world.getWorldChunkManager().getBiomeGenAt(cx - 32, cz - 32) == BiomeGenBase.desert
+					&& coords.world.getWorldChunkManager().getBiomeGenAt(cx + 32, cz - 32) == BiomeGenBase.desert
+					&& coords.world.getWorldChunkManager().getBiomeGenAt(cx - 32, cz + 32) == BiomeGenBase.desert
+					&& coords.world.getWorldChunkManager().getBiomeGenAt(cx + 32, cz + 32) == BiomeGenBase.desert;
+			};
+			structure = new JigsawPiece("desert_atom", StructureManager.desert_atom, -31);
+			spawnWeight = StructureConfig.desertAtomSpawnWeight;
+		}});
+
 		NBTStructure.registerStructure(0, new SpawnCondition("dead_dish_small") {{
 			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.SANDY);
 			structure = new JigsawPiece("dead_dish_small", StructureManager.dead_dish_small, -5);
@@ -247,6 +262,12 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			canSpawn = biome -> biome.heightVariation <= 0.3F && !isWaterBiome(biome) && !BiomeDictionary.isBiomeOfType(biome, Type.SANDY);
 			structure = new JigsawPiece("tower_base", StructureManager.tower_base, -6);
 			spawnWeight = StructureConfig.towerBaseSpawnWeight;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("excavator") {{
+			canSpawn = biome -> (BiomeDictionary.isBiomeOfType(biome, Type.SANDY) || BiomeDictionary.isBiomeOfType(biome, Type.SNOWY)) && biome.heightVariation <= 0.15F;
+			structure = new JigsawPiece("excavator", StructureManager.excavator, -5);
+			spawnWeight = StructureConfig.excavatorSpawnWeight;
 		}});
 
 		NBTStructure.registerNullWeight(0, StructureConfig.plainsNullWeight, biome -> biome == BiomeGenBase.plains);

@@ -3,11 +3,13 @@ package com.hbm.inventory.recipes;
 import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.NBTStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemMeteoriteBase;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -60,8 +62,20 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 				.outputItems(new ItemStack(ModItems.ingot_red_copper, 6), new ItemStack(ModItems.ingot_raw, 1, Mats.MAT_SLAG.id)));
 
 		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteorSword").setDuration(1_200)
-				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_sword_hardened, 1))
-				.outputItems(new ItemStack(ModItems.meteorite_sword_alloyed, 1)));
+				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_sword[3]))
+				.outputItems(new ItemStack(ModItems.meteorite_sword[4])));
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteorPick").setDuration(1_200)
+				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_pickaxe[3]))
+				.outputItems(new ItemStack(ModItems.meteorite_pickaxe[4])));
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteorAxe").setDuration(1_200)
+				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_axe[3]))
+				.outputItems(new ItemStack(ModItems.meteorite_axe[4])));
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteorShovel").setDuration(1_200)
+				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_shovel[3]))
+				.outputItems(new ItemStack(ModItems.meteorite_shovel[4])));
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteorHoe").setDuration(1_200)
+				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_hoe[3]))
+				.outputItems(new ItemStack(ModItems.meteorite_hoe[4])));
 
 		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteor").setDuration(600)
 				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.powder_meteorite, 1))

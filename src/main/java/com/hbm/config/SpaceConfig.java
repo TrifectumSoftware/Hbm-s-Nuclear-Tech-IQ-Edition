@@ -23,6 +23,7 @@ public class SpaceConfig {
 	public static int tektoDimension = 413_024;
 	public static int thatmoDimension = 413_025;
 	public static int czechoslowakiaDimension = 413_026;
+	public static int drossDimension = 413_027;
 
 	// Biome ID limit is 255
 
@@ -86,6 +87,8 @@ public class SpaceConfig {
 
 	public static int pragueBiome = 85;
 
+	public static int drossBiome = 110;
+
 
 
 	public static boolean allowNetherPortals = false;
@@ -118,6 +121,7 @@ public class SpaceConfig {
 		tektoDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.10_tektoDimension", "Tekto dimension ID", tektoDimension);
 		thatmoDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.10_thatmoDimension", "Thatmo dimension ID", thatmoDimension);
 		czechoslowakiaDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.10.czechoslowakiaDimension", "Czechoslowakia dimension ID", czechoslowakiaDimension);
+		drossDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.10.drossDimension", "Dross dimension ID", drossDimension);
 
 		final String CATEGORY_GENERAL = CommonConfig.CATEGORY_GENERAL;
 		maxProbeDistance = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.90_maxProbeDistance", "How far from the center of the dimension can probes generate landing coordinates", maxProbeDistance);
@@ -163,6 +167,7 @@ public class SpaceConfig {
 		thatmoBiome = createConfigBiome(config, CATEGORY_BIOME, "16.32_thatmoBiome", "Thatmo Biome ID", thatmoBiome + defaultBiomeOffset);
 		theNestBiome = createConfigBiome(config, CATEGORY_BIOME, "16.33_theNestBiome", "The Nest Biome ID", theNestBiome + defaultBiomeOffset);
 		pragueBiome = createConfigBiome(config, CATEGORY_BIOME, "16.33_pragueBiome", "Prague Biome ID", pragueBiome + defaultBiomeOffset);
+		drossBiome = createConfigBiome(config, CATEGORY_BIOME, "16.34_drossBiome", "Dross Biome ID", drossBiome + defaultBiomeOffset);
 	}
 
 	private static HashMap<Integer, String> registeredIds = new HashMap<>();

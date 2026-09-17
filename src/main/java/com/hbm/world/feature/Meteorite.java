@@ -11,7 +11,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.Spaghetti;
-import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 
@@ -762,7 +761,15 @@ public class Meteorite {
 
 	public List<ItemStack> getRandomOre(Random rand) {
 		List<ItemStack> ores = new ArrayList<ItemStack>();
-		for(EnumMeteorType num : EnumMeteorType.values()) ores.add(DictFrame.fromOne(ModBlocks.ore_meteor, num));
+		for(EnumMeteorType num : EnumMeteorType.values()) {
+			switch(num) {
+			case IRON:		ores.add(new ItemStack(ModBlocks.block_crystal, 1, EnumCrystalBlockType.IRON.ordinal())); break;
+			case COPPER:	ores.add(new ItemStack(ModBlocks.block_crystal, 1, EnumCrystalBlockType.COPPER.ordinal())); break;
+			case ALUMINIUM:	ores.add(new ItemStack(ModBlocks.block_crystal, 1, EnumCrystalBlockType.ALUMINIUM.ordinal())); break;
+			case RAREEARTH:	ores.add(new ItemStack(ModBlocks.block_crystal_2, 1, EnumCrystalBlockType.RARE.ordinal() - 16)); break;
+			case COBALT:	ores.add(new ItemStack(ModBlocks.block_crystal_2, 1, EnumCrystalBlockType.COBALT.ordinal() - 16)); break;
+			}
+		}
 		return ores;
 	}
 

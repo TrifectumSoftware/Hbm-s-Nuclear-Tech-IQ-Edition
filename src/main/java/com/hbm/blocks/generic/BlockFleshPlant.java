@@ -1,17 +1,23 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
 import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.ModSoundType;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemShears;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -90,7 +96,25 @@ public class BlockFleshPlant extends BlockEnumMulti {
 
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune) {
-		return super.getItemDropped(meta, rand, fortune);
+		return null;
+	}
+
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, metadata, fortune);
+		drops.add(new ItemStack(ModItems.heartfruit_seeds, 1 + world.rand.nextInt(2)));
+		return drops;
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		if(world.isRemote) return;
+
+		if(player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ItemShears) {
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(this, 1, damageDropped(meta))));
+		} else {
+			super.harvestBlock(world, player, x, y, z, meta);
+		}
 	}
 
 	@Override

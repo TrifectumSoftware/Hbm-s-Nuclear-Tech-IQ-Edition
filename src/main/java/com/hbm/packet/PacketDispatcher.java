@@ -75,6 +75,8 @@ public class PacketDispatcher {
 		//Sends custom container-bound payload between client and server, dual-use capable
 		wrapper.registerMessage(ContainerNBTCommsPacket.Handler.class, ContainerNBTCommsPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(ContainerNBTCommsPacket.Handler.class, ContainerNBTCommsPacket.class, i++, Side.SERVER);
+
+		wrapper.registerMessage(MagneticCrafterRecipePacket.Handler.class, MagneticCrafterRecipePacket.class, i++, Side.SERVER);
 	}
 
 }

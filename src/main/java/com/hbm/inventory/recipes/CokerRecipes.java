@@ -69,6 +69,7 @@ public class CokerRecipes extends SerializableRecipe {
 		registerRecipe(HAEMOGLOBIN, 4000, new ItemStack(ModItems.powder_iron, 8), new FluidStack(WATER, 500));
 		registerRecipe(BROMINE, 1_000, new ItemStack(ModItems.powder_bromine, 1), new FluidStack(GAS, 500));
 		registerRecipe(SCUTTERBLOOD, 16_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(GAS_COKER, 1_600));
+		registerRecipe(GANJA, 1_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.HEMP, 2), new FluidStack(BIOGAS, 1_000));
 	}
 
 	public static void registerAuto(FluidType fluid, FluidType type) {

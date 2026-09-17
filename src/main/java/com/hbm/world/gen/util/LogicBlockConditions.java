@@ -69,6 +69,31 @@ public class LogicBlockConditions {
 		return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(25, 25, 25)).isEmpty();
 	};
 
+	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> PLAYER_CUBE_15 = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(15, 15, 15)).isEmpty();
+	};
+
+	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> PLAYER_CUBE_20 = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(20, 20, 20)).isEmpty();
+	};
+
+	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> PLAYER_CUBE_10 = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(10, 10, 10)).isEmpty();
+	};
+
+
 	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> REDSTONE = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
@@ -135,6 +160,9 @@ public class LogicBlockConditions {
 		conditions.put("EMPTY", EMPTY);
 		conditions.put("PLAYER_CUBE_3", PLAYER_CUBE_3);
 		conditions.put("PLAYER_CUBE_5", PLAYER_CUBE_5);
+		conditions.put("PLAYER_CUBE_10", PLAYER_CUBE_10);
+		conditions.put("PLAYER_CUBE_15", PLAYER_CUBE_15);
+		conditions.put("PLAYER_CUBE_20", PLAYER_CUBE_20);
 		conditions.put("PLAYER_CUBE_25", PLAYER_CUBE_25);
 
 		conditions.put("BOMB_CRANE", BOMB_CRANE);

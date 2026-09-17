@@ -153,6 +153,7 @@ public class ResourceManager {
 	public static final IModelCustom epress_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/epress_body.obj"));
 	public static final IModelCustom epress_head = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/epress_head.obj"));
 	public static final IModelCustom conveyor_press = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/conveyor_press.obj"));
+	public static final IModelCustom conveyor_spraypainter = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/conveyor_spraypainter.obj"));
 	public static final IModelCustom ammo_press = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/ammo_press.obj")).asVBO();
 
 	//Annihilator
@@ -170,6 +171,7 @@ public class ResourceManager {
 
 	//Mixer
 	public static final IModelCustom mixer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mixer.obj")).asVBO();
+	public static final IModelCustom haemodialysis_machine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/haemodialysis_machine.obj")).asVBO();
 
 	//Arc Welder
 	public static final IModelCustom arc_welder = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/arc_welder.obj")).noSmooth().asVBO();
@@ -193,6 +195,9 @@ public class ResourceManager {
 
 	//Magnusson Device
 	public static final IModelCustom microwave = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/microwave.obj"));
+
+	//Vampire
+	public static final IModelCustom vampire = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/vampire.obj"));
 
 	//Big Man Johnson
 	public static final IModelCustom autosaw = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/autosaw.obj")).noSmooth().asVBO();
@@ -463,6 +468,8 @@ public class ResourceManager {
 	public static final IModelCustom pylon_large = new HFRWavefrontObject("models/network/pylon_large.obj").noSmooth().asVBO();
 	public static final IModelCustom substation = new HFRWavefrontObject("models/network/substation.obj").asVBO();
 	public static final IModelCustom pipe_anchor = new HFRWavefrontObject("models/network/pipe_anchor.obj").asVBO();
+	public static final IModelCustom large_pipe_anchor = new HFRWavefrontObject("models/network/large_pipe_anchor.obj").asVBO();
+	public static final IModelCustom pressurizer = new HFRWavefrontObject("models/network/pressurizer.obj").asVBO();
 	public static final IModelCustom fluid_pump = new HFRWavefrontObject("models/network/fluid_diode.obj").asVBO();
 
 	//Radiolysis
@@ -484,6 +491,8 @@ public class ResourceManager {
 	//TELEX
 	public static final IModelCustom telex = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/telex.obj"));
 	public static final IModelCustom autocal = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/autocal.obj"));
+	public static final IModelCustom genome_sequencer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/genome_sequencer.obj"));
+	public static final IModelCustom dial_a_drug = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/dial_a_drug.obj"));
 
 	////Textures TEs
 
@@ -660,6 +669,8 @@ public class ResourceManager {
 	public static final ResourceLocation epress_head_tex = new ResourceLocation(RefStrings.MODID, "textures/models/epress_head.png");
 	public static final ResourceLocation conveyor_press_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/conveyor_press.png");
 	public static final ResourceLocation conveyor_press_belt_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/conveyor_press_belt.png");
+	public static final ResourceLocation conveyor_spraypainter_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/conveyor_spraypainter.png");
+	public static final ResourceLocation conveyor_spraypainter_belt_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/conveyor_spraypainter_belt.png");
 	public static final ResourceLocation ammo_press_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/ammo_press.png");
 
 	//Annihilator
@@ -691,6 +702,7 @@ public class ResourceManager {
 
 	//Mixer
 	public static final ResourceLocation mixer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mixer.png");
+	public static final ResourceLocation haemodialysis_machine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/haemodialysis_machine.png");
 
 	//Welder
 	public static final ResourceLocation arc_welder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/arc_welder.png");
@@ -716,6 +728,8 @@ public class ResourceManager {
 
 	//Magnusson Device
 	public static final ResourceLocation microwave_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/microwave.png");
+	public static final ResourceLocation vampire_black_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/vampireblack.png");
+	public static final ResourceLocation vampire_white_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/vampirewhite.png");
 
 	//Big Man Johnson
 	public static final ResourceLocation autosaw_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/autosaw.png");
@@ -992,6 +1006,9 @@ public class ResourceManager {
 
 	//Pipes
 	public static final ResourceLocation pipe_anchor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pipe_anchor.png");
+	public static final ResourceLocation large_pipe_anchor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/large_pipe_anchor.png");
+	public static final ResourceLocation pressurizer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pressurizer.png");
+	public static final ResourceLocation effect_icons = new ResourceLocation(RefStrings.MODID, "textures/gui/effect_icons.png");
 	public static final ResourceLocation fluid_pump_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/fluid_diode.png");
 
 	//Barrels
@@ -1019,7 +1036,9 @@ public class ResourceManager {
 
 	//TELEX
 	public static final ResourceLocation telex_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/telex.png");
+	public static final ResourceLocation dial_a_drug_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/dial_a_drug.png");
 	public static final ResourceLocation autocal_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/autocal.png");
+	public static final ResourceLocation genome_sequencer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/genome_sequencer.png");
 
 	////Obj Items
 
@@ -1784,6 +1803,8 @@ public class ResourceManager {
 	public static final ResourceLocation delivery_drone_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drone.png");
 	public static final ResourceLocation delivery_drone_express_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drone_express.png");
 	public static final ResourceLocation delivery_drone_request_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drone_request.png");
+	public static final ResourceLocation delivery_drone_spelunker_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drone_spelunker.png");
+	public static final ResourceLocation delivery_drone_quarry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drone_quarry.png");
 
 	//ISBRHs
 	public static final HFRWavefrontObject scaffold = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blocks/scaffold.obj")).noSmooth();

@@ -86,7 +86,6 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 		GL11.glPopMatrix();
 	}
 	
-	/** Determines the "dominant" anchor, i.e. the one that should render the pipe (instead of rendering two half segments, gives marginally better performance) */
 	public static boolean isDominant(Vec3 first, Vec3 second) {
 		if(first.xCoord < second.xCoord) return true;
 		if(first.xCoord > second.xCoord) return false;
@@ -118,3 +117,4 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 			}};
 	}
 }
+

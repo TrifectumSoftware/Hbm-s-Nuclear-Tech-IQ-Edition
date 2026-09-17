@@ -59,6 +59,10 @@ public class ItemModAutoFeed extends ItemArmorMod implements IFillableItem {
 
 	@Override
 	public boolean acceptsFluid(FluidType type, ItemStack stack) {
+		if(type == com.hbm.inventory.fluid.Fluids.HUMAN_BLOOD)
+			return false;
+		if(type.hasTrait(com.hbm.inventory.fluid.trait.FT_Pathogen.class) || type.hasTrait(com.hbm.inventory.fluid.trait.FT_Pharma.class))
+			return false;
 		return type.hasTrait(FT_Consumable.class) || type.hasTrait(FT_Drug.class);
 	}
 

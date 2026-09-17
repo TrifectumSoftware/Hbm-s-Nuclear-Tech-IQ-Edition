@@ -56,6 +56,9 @@ public class HbmKeybinds {
 	public static KeyBinding craneLeftKey = new KeyBinding(category + ".craneMoveLeft", Keyboard.KEY_LEFT, category);
 	public static KeyBinding craneRightKey = new KeyBinding(category + ".craneMoveRight", Keyboard.KEY_RIGHT, category);
 	public static KeyBinding craneLoadKey = new KeyBinding(category + ".craneLoad", Keyboard.KEY_RETURN, category);
+	public static KeyBinding magneticCrafterKey = new KeyBinding(category + ".magneticCrafter", Keyboard.KEY_B, category);
+	public static KeyBinding restockerMergeKey = new KeyBinding(category + ".restockerMerge", Keyboard.KEY_M, category);
+	public static KeyBinding restockerRestockKey = new KeyBinding(category + ".restockerRestock", Keyboard.KEY_H, category);
 
 	public static void register() {
 		ClientRegistry.registerKeyBinding(calculatorKey);
@@ -78,6 +81,9 @@ public class HbmKeybinds {
 		ClientRegistry.registerKeyBinding(craneLeftKey);
 		ClientRegistry.registerKeyBinding(craneRightKey);
 		ClientRegistry.registerKeyBinding(craneLoadKey);
+		ClientRegistry.registerKeyBinding(magneticCrafterKey);
+		ClientRegistry.registerKeyBinding(restockerMergeKey);
+		ClientRegistry.registerKeyBinding(restockerRestockKey);
 		ClientRegistry.registerKeyBinding(abilityCycle);
 		ClientRegistry.registerKeyBinding(abilityAlt);
 		ClientRegistry.registerKeyBinding(copyToolAlt);
@@ -240,6 +246,9 @@ public class HbmKeybinds {
 		GUN_PRIMARY,
 		GUN_SECONDARY,
 		GUN_TERTIARY,
-		RELOAD
+		RELOAD,
+		MAGNETIC_CRAFTER,
+		MAGNETIC_RESTOCKER_MERGE,
+		MAGNETIC_RESTOCKER_RESTOCK
 	}
 }

@@ -56,42 +56,6 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.radaway) {
-			if(!world.isRemote) {
-				player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, 14, 9));
-
-				stack.stackSize--;
-				world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
-			}
-		}
-
-		if(this == ModItems.radaway_strong) {
-			if(!world.isRemote) {
-				int duration = 35;
-				int level = 9;
-
-				if(!player.isPotionActive(HbmPotion.radaway)) {
-					player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, duration, level));
-				} else {
-
-					int d = player.getActivePotionEffect(HbmPotion.radaway).getDuration() + duration;
-					player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, d, level));
-				}
-
-				stack.stackSize--;
-				world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
-			}
-		}
-
-		if(this == ModItems.radaway_flush) {
-			if(!world.isRemote) {
-				player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, 50, 19));
-
-				stack.stackSize--;
-				world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
-			}
-		}
-
 		if(this == ModItems.syringe_taint) {
 			if(!world.isRemote) {
 				player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 60 * 20, 0));
@@ -213,17 +177,6 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.syringe_mkunicorn) {
-			if(!world.isRemote) {
-				HbmLivingProps.setContagion(entity, 3 * 60 * 60 * 20);
-				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
-				stack.stackSize--;
-				
-				if(GeneralConfig.enableExtendedLogging)
-					MainRegistry.logger.log(Level.INFO, "[MKU] " + entityPlayer.getCommandSenderName() + " used an MKU syringe!");
-			}
-		}
-
 		return false;
 	}
 
@@ -236,15 +189,6 @@ public class ItemSyringe extends Item {
 		if(this == ModItems.med_bag) {
 			list.add("Full heal, regardless of max health");
 			list.add("Removes negative effects");
-		}
-		if(this == ModItems.radaway) {
-			list.add("Removes 140 RAD");
-		}
-		if(this == ModItems.radaway_strong) {
-			list.add("Removes 350 RAD");
-		}
-		if(this == ModItems.radaway_flush) {
-			list.add("Removes 1000 RAD");
 		}
 		if(this == ModItems.syringe_taint) {
 			list.add("Tainted I for 60 seconds");
@@ -268,10 +212,6 @@ public class ItemSyringe extends Item {
 		}
 		if(this == ModItems.gun_kit_2) {
 			list.add("Repairs all weapons in hotbar by 50%");
-		}
-
-		if(this == ModItems.syringe_mkunicorn) {
-			list.add(EnumChatFormatting.RED + "?");
 		}
 	}
 }

@@ -88,6 +88,7 @@ public class Receiver {
 	protected BiConsumer<ItemStack, LambdaContext> onRecoil_DNA;
 	
 	/* GETTERS */
+	public GunConfig getParent() {								return this.parent; }
 	public float getBaseDamage(ItemStack stack) {				return XWeaponModManager.eval(this.baseDamage_DNA, stack, F_BASEDAMAGE, this, parent.index); }
 	public int getDelayAfterFire(ItemStack stack) {				return XWeaponModManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this, parent.index); }
 	public int getDelayAfterDryFire(ItemStack stack) {			return XWeaponModManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this, parent.index); }

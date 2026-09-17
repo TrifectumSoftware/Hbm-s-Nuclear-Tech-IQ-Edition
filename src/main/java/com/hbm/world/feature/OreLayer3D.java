@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.WorldProviderCelestial;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -99,6 +100,8 @@ public class OreLayer3D {
 
 		if(allCelestials) {
 			if(!(world.provider instanceof WorldProviderCelestial) && world.provider.dimensionId != 0) return;
+
+			if(world.provider.dimensionId == SpaceConfig.drossDimension) return;
 		} else {
 			if(world.provider.dimensionId != this.dim) return;
 		}

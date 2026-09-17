@@ -22,6 +22,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 	public String customName;
 
 	public boolean hasSpiders = false;
+	public boolean isMagnetic = false;
 
 	public TileEntityCrateBase(int count) {
 		slots = new ItemStack[count];
@@ -131,6 +132,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 			}
 		}
 		this.hasSpiders = nbt.getBoolean("spiders");
+		this.isMagnetic = nbt.getBoolean("magnetic");
 
 		customName = nbt.getString("name");
 	}
@@ -151,6 +153,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 		}
 		nbt.setTag("items", list);
 		nbt.setBoolean("spiders", hasSpiders);
+		nbt.setBoolean("magnetic", isMagnetic);
 
 		if (customName != null) {
 			nbt.setString("name", customName);

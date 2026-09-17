@@ -193,4 +193,26 @@ public class ArmorModHandler {
 
 		return null;
 	}
+
+	/**
+	 * Writes a modified mod stack back into the armor's mod compound
+	 */
+	public static void setMod(ItemStack armor, int slot, ItemStack mod) {
+
+		if(armor == null || mod == null)
+			return;
+
+		if(!armor.hasTagCompound())
+			armor.stackTagCompound = new NBTTagCompound();
+
+		NBTTagCompound nbt = armor.getTagCompound();
+
+		if(!nbt.hasKey(MOD_COMPOUND_KEY))
+			nbt.setTag(MOD_COMPOUND_KEY, new NBTTagCompound());
+
+		NBTTagCompound mods = nbt.getCompoundTag(MOD_COMPOUND_KEY);
+		NBTTagCompound cmp = new NBTTagCompound();
+		mod.writeToNBT(cmp);
+		mods.setTag(MOD_SLOT_KEY + slot, cmp);
+	}
 }

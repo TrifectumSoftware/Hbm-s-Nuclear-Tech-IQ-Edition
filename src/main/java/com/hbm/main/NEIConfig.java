@@ -11,8 +11,10 @@ import com.hbm.config.ClientConfig;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.handler.nei.AnvilOverlayHandler;
 import com.hbm.handler.nei.CustomMachineHandler;
+import com.hbm.handler.nei.MagneticCrafterOverlayHandler;
 import com.hbm.items.ItemEnums.EnumIngotMetal;
 import com.hbm.inventory.gui.GUIAnvil;
+import com.hbm.inventory.gui.GUIMagneticCrafter;
 import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -41,6 +43,9 @@ public class NEIConfig implements IConfigureNEI {
 			registerHandler(handler);
 		}
 		API.registerGuiOverlayHandler(GUIAnvil.class, new AnvilOverlayHandler(), "ntmAnvil");
+
+		API.registerGuiOverlay(GUIMagneticCrafter.class, "crafting");
+		API.registerGuiOverlayHandler(GUIMagneticCrafter.class, new MagneticCrafterOverlayHandler(), "crafting");
 
 		for(CustomMachineConfigJSON.MachineConfiguration conf : CustomMachineConfigJSON.niceList) {
 			registerHandlerBypass(new CustomMachineHandler(conf));
@@ -99,7 +104,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.conveyor_express));
 		API.hideItem(new ItemStack(ModBlocks.conveyor_double));
 		API.hideItem(new ItemStack(ModBlocks.conveyor_triple));
-		
+
 		API.hideItem(new ItemStack(ModBlocks.war_controller));
 		API.hideItem(new ItemStack(ModItems.sat_war));
 

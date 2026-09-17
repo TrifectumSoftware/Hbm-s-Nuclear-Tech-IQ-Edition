@@ -33,6 +33,7 @@ public class ElectrolyserFluidRecipes extends SerializableRecipe {
 		recipes.put(Fluids.BRINE, new ElectrolysisRecipe(400, new FluidStack(Fluids.HYDROGEN, 200), new FluidStack(Fluids.OXYGEN, 200),40, new ItemStack(ModItems.powder_sodium, 2)));
 		recipes.put(Fluids.AQUEOUS_NICKEL, new ElectrolysisRecipe(300, new FluidStack(Fluids.NONE, 0), new FluidStack(Fluids.NONE, 0),40, new ItemStack(ModItems.powder_nickel, 2),new ItemStack(ModItems.powder_iron, 2),new ItemStack(ModItems.sulfur, 4)));
 		recipes.put(Fluids.COPPERSULFATE, new ElectrolysisRecipe(200, new FluidStack(Fluids.NONE, 0), new FluidStack(Fluids.OXYGEN, 50),40, new ItemStack(ModItems.powder_copper, 2),new ItemStack(ModItems.sulfur, 2)));
+		recipes.put(Fluids.CHEVREUL_SALT, new ElectrolysisRecipe(1_000, new FluidStack(Fluids.CARBONDIOXIDE, 250), new FluidStack(Fluids.NONE, 0), new ItemStack(ModItems.powder_copper, 2), new ItemStack(ModItems.powder_calcium, 1)));
 
 		recipes.put(Fluids.POTASSIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.NONE, 0), new ItemStack(ModItems.dust)));
 		recipes.put(Fluids.CALCIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));

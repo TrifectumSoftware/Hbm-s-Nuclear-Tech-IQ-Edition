@@ -1316,8 +1316,13 @@ public class NBTStructure {
 
 				SpawnCondition spawn = findSpawn(biome);
 
-				if(spawn != null && (spawn.pools != null || spawn.start != null || spawn.structure != null))
+				if(spawn != null && (spawn.pools != null || spawn.start != null || spawn.structure != null)) {
+					if(spawn.canSpawnAt != null) {
+						WorldCoordinate coords = new WorldCoordinate(worldObj, new ChunkCoordIntPair(chunkX, chunkZ), rand);
+						if(!spawn.canSpawnAt.test(coords)) return null;
+					}
 					return spawn;
+				}
 			}
 
 			return null;

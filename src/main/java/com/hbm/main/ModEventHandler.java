@@ -17,6 +17,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.generic.BlockOre;
 import com.hbm.blocks.machine.BlockBeamBase;
 import com.hbm.blocks.generic.BlockPedestal;
 import com.hbm.config.GeneralConfig;
@@ -41,6 +42,7 @@ import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.entity.mob.EntityCyberCrab;
+import com.hbm.entity.mob.EntityDrossDrone;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.train.EntityRailCarBase;
@@ -48,6 +50,7 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.extprop.HbmBloodstreamProps;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
@@ -192,6 +195,7 @@ import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -278,27 +282,13 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-
-		EntityPlayer player = event.player;
-
-		if((player.getUniqueID().toString().equals(ShadyUtil.Dr_Nostalgia) || player.getDisplayName().equals("Dr_Nostalgia")) && !player.worldObj.isRemote) {
-
-			if(!player.inventory.hasItem(ModItems.hat))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));
-
-			if(!player.inventory.hasItem(ModItems.beta))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
-		}
-	}
-
-	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event) {
 
 		if(event.entity instanceof EntityPlayer) {
 
 			EntityPlayer player = (EntityPlayer) event.entity;
 			HbmPlayerProps.getData(player); //this already calls the register method if it's null so no further action required
+			com.hbm.extprop.HbmBloodstreamProps.getData(player); //ditto
 
 			if(event.entity == MainRegistry.proxy.me())
 				BlockAshes.ashes = 0;
@@ -381,17 +371,26 @@ public class ModEventHandler {
 			event.entity.worldObj.spawnEntityInWorld(foeq);
 		}
 
-		if(event.entity.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || event.entity.getCommandSenderName().equals("HbMinecraft")) {
+		if(event.entity.getUniqueID().toString().equals(SONUtil.HbMinecraft) || event.entity.getCommandSenderName().equals("HbMinecraft")) {
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
 
-		if(event.entity.getUniqueID().toString().equals(ShadyUtil.MellowRPG8)) {
+		if(event.entity.getUniqueID().toString().equals(SONUtil.MellowRPG8)) {
 			event.entity.entityDropItem(new ItemStack(ModBlocks.block_meteor, 1 + rand.nextInt(10)), 0.0F);
 		}
 
-		if(event.entity.getUniqueID().toString().equals(ShadyUtil.Iristhepianist)) {
+		if(event.entity.getUniqueID().toString().equals(SONUtil.Iristhepianist)) {
 			event.entity.entityDropItem(new ItemStack(ModItems.nostalgic_gears, 1 + rand.nextInt(10)), 0.0F);
 		}
+
+		if(event.entity.getUniqueID().toString().equals(SONUtil.jengatower)) {
+			event.entity.entityDropItem(new ItemStack(ModItems.fluid_tank_full, 1 + rand.nextInt(10), Fluids.CAY.getID()), 0.0F);
+		}
+
+		if(event.entity.getUniqueID().toString().equals(SONUtil.xenonio)) {
+			event.entity.entityDropItem(new ItemStack(ModItems.fluid_tank_full, 1 + rand.nextInt(10), Fluids.XENON.getID()), 0.0F);
+		}
+
 
 		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
 
@@ -678,19 +677,17 @@ public class ModEventHandler {
 	public void onLivingDrop(LivingDropsEvent event) {
 
 		if(!event.entityLiving.worldObj.isRemote) {
-			boolean contaminated = HbmLivingProps.getContagion(event.entityLiving) > 0;
+			List<String> frames = com.hbm.handler.contagion.ItemContagion.getFomiteFrames(event.entityLiving);
 
-			if(contaminated) {
+			if(!frames.isEmpty()) {
 
 				for(EntityItem item : event.drops) {
-					ItemStack stack = item.getEntityItem();
-
-					if(!stack.hasTagCompound()) {
-						stack.stackTagCompound = new NBTTagCompound();
-					}
-
-					stack.stackTagCompound.setBoolean("ntmContagion", true);
+					com.hbm.handler.contagion.ItemContagion.tagEntityItem(item, frames);
 				}
+			}
+
+			if(event.entityLiving instanceof EntityZombie && event.entityLiving.getRNG().nextInt(500) == 0) {
+				event.drops.add(new EntityItem(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, com.hbm.handler.contagion.WildDisease.makeSyringe(event.entityLiving.getRNG())));
 			}
 		}
 	}
@@ -700,6 +697,10 @@ public class ModEventHandler {
 
 		if(event.entityLiving instanceof EntityCreeper && event.entityLiving.getEntityData().getBoolean("hfr_defused")) {
 			ItemModDefuser.castrateCreeper((EntityCreeper) event.entityLiving, null, false);
+		}
+
+		if(!event.entity.worldObj.isRemote && event.entityLiving instanceof EntityPlayer) {
+			SymbolBehaviors.bounceProjectiles((EntityPlayer) event.entityLiving);
 		}
 
 		if(!event.entity.worldObj.isRemote && event.entityLiving.isPotionActive(HbmPotion.slippery.id)) {
@@ -856,6 +857,32 @@ public class ModEventHandler {
 
 		if(world != null && !world.isRemote) {
 
+			// Dross drones patrol the sky at high altitude
+			if(world.provider.dimensionId == SpaceConfig.drossDimension && time % 100 == 0) {
+				int count = 0;
+				for(Object e : world.loadedEntityList) {
+					if(e instanceof EntityDrossDrone) count++;
+				}
+				if(count < 24) {
+					// spawn at a random spot high in the sky, near a loaded player if any
+					int sx = world.rand.nextInt(200) - 100;
+					int sz = world.rand.nextInt(200) - 100;
+					Object p = null;
+					if(!world.playerEntities.isEmpty()) {
+						p = world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
+					}
+					if(p != null) {
+						EntityPlayer pp = (EntityPlayer) p;
+						sx = (int) pp.posX + world.rand.nextInt(60) - 30;
+						sz = (int) pp.posZ + world.rand.nextInt(60) - 30;
+					}
+					int sy = 220 + world.rand.nextInt(21);
+					EntityDrossDrone drone = new EntityDrossDrone(world);
+					drone.setPosition(sx, sy, sz);
+					world.spawnEntityInWorld(drone);
+				}
+			}
+
 			if(reference != null) {
 				for(Object player : world.playerEntities) {
 					if(((EntityPlayer) player).ridingEntity != null && time % (1 * 60 * 20) == 0) {
@@ -981,6 +1008,20 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
+	public void onHarvestDrops(HarvestDropsEvent event) {
+		BlockOre ore = BlockOre.vanillaMap.get(event.block);
+		if(ore == null) return;
+		if(event.isSilkTouching) return;
+
+		int rawMeta = ore.getRawOreMeta();
+		if(rawMeta < 0) return;
+
+		event.drops.clear();
+		int count = ore.quantityDroppedWithBonus(event.fortuneLevel, event.world.rand);
+		event.drops.add(new ItemStack(ModItems.raw_ore, count, rawMeta));
+	}
+
+	@SubscribeEvent
 	public void onGenerateOre(GenerateMinable event) {
 		if(event.world.provider instanceof WorldProviderCelestial && event.world.provider.dimensionId != 0) {
 			WorldGeneratorCelestial.onGenerateOre(event);
@@ -1005,6 +1046,19 @@ public class ModEventHandler {
 				return;
 			}
 
+			if(SymbolBehaviors.hasJustice(player) && event.source.isProjectile()) {
+				event.setCanceled(true);
+			}
+
+			if(event.source.getEntity() instanceof EntityPlayer) {
+				EntityPlayer attacker = (EntityPlayer) event.source.getEntity();
+				if(SymbolBehaviors.cancelsPvP(attacker, player)) {
+					event.setCanceled(true);
+				} else if(SymbolBehaviors.hasJustice(player)) {
+					SymbolBehaviors.recordAttacker(player, attacker);
+				}
+			}
+
 			if(ArmorUtil.checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
 				HbmPlayerProps.plink(player, "random.break", 0.5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 				event.setCanceled(true);
@@ -1013,11 +1067,16 @@ public class ModEventHandler {
 			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 				((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleAttack(event);
 
-			for(ItemStack stack : player.inventory.armorInventory) {
-				if(stack != null && stack.getItem() instanceof IAttackHandler) {
-					((IAttackHandler)stack.getItem()).handleAttack(event, stack);
-				}
+		for(ItemStack stack : player.inventory.armorInventory) {
+			if(stack != null && stack.getItem() instanceof IAttackHandler) {
+				((IAttackHandler)stack.getItem()).handleAttack(event, stack);
 			}
+		}
+		}
+
+		// melee contact spreads HIT-axis diseases from the attacker onto the victim
+		if(event.source.getEntity() instanceof EntityLivingBase && !event.source.isProjectile()) {
+			com.hbm.handler.contagion.DiseaseHandler.handleHit((EntityLivingBase) event.source.getEntity(), event.entityLiving);
 		}
 	}
 
@@ -1042,6 +1101,10 @@ public class ModEventHandler {
 
 		EntityLivingBase e = event.entityLiving;
 
+		// raging players are immune to lightning (their own summoned bolts strike above them)
+		if((e.isPotionActive(HbmPotion.turkishRage) || e.isPotionActive(HbmPotion.ganja)) && "lightningBolt".equals(event.source.getDamageType()))
+			event.ammount = 0;
+
 		if(e instanceof EntityPlayer) {
 
 			EntityPlayer player = (EntityPlayer) e;
@@ -1056,10 +1119,23 @@ public class ModEventHandler {
 			props.lastDamage = player.ticksExisted;
 		}
 
-		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
-			event.ammount *= 2F;
+		if(e.isPotionActive(HbmPotion.symptomRash) || e.isPotionActive(HbmPotion.symptomFever))
+			event.ammount *= 1.25F;
 
-		// taking damage cancels the effect
+		if(event.source.getEntity() instanceof EntityLivingBase) {
+			EntityLivingBase attacker = (EntityLivingBase) event.source.getEntity();
+			if(attacker.isPotionActive(HbmPotion.symptomParalysis))
+				event.ammount *= 0.1F;
+		}
+
+		if(e.isPotionActive(HbmPotion.symptomSeptic) && event.ammount > 0 && event.ammount < 100) {
+			HbmBloodstreamProps bloodstream = HbmBloodstreamProps.getData(e);
+			bloodstream.drainBlood(event.ammount * 5F);
+		}
+
+		if(e.isPotionActive(HbmPotion.symptomCardiac) && event.ammount > 0)
+			event.ammount = Math.max(event.ammount, e.getMaxHealth());
+
 		if(e.isPotionActive(HbmPotion.roidRage)) {
 			e.removePotionEffect(HbmPotion.roidRage.id);
 		}
@@ -1074,6 +1150,13 @@ public class ModEventHandler {
 				event.ammount *= Math.pow(1.25, nextAmp);
 				attacker.addPotionEffect(new PotionEffect(HbmPotion.roidRage.id, roidRage.getDuration(), nextAmp));
 			}
+		}
+
+		// turkish rage: double the damage
+		if(event.source.getEntity() instanceof EntityLivingBase) {
+			EntityLivingBase attacker = (EntityLivingBase) event.source.getEntity();
+			if(attacker.isPotionActive(HbmPotion.turkishRage) || attacker.isPotionActive(HbmPotion.ganja))
+				event.ammount *= 2.0F;
 		}
 
 		// med ex logick
@@ -1143,6 +1226,19 @@ public class ModEventHandler {
 				if(stack != null && stack.getItem() instanceof IDamageHandler) {
 					((IDamageHandler)stack.getItem()).handleDamage(event, stack);
 				}
+			}
+		}
+
+		if(e instanceof EntityPlayer && event.source.isProjectile() && SymbolBehaviors.hasJustice((EntityPlayer) e)) {
+			event.ammount = 0;
+		}
+
+		if(event.source.getEntity() instanceof EntityPlayer) {
+			EntityPlayer attacker = (EntityPlayer) event.source.getEntity();
+			if(e instanceof EntityPlayer && SymbolBehaviors.cancelsPvP(attacker, (EntityPlayer) e)) {
+				event.setCanceled(true);
+			} else {
+				SymbolBehaviors.handleJusticeHit(event, attacker);
 			}
 		}
 	}
@@ -1247,140 +1343,6 @@ public class ModEventHandler {
 		}
 	}
 
-	private static final UUID fopSpeed = UUID.fromString("e5a8c95d-c7a0-4ecf-8126-76fb8c949389");
-
-	@SubscribeEvent
-	public void onWingFlop(TickEvent.PlayerTickEvent event) {
-
-		EntityPlayer player = event.player;
-
-		if(event.phase == TickEvent.Phase.START) {
-
-			if(player.getCurrentArmor(2) == null && !player.onGround) {
-
-				if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) || player.getDisplayName().equals("pheo7")) {
-
-					ArmorUtil.resetFlightTime(player);
-					HbmPlayerProps props = HbmPlayerProps.getData(player);
-
-					if(props.isJetpackActive()) {
-
-						if(player.motionY < 0.4D)
-							player.motionY += 0.1D;
-
-						Vec3 look = player.getLookVec();
-
-						if(Vec3.createVectorHelper(player.motionX, player.motionY, player.motionZ).lengthVector() < 2) {
-							player.motionX += look.xCoord * 0.2;
-							player.motionY += look.yCoord * 0.2;
-							player.motionZ += look.zCoord * 0.2;
-
-							if(look.yCoord > 0)
-								player.fallDistance = 0;
-						}
-					} else if(props.enableBackpack && !player.isSneaking()) {
-						if(player.motionY < -0.2) player.motionY += 0.075D;
-						if(player.fallDistance > 0) player.fallDistance = 0;
-					}
-				}
-
-				boolean isBob = player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
-				boolean isOther = player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR");
-
-				if(isBob || isOther) {
-
-					ArmorUtil.resetFlightTime(player);
-
-					if(player.fallDistance > 0)
-						player.fallDistance = 0;
-
-					if(player.motionY < -0.4D)
-						player.motionY = -0.4D;
-
-					HbmPlayerProps props = HbmPlayerProps.getData(player);
-
-					if(isBob || player.getFoodStats().getFoodLevel() > 6) {
-
-						if(props.isJetpackActive()) {
-
-							double cap = (isBob ? 0.8D : 0.4D);
-
-							if(player.motionY < cap)
-								player.motionY += 0.15D;
-							else
-								player.motionY = cap + 0.15D;
-
-							if(isOther) {
-								if(player.getFoodStats().getSaturationLevel() > 0F)
-									player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
-								else
-									player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
-							}
-
-						} else if(props.enableBackpack && !player.isSneaking()) {
-
-							if(player.motionY < -1)
-								player.motionY += 0.4D;
-							else if(player.motionY < -0.1)
-								player.motionY += 0.2D;
-							else if(player.motionY < 0)
-								player.motionY = 0;
-
-							if(isOther && !player.onGround) {
-								if(player.getFoodStats().getSaturationLevel() > 0F)
-									player.addExhaustion(4F);
-								else
-									player.addExhaustion(0.04F);
-							}
-
-						} else if(!props.enableBackpack && player.isSneaking()) {
-
-							if(player.motionY < -0.08) {
-
-								double mo = player.motionY * (isBob ? -0.6 : -0.4);
-								player.motionY += mo;
-
-								Vec3 vec = player.getLookVec();
-								vec.xCoord *= mo;
-								vec.yCoord *= mo;
-								vec.zCoord *= mo;
-
-								player.motionX += vec.xCoord;
-								player.motionY += vec.yCoord;
-								player.motionZ += vec.zCoord;
-							}
-						}
-					}
-
-					Vec3 orig = player.getLookVec();
-					Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
-					double mod = props.enableBackpack ? (isBob ? 0.5D : 0.25D) : 0.125D;
-
-					if(player.moveForward != 0) {
-						player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
-						player.motionZ += look.zCoord * 0.35 * player.moveForward * mod;
-					}
-
-					if(player.moveStrafing != 0) {
-						look.rotateAroundY((float) Math.PI * 0.5F);
-						player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
-						player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
-					}
-				}
-			}
-
-			if(player.getUniqueID().toString().equals(ShadyUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage")) {
-
-				Multimap multimap = HashMultimap.create();
-				multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(fopSpeed, "FOP SPEED", 0.5, 1));
-				player.getAttributeMap().removeAttributeModifiers(multimap);
-
-				if(player.isSprinting()) {
-					player.getAttributeMap().applyAttributeModifiers(multimap);
-				}
-			}
-		}
-	}
 
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -1517,23 +1479,6 @@ public class ModEventHandler {
 			}
 			/// BETA HEALTH END ///
 
-			/// PU RADIATION START ///
-
-			if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
-
-				List<EntityLivingBase> entities = player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, player.boundingBox.expand(3, 3, 3));
-
-				for(EntityLivingBase e : entities) {
-
-					if(e != player) {
-						e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 300, 2));
-					}
-				}
-
-			}
-
-			/// PU RADIATION END ///
-
 			for(int i = 0; i < player.inventory.mainInventory.length; i++) {
 				ItemStack stack2 = player.inventory.getStackInSlot(i);
 
@@ -1555,26 +1500,6 @@ public class ModEventHandler {
 		}
 
 		if(player.worldObj.isRemote && event.phase == event.phase.START && !player.isInvisible() && !player.isSneaking()) {
-
-			if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
-
-				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
-				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
-				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
-				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
-			}
-			if(player.getUniqueID().toString().equals(ShadyUtil.DUODEC_)) {
-
-				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
-
-				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
-				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
-
-				//player.worldObj.spawnParticle("magicCrit", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
-				ParticleUtil.spawnTuneFlame(player.worldObj, player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord);
-				ParticleUtil.spawnJesusFlame(player.worldObj, player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord);
-
-			}
 
 		}
 
@@ -1886,9 +1811,9 @@ public class ModEventHandler {
 
 			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
 
-			String result = ShadyUtil.smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
+			String result = SONUtil.smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
 
-			if(ShadyUtil.hashes.contains(result)) {
+			if(SONUtil.hashes.contains(result)) {
 				world.func_147480_a(x, y, z, false);
 				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
 				entityitem.delayBeforeCanPickup = 1;
@@ -1966,7 +1891,7 @@ public class ModEventHandler {
 		//in any other way except for    |  |                                                |            |  |
 		//the config file: |             |  |                                                |            |  |
 		//                 V             V  V                                                V            V  V
-		if(GeneralConfig.enableDebugMode && player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) && message.startsWith("!")) {
+		if(GeneralConfig.enableDebugMode && message.startsWith("!")) {
 
 			String[] msg = message.split(" ");
 

@@ -20,7 +20,12 @@ public class ServerConfig extends RunningConfig {
 	public static ConfigWrapper<Boolean> CRATE_OPEN_HELD =				new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> CRATE_KEEP_CONTENTS =			new ConfigWrapper(true);
 	public static ConfigWrapper<Integer> ITEM_HAZARD_DROP_TICKRATE =	new ConfigWrapper(2);
-	public static ConfigWrapper<Boolean> ENABLE_MKU =					new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> ENABLE_DISEASES =				new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> DISEASE_AEROSOL =				new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> DISEASE_TOUCH =				new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> DISEASE_HIT =					new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> DISEASE_PROXIMITY =			new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> DISEASE_INJECTED =			new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> STRUCTURE_DEBUG =				new ConfigWrapper(false);
 	public static ConfigWrapper<Integer> AUTOCAL_MAX_CLOCK =			new ConfigWrapper(20);
 
@@ -35,7 +40,12 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("CRATE_OPEN_HELD", CRATE_OPEN_HELD);
 		configMap.put("CRATE_KEEP_CONTENTS", CRATE_KEEP_CONTENTS);
 		configMap.put("ITEM_HAZARD_DROP_TICKRATE", ITEM_HAZARD_DROP_TICKRATE);
-		configMap.put("ENABLE_MKU", ENABLE_MKU);
+		configMap.put("ENABLE_DISEASES", ENABLE_DISEASES);
+		configMap.put("DISEASE_AEROSOL", DISEASE_AEROSOL);
+		configMap.put("DISEASE_TOUCH", DISEASE_TOUCH);
+		configMap.put("DISEASE_HIT", DISEASE_HIT);
+		configMap.put("DISEASE_PROXIMITY", DISEASE_PROXIMITY);
+		configMap.put("DISEASE_INJECTED", DISEASE_INJECTED);
 		configMap.put("STRUCTURE_DEBUG", STRUCTURE_DEBUG);
 		configMap.put("AUTOCAL_MAX_CLOCK", AUTOCAL_MAX_CLOCK);
 	}

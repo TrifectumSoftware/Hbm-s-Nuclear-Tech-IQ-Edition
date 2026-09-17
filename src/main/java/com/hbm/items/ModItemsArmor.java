@@ -259,7 +259,7 @@ public class ModItemsArmor {
 				.setSealed(true)
 				.setBrokenNeedles(true)
 				.hides(EnumPlayerPart.HAT)
-				.setHazardClass(ArmorUtil.FULL_PACKAGE).setRadResist(1.0D /*90%*/)
+				.setHazardClass(ArmorUtil.FULL_PACKAGE_NO_BLOOD).setRadResist(1.0D /*90%*/)
 				.setUnlocalizedName("envsuit_helmet").setTextureName(RefStrings.MODID + ":envsuit_helmet");
 		envsuit_plate = new ArmorEnvsuit(aMatEnv, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 100_000, 1_000, 250, 0).cloneStats((ArmorFSB) envsuit_helmet).setUnlocalizedName("envsuit_plate").setTextureName(RefStrings.MODID + ":envsuit_plate");
 		envsuit_legs = new ArmorEnvsuit(aMatEnv, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 100_000, 1_000, 250, 0).cloneStats((ArmorFSB) envsuit_helmet).setUnlocalizedName("envsuit_legs").setTextureName(RefStrings.MODID + ":envsuit_legs");

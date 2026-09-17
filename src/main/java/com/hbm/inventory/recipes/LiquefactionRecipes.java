@@ -63,6 +63,9 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4),	new FluidStack(50, Fluids.ETHANOL));
 		recipes.put(new ComparableStack(ModItems.biomass),				new FluidStack(125, Fluids.BIOGAS));
 		recipes.put(new ComparableStack(ModItems.glyphid_gland_empty),	new FluidStack(2000, Fluids.BIOGAS));
+		recipes.put(new ComparableStack(ModItems.egg_glyphid_nether),	new FluidStack(100, Fluids.HEPARIN));
+		recipes.put(new ComparableStack(ModItems.glyphid_meat_nether),	new FluidStack(10, Fluids.HEPARIN));
+		recipes.put(new ComparableStack(ModItems.heartfruit),			new FluidStack(100, Fluids.HEPARIN));
 		recipes.put(new ComparableStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE), new FluidStack(100, Fluids.FISHOIL));
 		recipes.put(new ComparableStack(Blocks.double_plant, 1, 0),		new FluidStack(100, Fluids.SUNFLOWEROIL));
 		recipes.put(new ComparableStack(ModBlocks.bloatsprout_log),		new FluidStack(500, Fluids.BLOAT_PUS));
@@ -74,6 +77,23 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(Blocks.vine),					new FluidStack(100, Fluids.SEEDSLURRY));
 		recipes.put(new ComparableStack(ModItems.flesh),			new FluidStack(100, Fluids.BLOOD));
 		recipes.put(new ComparableStack(ModItems.ingot_osmiridium),	new FluidStack(24000, Fluids.ETHANOL));
+
+		recipes.put(KEY_WHITE,		new FluidStack(500, Fluids.INK_WHITE));
+		recipes.put(KEY_ORANGE,		new FluidStack(500, Fluids.INK_ORANGE));
+		recipes.put(KEY_MAGENTA,	new FluidStack(500, Fluids.INK_MAGENTA));
+		recipes.put(KEY_LIGHTBLUE,	new FluidStack(500, Fluids.INK_LIGHT_BLUE));
+		recipes.put(KEY_YELLOW,		new FluidStack(500, Fluids.INK_YELLOW));
+		recipes.put(KEY_LIME,		new FluidStack(500, Fluids.INK_LIME));
+		recipes.put(KEY_PINK,		new FluidStack(500, Fluids.INK_PINK));
+		recipes.put(KEY_GRAY,		new FluidStack(500, Fluids.INK_GRAY));
+		recipes.put(KEY_LIGHTGRAY,	new FluidStack(500, Fluids.INK_LIGHT_GRAY));
+		recipes.put(KEY_CYAN,		new FluidStack(500, Fluids.INK_CYAN));
+		recipes.put(KEY_PURPLE,		new FluidStack(500, Fluids.INK_PURPLE));
+		recipes.put(KEY_BLUE,		new FluidStack(500, Fluids.INK_BLUE));
+		recipes.put(KEY_BROWN,		new FluidStack(500, Fluids.INK_BROWN));
+		recipes.put(KEY_GREEN,		new FluidStack(500, Fluids.INK_GREEN));
+		recipes.put(KEY_RED,		new FluidStack(500, Fluids.INK_RED));
+		recipes.put(KEY_BLACK,		new FluidStack(500, Fluids.INK_BLACK));
 	}
 
 	public static FluidStack getOutput(ItemStack stack) {

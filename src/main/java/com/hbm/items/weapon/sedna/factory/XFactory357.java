@@ -31,6 +31,7 @@ public class XFactory357 {
 	public static BulletConfig m357_ap;
 	public static BulletConfig m357_express;
 	public static BulletConfig m357_desh;
+	public static BulletConfig m357_magnetic;
 	public static BulletConfig m357_laced;
 
 	public static void init() {
@@ -40,6 +41,7 @@ public class XFactory357 {
 		m357_jhp = new BulletConfig().setItem(EnumAmmo.M357_JHP).setCasing(EnumCasingType.SMALL, 8).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F);
 		m357_ap = new BulletConfig().setItem(EnumAmmo.M357_AP).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(5F).setArmorPiercing(0.15F);
 		m357_desh = new BulletConfig().setItem(EnumAmmo.M357_DESH).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.5F).setRicochetAngle(90F).setRicochetCount(100).setLife(800);
+		m357_magnetic = new BulletConfig().setItem(EnumAmmo.M357_MAGNETIC).setDamage(1.0F).setVel(6F).setLife(600).setRicochetAngle(90F).setRicochetCount(100).setOnUpdate(BulletConfig.LAMBDA_MAGNETIC_HOMING);
 		m357_laced = new BulletConfig().setItem(EnumAmmo.M357_LACED).setCasing(EnumCasingType.SMALL, 8).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
 		m357_express = new BulletConfig().setItem(EnumAmmo.M357_EXPRESS).setCasing(EnumCasingType.SMALL, 8).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(2F).setArmorPiercing(0.1F).setWear(1.5F);
 
@@ -47,7 +49,7 @@ public class XFactory357 {
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(7.5F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced))
+						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced, m357_magnetic))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
 				.setupStandardConfiguration()
@@ -57,7 +59,7 @@ public class XFactory357 {
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12.5F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced))
+						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced, m357_magnetic))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
 				.setupStandardConfiguration()
@@ -67,7 +69,7 @@ public class XFactory357 {
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.1F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced))
+						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced, m357_magnetic))
 						.offset(0.75, -0.0625, 0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
@@ -76,7 +78,7 @@ public class XFactory357 {
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 0.9F)
-						.mag(new MagazineFullReload(1, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced))
+						.mag(new MagazineFullReload(1, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express, m357_desh, m357_laced, m357_magnetic))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)

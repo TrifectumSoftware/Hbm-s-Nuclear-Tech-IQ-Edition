@@ -181,7 +181,8 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 	}
 
 	public enum ConnectionType {
-		SMALL
+		SMALL,
+		LARGE
 	}
 
 	@Override

@@ -123,6 +123,17 @@ public class MKUCraftingHandler implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return new ItemStack(ModItems.syringe_mkunicorn);
+		ItemStack stack = new ItemStack(ModItems.syringe);
+		com.hbm.items.tool.ItemFluidSyringe syringe = (com.hbm.items.tool.ItemFluidSyringe) ModItems.syringe;
+		syringe.setFill(stack, com.hbm.inventory.fluid.Fluids.HUMAN_BLOOD, syringe.getMaxFill());
+
+		net.minecraft.nbt.NBTTagList list = new net.minecraft.nbt.NBTTagList();
+		net.minecraft.nbt.NBTTagCompound entry = new net.minecraft.nbt.NBTTagCompound();
+		entry.setString("frame", "mku");
+		entry.setFloat("amount", 100F);
+		list.appendTag(entry);
+		stack.stackTagCompound.setTag("pathogen", list);
+
+		return stack;
 	}
 }

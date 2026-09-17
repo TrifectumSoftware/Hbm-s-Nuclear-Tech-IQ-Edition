@@ -217,6 +217,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 				this.decrStackSize(12, output.stackSize);
 				slots[13] = output;
 				slots[13].stackTagCompound.removeTag("ntmContagion");
+				slots[13].stackTagCompound.removeTag(com.hbm.handler.contagion.ItemContagion.KEY);
 				if(slots[13].stackTagCompound.hasNoTags()) {
 					slots[13].stackTagCompound = null;
 				}
@@ -225,6 +226,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 				slots[13].stackSize += output.stackSize;
 				if(slots[13].hasTagCompound()) { // redundant but just to be sure
 					slots[13].stackTagCompound.removeTag("ntmContagion");
+					slots[13].stackTagCompound.removeTag(com.hbm.handler.contagion.ItemContagion.KEY);
 					if(slots[13].stackTagCompound.hasNoTags()) {
 						slots[13].stackTagCompound = null;
 					}
@@ -237,6 +239,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		if(slots[12] == null) return false;
 		if(!slots[12].hasTagCompound()) return false;
 		if(!slots[12].getTagCompound().getBoolean("ntmContagion")) return false;
+		if(!com.hbm.handler.contagion.ItemContagion.hasFrames(slots[12])) return false;
 		return true;
 	}
 

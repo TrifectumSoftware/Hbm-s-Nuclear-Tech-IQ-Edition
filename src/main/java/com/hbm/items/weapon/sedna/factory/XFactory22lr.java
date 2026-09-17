@@ -36,6 +36,7 @@ public class XFactory22lr {
 	public static BulletConfig p22_jhp;
 	public static BulletConfig p22_ap;
 	public static BulletConfig p22_desh;
+	public static BulletConfig p22_magnetic;
 	public static BulletConfig p22_laced;
 
 	public static void init() {
@@ -50,13 +51,14 @@ public class XFactory22lr {
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22ap"));
 		p22_desh = new BulletConfig().setItem(EnumAmmo.P22_DESH).setCasing(EnumCasingType.SMALL_STEEL, 24).setKnockback(0F).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.5F).setRicochetAngle(90F).setRicochetCount(100).setLife(800)
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22desh"));
-			p22_laced = new BulletConfig().setItem(EnumAmmo.P22_LACED).setCasing(EnumCasingType.SMALL, 24).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
+			p22_magnetic = new BulletConfig().setItem(EnumAmmo.P22_MAGNETIC).setDamage(1.0F).setVel(6F).setLife(600).setRicochetAngle(90F).setRicochetCount(100).setOnUpdate(BulletConfig.LAMBDA_MAGNETIC_HOMING);
+		p22_laced = new BulletConfig().setItem(EnumAmmo.P22_LACED).setCasing(EnumCasingType.SMALL, 24).setDamage(1F).setLaced().setOnEntityHit(BulletConfig.LAMBDA_LACED_ENTITY_HIT);
 
 		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(2F).delay(1).dry(10).auto(true).spread(0.01F).reload(66).jam(30).sound(NTMSounds.GUN_GREASEGUN_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced))
+						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced, p22_magnetic))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AM180))
 				.setupStandardConfiguration()
@@ -68,7 +70,7 @@ public class XFactory22lr {
 				.dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound(NTMSounds.GUN_STARF_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced))
+						.mag(new MagazineFullReload(0, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced, p22_magnetic))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))
 				.setupStandardConfiguration()
@@ -80,7 +82,7 @@ public class XFactory22lr {
 				new GunConfig().dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound(NTMSounds.GUN_STARF_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced))
+						.mag(new MagazineFullReload(0, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced, p22_magnetic))
 						.offset(1, -0.0625 * 1.5, 0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
@@ -89,7 +91,7 @@ public class XFactory22lr {
 				new GunConfig().dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound(NTMSounds.GUN_STARF_FIRE, 1.0F, 1.0F)
-						.mag(new MagazineFullReload(1, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced))
+						.mag(new MagazineFullReload(1, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap, p22_desh, p22_laced, p22_magnetic))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)

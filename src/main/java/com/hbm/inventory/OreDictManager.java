@@ -190,7 +190,7 @@ public class OreDictManager {
 	public static final DictFrame W = new DictFrame("Tungsten");
 	public static final DictFrame WC = new DictFrame("TungstenCarbide");
 	/** ALUMINUM */
-	public static final DictFrame AL = new DictFrame("Aluminum");
+	public static final DictFrame AL = new DictFrame("Aluminum", "Aluminium");
 	public static final DictFrame STEEL = new DictFrame("Steel");
 	public static final DictFrame STAINLESS = new DictFrame("StainlessSteel");
 	/** TECHNETIUM STEEL */
@@ -218,6 +218,8 @@ public class OreDictManager {
 	public static final DictFrame BE = new DictFrame("Beryllium");
 	/** COBALT */
 	public static final DictFrame CO = new DictFrame("Cobalt");
+	/** VANADIUM */
+	public static final DictFrame V = new DictFrame("Vanadium");
 	/** BORON */
 	public static final DictFrame B = new DictFrame("Boron");
 	/** SILICON */
@@ -268,6 +270,7 @@ public class OreDictManager {
 	public static final DictFrame COALCOKE = new DictFrame("CoalCoke");
 	public static final DictFrame PETCOKE = new DictFrame("PetCoke");
 	public static final DictFrame LIGCOKE = new DictFrame("LigniteCoke");
+	public static final DictFrame HEMPCOKE = new DictFrame("HempCoke");
 	public static final DictFrame CINNABAR = new DictFrame("Cinnabar");
 	public static final DictFrame BORAX = new DictFrame("Borax");
 	public static final DictFrame CHLOROCALCITE = new DictFrame("Chlorocalcite");
@@ -441,6 +444,7 @@ public class OreDictManager {
 		 * STABLE
 		 */
 		NI																	.ingot(ingot_nickel)												.dust(powder_nickel)            .plate(plate_nickel) 			.block(block_nickel)		.oreAll(ore_nickel) 												.nugget(nugget_nickel);
+		MIN																	.dust(mineral_dust)												.oreAll(ore_mineral);
 		NIM																	.dust(fromOne(chunk_ore, EnumChunkType.PENTLANDITE)); // dust selected for compat reasons
 		TI																	.ingot(ingot_titanium)												.dust(powder_titanium)			.plate(plate_titanium)			.block(block_titanium)		.oreAll(ore_titanium);
 		CU																	.ingot(ingot_copper)												.dust(powder_copper)			.plate(plate_copper)			.block(block_copper)		.ore(ore_gneiss_copper) .oreAll(ore_copper);
@@ -466,6 +470,7 @@ public class OreDictManager {
 		NB			.nugget(nugget_niobium, fragment_niobium)				.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium)		.oreAll(ore_niobium);
 		BE			.nugget(nugget_beryllium)	.billet(billet_beryllium)	.ingot(ingot_beryllium)												.dust(powder_beryllium)											.block(block_beryllium)		.oreAll(ore_beryllium);
 		CO			.nugget(fragment_cobalt)	.nugget(nugget_cobalt)		.billet(billet_cobalt)			.ingot(ingot_cobalt)				.dust(powder_cobalt)			.dustSmall(powder_cobalt_tiny)	.block(block_cobalt)		.ore(ore_nether_cobalt)	.oreAll(ore_cobalt);
+		V			.nugget(nugget_vanadium)								.ingot(ingot_vanadium)																	.dust(powder_vanadium);
 		B			.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
 		SI			.nugget(nugget_silicon)		.billet(billet_silicon)		.ingot(ingot_silicon);
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
@@ -511,6 +516,7 @@ public class OreDictManager {
 		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))			.dust(fromOne(powder_coke, EnumCokeType.COAL))		.block(fromOne(block_coke, EnumCokeType.COAL));
 		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))		.dust(fromOne(powder_coke, EnumCokeType.PETROLEUM))	.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
 		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))		.dust(fromOne(powder_coke, EnumCokeType.LIGNITE))	.block(fromOne(block_coke, EnumCokeType.LIGNITE));
+		HEMPCOKE						.gem(fromOne(coke, EnumCokeType.HEMP))			.dust(fromOne(powder_coke, EnumCokeType.HEMP))		.block(fromOne(block_coke, EnumCokeType.HEMP));
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_depth_cinnebar) .oreAll(ore_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
 		CHLOROCALCITE																	.dust(powder_chlorocalcite);
@@ -824,6 +830,17 @@ public class OreDictManager {
 		OreDictionary.registerOre("crystalOsmiridium", crystal_osmiridium);
 		OreDictionary.registerOre("crystalCinnebar", crystal_cinnebar);
 
+		// aliases so the <frame>.crystal() helpers resolve for frames whose primary material
+		// name differs from the registered crystal ore name
+		OreDictionary.registerOre("crystalRedPhosphorus", crystal_phosphorus);
+		OreDictionary.registerOre("crystalSaltpeter", crystal_niter);
+		OreDictionary.registerOre("crystalNickelPure", crystal_nickel);
+		OreDictionary.registerOre("crystalAluminum", crystal_aluminium);
+		OreDictionary.registerOre("crystalRareEarth", crystal_rare);
+		OreDictionary.registerOre("crystalThorium232", crystal_thorium);
+		OreDictionary.registerOre("crystalCinnabar", crystal_cinnebar);
+		OreDictionary.registerOre("crystalUraninite", crystal_uranium);
+
 		OreDictionary.registerOre("CoalCrystal", crystal_coal);
 		OreDictionary.registerOre("IronCrystal", crystal_iron);
 		OreDictionary.registerOre("GoldCrystal", crystal_gold);
@@ -869,6 +886,23 @@ public class OreDictManager {
 		String[] crystalBlockNames = { "Coal", "Iron", "Gold", "Redstone", "Lapis", "Diamond", "Uranium", "Thorium", "Plutonium", "Titanium", "Sulfur", "Niter", "Copper", "Tungsten", "Aluminium", "Fluorite", "Beryllium", "Lead", "Schraranium", "Schrabidium", "Rare", "Phosphorus", "Trixite", "Lithium", "Cobalt", "Mineral", "Nickel", "Niobium", "Zinc", "Osmiridium", "Cinnebar", "Starmetal" };
 		for(int i = 0; i < crystalBlockNames.length; i++) {
 			OreDictionary.registerOre("crystalBlock" + crystalBlockNames[i], i < 16 ? new ItemStack(block_crystal, 1, i) : new ItemStack(block_crystal_2, 1, i - 16));
+		}
+
+		String[] rawOreNames = { "Iron", "Gold", "Copper", "Titanium", "Thorium", "Morkite", "Nickel", "Mineral", "Zinc", "Lithium", "Niobium", "Palladium", "Iodine", "Arsenic", "Cadmium", "Tungsten", "Aluminium", "Lead", "Beryllium", "Silicon", "Australium", "Lanthanium", "Uranium", "Schrabidium" };
+		for(int i = 0; i < rawOreNames.length; i++) {
+			OreDictionary.registerOre("ore" + rawOreNames[i], new ItemStack(ModItems.raw_ore, 1, i));
+			if("Aluminium".equals(rawOreNames[i])) {
+				OreDictionary.registerOre("oreAluminum", new ItemStack(ModItems.raw_ore, 1, i));
+			}
+		}
+
+		String[] rawOreBlockNames = { "Iron", "Gold", "Copper", "Titanium", "Thorium", "Morkite", "Nickel", "Mineral", "Zinc", "Lithium", "Niobium", "Palladium", "Iodine", "Arsenic", "Cadmium", "Tungsten", "Aluminium", "Lead", "Beryllium", "Silicon", "Australium", "Lanthanium", "Uranium", "Schrabidium" };
+		for(int i = 0; i < rawOreBlockNames.length; i++) {
+			ItemStack stack = i < 16 ? new ItemStack(block_raw_ore, 1, i) : new ItemStack(block_raw_ore_2, 1, i - 16);
+			OreDictionary.registerOre("rawOreBlock" + rawOreBlockNames[i], stack);
+			if("Aluminium".equals(rawOreBlockNames[i])) {
+				OreDictionary.registerOre("rawOreBlockAluminum", stack);
+			}
 		}
 	}
 

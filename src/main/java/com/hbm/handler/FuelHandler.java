@@ -35,7 +35,7 @@ public class FuelHandler implements IFuelHandler {
 		if(fuel.getItem() == ModItems.powder_fire)							return 6400;
 		if(fuel.getItem() == ModItems.lignite)								return 1200;
 		if(fuel.getItem() == ModItems.powder_lignite)						return 1200;
-		if(fuel.getItem() == ModItems.coke)									return single * 16;
+		if(fuel.getItem() == ModItems.coke)									return fuel.getItemDamage() == com.hbm.items.ItemEnums.EnumCokeType.HEMP.ordinal() ? 960 : single * 16;
 		if(fuel.getItem() == ModItems.powder_coke)							return single * 16;
 		if(fuel.getItem() == Item.getItemFromBlock(ModBlocks.block_coke))	return single * 160;
 		if(fuel.getItem() == ModItems.book_guide)							return single;

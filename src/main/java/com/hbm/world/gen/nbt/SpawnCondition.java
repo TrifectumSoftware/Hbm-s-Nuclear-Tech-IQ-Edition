@@ -39,6 +39,13 @@ public class SpawnCondition {
 	public Predicate<BiomeGenBase> canSpawn;
 
 	/**
+	 * Additional coordinate-based check that runs in the grid-spaced spawn path.
+	 * Unlike checkCoordinates, this does NOT route to customSpawnMap.
+	 * Use this to validate surrounding terrain without breaking grid spacing.
+	 */
+	public Predicate<WorldCoordinate> canSpawnAt;
+
+	/**
 	 * The chance of this structure spawning relative to others,
 	 * higher weights will spawn more often.
 	 */

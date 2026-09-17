@@ -60,10 +60,11 @@ public class CrackingRecipes extends SerializableRecipe {
 		cracking.put(Fluids.BIOGAS,				new Pair(new FluidStack(Fluids.PETROLEUM,		20),				new FluidStack(Fluids.AROMATICS,	20)));
 		cracking.put(Fluids.CBENZ,				new Pair(new FluidStack(Fluids.AROMATICS,	50),					new FluidStack(Fluids.CHLORINE,	30)));
 		cracking.put(Fluids.BRIMSTONE,				new Pair(new FluidStack(Fluids.BRIMTUMEN,	50),					new FluidStack(Fluids.LAVA,			40)));
-		cracking.put(Fluids.VERDIGRIS,				new Pair(new FluidStack(Fluids.COPPERSULFATE, 55),				new FluidStack(Fluids.GALL,			35)));
+		cracking.put(Fluids.VERDIGRIS,				new Pair(new FluidStack(Fluids.CHEVREUL_SALT, 55),				new FluidStack(Fluids.GALL,			35)));
 		cracking.put(Fluids.BLOOD_OF_THE_MARTYR,	new Pair(new FluidStack(Fluids.OXYGEN,		30),					new FluidStack(Fluids.HAEMOGLOBIN,	60)));
 		cracking.put(Fluids.BLOAT_PUS,				new Pair(new FluidStack(Fluids.BLOATMUSK,	55),					new FluidStack(Fluids.BLOATSPIRIT,	40)));
 		cracking.put(Fluids.GALL,					new Pair(new FluidStack(Fluids.BLOAT_PUS,	50),					new FluidStack(Fluids.GALL,			50)));
+		cracking.put(Fluids.GANJA,					new Pair(new FluidStack(Fluids.AROMATICS,	60),					new FluidStack(Fluids.BIOGAS,		40)));
 
 	}
 	

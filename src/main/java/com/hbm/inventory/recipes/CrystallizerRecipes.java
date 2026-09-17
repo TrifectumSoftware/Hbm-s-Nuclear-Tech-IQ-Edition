@@ -17,6 +17,7 @@ import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.NBTStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -29,6 +30,7 @@ import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.items.machine.ItemChemicalDye.EnumChemDye;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemScraps;
@@ -92,7 +94,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(new OreDictStack(ZI.ore()),		new CrystallizerRecipe(ModItems.crystal_zinc, baseTime).prod(0.05F), nitric);
 
 		registerRecipe(new OreDictStack(NB.ore()),		new CrystallizerRecipe(ModItems.crystal_niobium, baseTime).prod(0.05F), sulfur);
-		registerRecipe((new ComparableStack(ModBlocks.ore_mineral, 1, OreDictionary.WILDCARD_VALUE)),		new CrystallizerRecipe(ModItems.crystal_mineral, baseTime).prod(0.05F)); //temp
+		registerRecipe(new OreDictStack(MIN.ore()),		new CrystallizerRecipe(ModItems.crystal_mineral, baseTime).prod(0.05F));
 
 		registerRecipe(new ComparableStack(ModItems.powder_calcium),	new CrystallizerRecipe(new ItemStack(ModItems.powder_cement, 8), utilityTime).prod(0.1F), new FluidStack(Fluids.REDMUD, 75));
 		registerRecipe(new OreDictStack(MALACHITE.ingot()),				new CrystallizerRecipe(ItemScraps.create(new MaterialStack(Mats.MAT_COPPER, MaterialShapes.INGOT.q(1))), 300).prod(0.1F), new FluidStack(Fluids.SULFURIC_ACID, 250));
@@ -135,7 +137,11 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(new ComparableStack(ModItems.powder_sawdust),	new CrystallizerRecipe(ModItems.cordite, mixingTime).prod(0.25F), new FluidStack(Fluids.NITROGLYCERIN, 250));
 		registerRecipe(new ComparableStack(ModBlocks.rebar),			new CrystallizerRecipe(ModBlocks.concrete_rebar, 10), new FluidStack(Fluids.CONCRETE, 1_000));
 
-		registerRecipe(new ComparableStack(ModItems.meteorite_sword_treated),	new CrystallizerRecipe(ModItems.meteorite_sword_etched, baseTime));
+		registerRecipe(new ComparableStack(ModItems.meteorite_sword[6]),		new CrystallizerRecipe(new ItemStack(ModItems.meteorite_sword[7]), baseTime));
+		registerRecipe(new ComparableStack(ModItems.meteorite_pickaxe[6]),	new CrystallizerRecipe(new ItemStack(ModItems.meteorite_pickaxe[7]), baseTime));
+		registerRecipe(new ComparableStack(ModItems.meteorite_axe[6]),		new CrystallizerRecipe(new ItemStack(ModItems.meteorite_axe[7]), baseTime));
+		registerRecipe(new ComparableStack(ModItems.meteorite_shovel[6]),	new CrystallizerRecipe(new ItemStack(ModItems.meteorite_shovel[7]), baseTime));
+		registerRecipe(new ComparableStack(ModItems.meteorite_hoe[6]),		new CrystallizerRecipe(new ItemStack(ModItems.meteorite_hoe[7]), baseTime));
 		registerRecipe(new ComparableStack(ModItems.powder_impure_osmiridium),	new CrystallizerRecipe(ModItems.crystal_osmiridium, baseTime), new FluidStack(Fluids.SCHRABIDIC, 1_000));
 		registerRecipe(new ComparableStack(ModItems.saltleaf),	new CrystallizerRecipe(ModItems.gem_sodalite, baseTime).setReq(5), new FluidStack(Fluids.SCUTTERBLOOD, 1_000));
 		registerRecipe(new OreDictStack(MALACHITE.ingot()), new CrystallizerRecipe(ModItems.crystal_copper, baseTime).prod(0.1F), new FluidStack(Fluids.COPPERSULFATE, 350));
@@ -272,6 +278,8 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		}
 
 		registerRecipe(new ComparableStack(ModBlocks.moon_turf), new CrystallizerRecipe(new ItemStack(ModItems.chunk_ore, 1, EnumChunkType.MOONSTONE.ordinal()), 1200).setReq(16));
+
+		registerRecipe(new ComparableStack(ModItems.powder_calcium, 4), new CrystallizerRecipe(ModItems.powder_vanadium, 200), new FluidStack(Fluids.SODIUM_METAVANADATE, 1000));
 	}
 
 	public static CrystallizerRecipe getOutput(ItemStack stack, FluidType type) {

@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.PotionConfig;
 import com.hbm.config.ServerConfig;
+import com.hbm.entity.effect.EntityGreenLightning;
+import com.hbm.entity.effect.EntityRedLightning;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.explosion.ExplosionLarge;
@@ -13,6 +15,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.ResourceManager;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -22,6 +25,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
@@ -59,6 +63,26 @@ public class HbmPotion extends Potion {
 	public static HbmPotion roidRage;
 	public static HbmPotion wobble;
 
+	//symptoms
+	public static HbmPotion symptomFever;
+	public static HbmPotion symptomCough;
+	public static HbmPotion symptomSneeze;
+	public static HbmPotion symptomSchizophrenia;
+	public static HbmPotion symptomParalysis;
+	public static HbmPotion symptomHemorrhage;
+	public static HbmPotion symptomSeptic;
+	public static HbmPotion symptomComa;
+	public static HbmPotion symptomRash;
+	public static HbmPotion symptomVomit;
+	public static HbmPotion symptomSeizure;
+	public static HbmPotion symptomAortic;
+	public static HbmPotion symptomNecrosis;
+	public static HbmPotion symptomCardiac;
+
+	//drugs
+	public static HbmPotion turkishRage;
+	public static HbmPotion ganja;
+
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
 	}
@@ -84,6 +108,26 @@ public class HbmPotion extends Potion {
 		roidRage = registerPotion(PotionConfig.roidRageID, false, 0xFF4444, "potion.hbm_roid_rage", 0, 2);
 		medx = registerPotion(PotionConfig.medxID, false, 0x8888FF, "potion.hbm_medx", 1, 2);
 		wobble = registerPotion(PotionConfig.wobbleID, false, 0xFFD800, "potion.hbm_wobble", 3, 2);
+
+	/// SYMPTOMS
+		symptomRash = registerPotion(PotionConfig.symptomRashID, true, 0xFF8899, "potion.hbm_symptom_rash", 0, 0);
+		symptomCough = registerPotion(PotionConfig.symptomCoughID, true, 0xCCCCBB, "potion.hbm_symptom_cough", 1, 0);
+		symptomSneeze = registerPotion(PotionConfig.symptomSneezeID, true, 0xFFFFFF, "potion.hbm_symptom_sneeze", 13, 0);
+		symptomFever = registerPotion(PotionConfig.symptomFeverID, true, 0xFF4422, "potion.hbm_symptom_fever", 2, 0);
+		symptomVomit = registerPotion(PotionConfig.symptomVomitID, true, 0xAA8844, "potion.hbm_symptom_vomit", 3, 0);
+		symptomSchizophrenia = registerPotion(PotionConfig.symptomSchizophreniaID, true, 0xAA44FF, "potion.hbm_symptom_schizophrenia", 4, 0);
+		symptomHemorrhage = registerPotion(PotionConfig.symptomHemorrhageID, true, 0xCC2222, "potion.hbm_symptom_hemorrhage", 5, 0);
+		symptomParalysis = registerPotion(PotionConfig.symptomParalysisID, true, 0x888888, "potion.hbm_symptom_paralysis", 6, 0);
+		symptomSeizure = registerPotion(PotionConfig.symptomSeizureID, true, 0xFF88FF, "potion.hbm_symptom_seizure", 7, 0);
+		symptomSeptic = registerPotion(PotionConfig.symptomSepticID, true, 0x445522, "potion.hbm_symptom_septic", 8, 0);
+		symptomComa = registerPotion(PotionConfig.symptomComaID, true, 0x222244, "potion.hbm_symptom_coma", 9, 0);
+		symptomAortic = registerPotion(PotionConfig.symptomAorticID, true, 0xFF0000, "potion.hbm_symptom_aortic", 10, 0);
+		symptomNecrosis = registerPotion(PotionConfig.symptomNecrosisID, true, 0x222222, "potion.hbm_symptom_necrosis", 11, 0);
+		symptomCardiac = registerPotion(PotionConfig.symptomCardiacID, true, 0x4444FF, "potion.hbm_symptom_cardiac", 12, 0);
+
+		//sillies
+		turkishRage = registerPotion(PotionConfig.turkishRageID, false, 0xFF0000, "potion.hbm_turkish_rage", 4, 2);
+		ganja = registerPotion(PotionConfig.ganjaID, false, 0x3A5F0B, "potion.hbm_high", 5, 2);
 
 	}
 
@@ -119,9 +163,51 @@ public class HbmPotion extends Potion {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getStatusIconIndex() {
-		ResourceLocation loc = new ResourceLocation("hbm","textures/gui/potions.png");
+		ResourceLocation loc = new ResourceLocation("hbm", "textures/gui/potions.png");
 		Minecraft.getMinecraft().renderEngine.bindTexture(loc);
+		if(isSymptom()) return 100;
 		return super.getStatusIconIndex();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public boolean isSymptom() {
+		return this == symptomFever || this == symptomCough || this == symptomSneeze || this == symptomSchizophrenia
+				|| this == symptomParalysis || this == symptomHemorrhage || this == symptomSeptic || this == symptomComa
+				|| this == symptomRash || this == symptomVomit || this == symptomSeizure
+				|| this == symptomAortic || this == symptomNecrosis || this == symptomCardiac;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int[] getEffectCell() {
+		if(this == symptomCardiac) return new int[] {0, 0};
+		if(this == symptomComa) return new int[] {18, 0};
+		if(this == symptomCough) return new int[] {36, 0};
+		if(this == symptomFever) return new int[] {54, 0};
+		if(this == symptomNecrosis) return new int[] {0, 18};
+		if(this == symptomParalysis) return new int[] {18, 18};
+		if(this == symptomRash) return new int[] {36, 18};
+		if(this == symptomSchizophrenia) return new int[] {54, 18};
+		if(this == symptomSeizure) return new int[] {0, 36};
+		if(this == symptomSeptic) return new int[] {18, 36};
+		if(this == symptomSneeze) return new int[] {36, 36};
+		if(this == symptomVomit) return new int[] {54, 36};
+		if(this == symptomHemorrhage) return new int[] {0, 54};
+		if(this == symptomAortic) return new int[] {18, 54};
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc) {
+		if(isSymptom()) {
+			int[] cell = getEffectCell();
+			if(cell != null) {
+				mc.renderEngine.bindTexture(ResourceManager.effect_icons);
+				Gui.func_146110_a(x + 6, y + 7, (float)cell[0], (float)cell[1], 18, 18, 72.0F, 72.0F);
+			}
+			return;
+		}
+		super.renderInventoryEffect(x, y, effect, mc);
 	}
 
 	public void performEffect(EntityLivingBase entity, int level) {
@@ -210,6 +296,24 @@ public class HbmPotion extends Potion {
 		if(this == stimulated) {
 			entity.heal((level + 1) * 2);
 		}
+
+		if(this == turkishRage && entity.ticksExisted % 200 == 0) {
+			entity.worldObj.spawnEntityInWorld(new EntityRedLightning(entity.worldObj, entity.posX, entity.posY, entity.posZ));
+			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "ambient.weather.thunder", 100.0F, 0.8F + entity.worldObj.rand.nextFloat() * 0.2F);
+		}
+		if(this == ganja && entity.ticksExisted % 200 == 0) {
+			entity.worldObj.spawnEntityInWorld(new EntityGreenLightning(entity.worldObj, entity.posX, entity.posY, entity.posZ));
+			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "ambient.weather.thunder", 100.0F, 0.8F + entity.worldObj.rand.nextFloat() * 0.2F);
+		}
+
+		//symptoms are markers only - their downsides apply in HbmBloodstreamProps.tick (safe, post-potion-iteration).
+		//NEVER addPotionEffect/attackEntityFrom-lethal here: performEffect runs inside vanilla's potion map iteration.
+		if(this == symptomFever || this == symptomCough || this == symptomSneeze || this == symptomSchizophrenia
+				|| this == symptomParalysis || this == symptomHemorrhage || this == symptomSeptic || this == symptomComa
+				|| this == symptomRash || this == symptomVomit || this == symptomSeizure
+				|| this == symptomAortic || this == symptomNecrosis || this == symptomCardiac) {
+			// handled in HbmBloodstreamProps.tick
+		}
 	}
 
 	public boolean isReady(int par1, int par2) {
@@ -238,6 +342,17 @@ public class HbmPotion extends Potion {
 
 		if(this == stimulated || this == roidRage || this == medx) {
 			return par1 % 20 == 0;
+		}
+
+		if(this == turkishRage || this == ganja) {
+			return par1 % 20 == 0;
+		}
+
+		if(this == symptomFever || this == symptomCough || this == symptomSneeze || this == symptomSchizophrenia
+				|| this == symptomParalysis || this == symptomHemorrhage || this == symptomSeptic || this == symptomComa
+				|| this == symptomRash || this == symptomVomit || this == symptomSeizure
+				|| this == symptomAortic || this == symptomNecrosis || this == symptomCardiac) {
+			return par1 % 10 == 0;
 		}
 
 		return false;

@@ -193,6 +193,7 @@ public class GunFactoryClient {
 
 		setRendererBulk(LegoClient.RENDER_DESH_BULLET, m357_desh, m44_desh, p22_desh, p9_desh, p45_desh, r556_desh, r762_desh, bmg50_desh, b75_desh, g12_desh);
 		setRendererBulk(LegoClient.RENDER_LACED_BULLET, m357_laced, m44_laced, p22_laced, p9_laced, p45_laced, r556_laced, r762_laced, bmg50_laced, b75_laced, g12_laced);
+		setRendererBulk(LegoClient.RENDER_MAGNETIC_BULLET, m357_magnetic, m44_magnetic, p22_magnetic, p9_magnetic, p45_magnetic, r556_magnetic, r762_magnetic, bmg50_magnetic, b75_magnetic, g12_magnetic);
 
 		g12_sub.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g12_sub_slug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);

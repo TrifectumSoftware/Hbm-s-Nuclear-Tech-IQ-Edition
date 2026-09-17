@@ -5,7 +5,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelArmorTailPeep;
 import com.hbm.render.model.ModelArmorWings;
 import com.hbm.render.model.ModelArmorWingsPheo;
-import com.hbm.util.ShadyUtil;
+import com.hbm.util.SONUtil;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -50,6 +50,11 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation alcater = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAlcater.png");
 	private static ResourceLocation jame = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeJame.png");
 	private static ResourceLocation iris = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeIris.png");
+	private static ResourceLocation xenon = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeXenon.png");
+	private static ResourceLocation jenga = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeJenga.png");
+
+
+
 
 
 
@@ -58,98 +63,108 @@ public class RenderAccessoryUtility {
 		String uuid = player.getUniqueID().toString();
 		String name = player.getDisplayName();
 
-		if(uuid.equals(ShadyUtil.HbMinecraft)) {
+		if(uuid.equals(SONUtil.HbMinecraft)) {
 			return (MainRegistry.polaroidID == 11 ? hbm2 : hbm);
 		}
 
-		if(uuid.equals(ShadyUtil.Drillgon)) {
+		if(uuid.equals(SONUtil.Drillgon)) {
 			return drillgon;
 		}
-		if(uuid.equals(ShadyUtil.Dafnik)) {
+		if(uuid.equals(SONUtil.Dafnik)) {
 			return dafnik;
 		}
-		if(uuid.equals(ShadyUtil.LPkukin)) {
+		if(uuid.equals(SONUtil.LPkukin)) {
 			return lpkukin;
 		}
-		if(uuid.equals(ShadyUtil.LordVertice)) {
+		if(uuid.equals(SONUtil.LordVertice)) {
 			return vertice;
 		}
-		if(uuid.equals(ShadyUtil.CodeRed_)) {
+		if(uuid.equals(SONUtil.CodeRed_)) {
 			return red;
 		}
-		if(uuid.equals(ShadyUtil.dxmaster769)) {
+		if(uuid.equals(SONUtil.dxmaster769)) {
 			return ayy;
 		}
-		if(uuid.equals(ShadyUtil.Dr_Nostalgia)) {
+		if(uuid.equals(SONUtil.Dr_Nostalgia)) {
 			return nostalgia2;
 		}
-		if(uuid.equals(ShadyUtil.Samino2)) {
+		if(uuid.equals(SONUtil.Samino2)) {
 			return sam;
 		}
-		if(uuid.equals(ShadyUtil.Hoboy03new)) {
+		if(uuid.equals(SONUtil.Hoboy03new)) {
 			return hoboy;
 		}
-		if(uuid.equals(ShadyUtil.Dragon59MC)) {
+		if(uuid.equals(SONUtil.Dragon59MC)) {
 			return master;
 		}
-		if(uuid.equals(ShadyUtil.Steelcourage)) {
+		if(uuid.equals(SONUtil.Steelcourage)) {
 			return mek;
 		}
-		if(uuid.equals(ShadyUtil.ZippySqrl)) {
+		if(uuid.equals(SONUtil.ZippySqrl)) {
 			return zippy;
 		}
-		if(uuid.equals(ShadyUtil.Schrabby)) {
+		if(uuid.equals(SONUtil.Schrabby)) {
 			return schrabby;
 		}
-		if(uuid.equals(ShadyUtil.SweatySwiggs)) {
+		if(uuid.equals(SONUtil.SweatySwiggs)) {
 			return swiggs;
 		}
-		if(uuid.equals(ShadyUtil.Doctor17) || uuid.equals(ShadyUtil.Doctor17PH)) {
+		if(uuid.equals(SONUtil.Doctor17) || uuid.equals(SONUtil.Doctor17PH)) {
 			return doctor17;
 		}
-		if(uuid.equals(ShadyUtil.ShimmeringBlaze)) {
+		if(uuid.equals(SONUtil.ShimmeringBlaze)) {
 			return (MainRegistry.polaroidID == 11 ? blaze2 : shimmeringblaze);
 		}
-		if(uuid.equals(ShadyUtil.FifeMiner)) {
+		if(uuid.equals(SONUtil.FifeMiner)) {
 			return leftnugget;
 		}
-		if(uuid.equals(ShadyUtil.lag_add)) {
+		if(uuid.equals(SONUtil.lag_add)) {
 			return rightnugget;
 		}
-		if(uuid.equals(ShadyUtil.Tankish)) {
+		if(uuid.equals(SONUtil.Tankish)) {
 			return tankish;
 		}
-		if(uuid.equals(ShadyUtil.FrizzleFrazzle)) {
+		if(uuid.equals(SONUtil.FrizzleFrazzle)) {
 			return frizzlefrazzle;
 		}
-		/*if(uuid.equals(ShadyUtil.Barnaby99_x)) {
+		/*if(uuid.equals(SONUtil.Barnaby99_x)) {
 			return pheo;
 		}*/
-		if(uuid.equals(ShadyUtil.Ma118)) {
+		if(uuid.equals(SONUtil.Ma118)) {
 			return vaer;
 		}
-		if(uuid.equals(ShadyUtil.Adam29Adam29)) {
+		if(uuid.equals(SONUtil.Adam29Adam29)) {
 			return adam;
 		}
-		if(uuid.equals(ShadyUtil.Alcater)) {
+		if(uuid.equals(SONUtil.Alcater)) {
 			return alcater;
 		}
-		if(uuid.equals(ShadyUtil.ege444)) {
+		if(uuid.equals(SONUtil.ege444)) {
 			return jame;
 		}
-		if(ShadyUtil.contributors.contains(uuid)) {
+		if(SONUtil.contributors.contains(uuid)) {
 			return wiki;
 		}
-		if(uuid.equals(ShadyUtil.DUODEC_)) {
+		if(uuid.equals(SONUtil.DUODEC_)) {
 			return gwen;
 		}
-		if(uuid.equals(ShadyUtil.MellowRPG8)) {
+		if(uuid.equals(SONUtil.MellowRPG8)) {
 			return mlow;
 		}
 		// iq edition contributors
-		if(uuid.equals(ShadyUtil.Iristhepianist)) {
+		if(uuid.equals(SONUtil.Iristhepianist)) {
 			return iris;
 		}
+        // xenon birthday
+		if(uuid.equals(SONUtil.xenonio)) {
+			return xenon;
+		}
+
+		if(uuid.equals(SONUtil.jengatower)) {
+			return jenga;
+		}
+
+
 
 
 		return null;

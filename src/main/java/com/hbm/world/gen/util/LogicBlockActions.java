@@ -6,6 +6,10 @@ import com.hbm.blocks.generic.BlockSkeletonHolder;
 import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.missile.EntityMissileTier2;
+import com.hbm.entity.mob.EntityCyberCrab;
+import com.hbm.entity.mob.EntityTeslaCrab;
+import com.hbm.entity.mob.EntityTaintCrab;
+import com.hbm.entity.mob.EntityCreeperPhosgene;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.entity.mob.ai.EntityAIFireGun;
 import com.hbm.items.ItemEnums;
@@ -27,6 +31,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -165,6 +171,7 @@ public class LogicBlockActions {
 				EntityZombie mob = new EntityZombie(world);
 				mob.setPositionAndRotation(x + 0.5 + vec.xCoord, world.getHeightValue(x,z), z + 0.5 + vec.zCoord, i * 36F, 0);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdv, new Random());
+				if(world.rand.nextInt(4) == 0) mob.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
 				world.spawnEntityInWorld(mob);
 
 				vec.rotateAroundYDeg(36D);
@@ -251,6 +258,7 @@ public class LogicBlockActions {
 				EntityZombie mob = new EntityZombie(world);
 				mob.setPositionAndRotation(x, y, z, 0, 0);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolCommon, new Random());
+				if(world.rand.nextInt(4) == 0) mob.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
 				world.spawnEntityInWorld(mob);
 				world.setBlock(x, y, z, Blocks.air);
 			}
@@ -267,9 +275,74 @@ public class LogicBlockActions {
 				EntityZombie mob = new EntityZombie(world);
 				mob.setPositionAndRotation(x, y, z, 0, 0);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdv, new Random());
+				if(world.rand.nextInt(4) == 0) mob.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
 				world.spawnEntityInWorld(mob);
 				world.setBlock(x, y, z, Blocks.air);
 			}
+		}
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> CYBERCRAB_WAVE = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		if (tile.phase == 1) {
+			Vec3NT vec = new Vec3NT(3, 0, 0);
+			for (int i = 0; i < 5; i++) {
+				EntityCyberCrab mob = new EntityCyberCrab(world);
+				mob.setPositionAndRotation(x + 0.5 + vec.xCoord, world.getHeightValue(x, z), z + 0.5 + vec.zCoord, i * 72F, 0);
+				world.spawnEntityInWorld(mob);
+				vec.rotateAroundYDeg(72D);
+			}
+			world.setBlock(x, y, z, ModBlocks.block_steel);
+		}
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> TESLACRAB_WAVE = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		if (tile.phase == 1) {
+			Vec3NT vec = new Vec3NT(3, 0, 0);
+			for (int i = 0; i < 2; i++) {
+				EntityTeslaCrab mob = new EntityTeslaCrab(world);
+				mob.setPositionAndRotation(x + 0.5 + vec.xCoord, world.getHeightValue(x, z), z + 0.5 + vec.zCoord, i * 180F, 0);
+				world.spawnEntityInWorld(mob);
+				vec.rotateAroundYDeg(180D);
+			}
+			world.setBlock(x, y, z, ModBlocks.block_steel);
+		}
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> TAINTCRAB_SPAWN = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		if (tile.phase == 1) {
+			EntityTaintCrab mob = new EntityTaintCrab(world);
+			mob.setPositionAndRotation(x + 0.5, world.getHeightValue(x, z), z + 0.5, 0, 0);
+			world.spawnEntityInWorld(mob);
+			world.setBlock(x, y, z, ModBlocks.block_steel);
+		}
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> PHOSGENE_WAVE = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		if (tile.phase == 1) {
+			Vec3NT vec = new Vec3NT(3, 0, 0);
+			for (int i = 0; i < 2; i++) {
+				EntityCreeperPhosgene mob = new EntityCreeperPhosgene(world);
+				mob.setPositionAndRotation(x + 0.5 + vec.xCoord, world.getHeightValue(x, z), z + 0.5 + vec.zCoord, i * 180F, 0);
+				world.spawnEntityInWorld(mob);
+				vec.rotateAroundYDeg(180D);
+			}
+			world.setBlock(x, y, z, ModBlocks.block_steel);
 		}
 	};
 
@@ -543,6 +616,11 @@ public class LogicBlockActions {
 
 		actions.put("ZOMBIE_TIER_1", ZOMBIES_TIER_1);
 		actions.put("ZOMBIE_TIER_2", ZOMBIES_TIER_2);
+
+		actions.put("CYBERCRAB_WAVE", CYBERCRAB_WAVE);
+		actions.put("TESLACRAB_WAVE", TESLACRAB_WAVE);
+		actions.put("TAINTCRAB_SPAWN", TAINTCRAB_SPAWN);
+		actions.put("PHOSGENE_WAVE", PHOSGENE_WAVE);
 
 		//example actions
 		actions.put("ABERRATOR", PHASE_ABERRATOR);

@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.inventory.fluid.trait.FT_Consumable;
@@ -16,6 +17,16 @@ import net.minecraft.world.World;
 public abstract class FluidTrait {
 
 	public static List<Class<? extends FluidTrait>> traitList = new ArrayList<Class<? extends FluidTrait>>();
+
+	private FluidType fluidType;
+
+	public void setFluidType(FluidType type) {
+		this.fluidType = type;
+	}
+
+	public FluidType getFluidType() {
+		return this.fluidType;
+	}
 	public static HashBiMap<String, Class<? extends FluidTrait>> traitNameMap = HashBiMap.create();
 
 	static {
@@ -47,10 +58,14 @@ public abstract class FluidTrait {
 		registerTrait("noid", FT_NoID.class);
 		registerTrait("nocontainer", FT_NoContainer.class);
 		registerTrait("unsiphonable", FT_Unsiphonable.class);
-		registerTrait("uk", FT_ULTRAKILL.class);	// x
-		registerTrait("explosive", FT_EXPLOSIVE.class);	// x
-		registerTrait("hellish", FT_Hellish.class);
-		registerTrait("heavenly", FT_Heavenly.class);
+	registerTrait("uk", FT_ULTRAKILL.class);	// x
+	registerTrait("explosive", FT_EXPLOSIVE.class);	// x
+	registerTrait("hellish", FT_Hellish.class);
+	registerTrait("heavenly", FT_Heavenly.class);
+		registerTrait("pathogen", FT_Pathogen.class);
+		registerTrait("pharma", FT_Pharma.class);
+		registerTrait("ink", FT_Ink.class);
+		registerTrait("constructionfoam", FT_ConstructionFoam.class);
 
 
 	}

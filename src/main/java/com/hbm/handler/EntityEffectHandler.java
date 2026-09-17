@@ -9,6 +9,7 @@ import java.util.Set;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.ServerConfig;
+import com.hbm.handler.contagion.DiseaseHandler;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldProviderCelestial;
@@ -153,7 +154,8 @@ public class EntityEffectHandler {
 	}
 
 		handleContamination(entity);
-		handleContagion(entity);
+		DiseaseHandler.tick(entity);
+		handleBloodstream(entity);
 		handleRadiationEffect(entity);
 		handleRadiationFX(entity);
 		handleDigamma(entity);
@@ -500,119 +502,8 @@ public class EntityEffectHandler {
 		}
 	}
 
-	private static void handleContagion(EntityLivingBase entity) {
-		if(!ServerConfig.ENABLE_MKU.get()) return;
-
-		World world = entity.worldObj;
-
-		if(!entity.worldObj.isRemote) {
-
-			Random rand = entity.getRNG();
-			int minute = 60 * 20;
-			int hour = 60 * minute;
-
-			int contagion = HbmLivingProps.getContagion(entity);
-
-			if(entity instanceof EntityPlayer) {
-
-				EntityPlayer player = (EntityPlayer) entity;
-				int randSlot = rand.nextInt(player.inventory.mainInventory.length);
-				ItemStack stack = player.inventory.getStackInSlot(randSlot);
-
-				if(rand.nextInt(100) == 0) {
-					stack = player.inventory.armorItemInSlot(rand.nextInt(4));
-				}
-
-				//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-				if(stack != null && stack.getMaxStackSize() == 1) {
-
-					if(contagion > 0) {
-
-						if(!stack.hasTagCompound())
-							stack.stackTagCompound = new NBTTagCompound();
-
-						stack.stackTagCompound.setBoolean("ntmContagion", true);
-
-					} else {
-
-						if(stack.hasTagCompound() && stack.stackTagCompound.getBoolean("ntmContagion")) {
-							if(!ArmorUtil.checkForHaz2(player) || !ArmorRegistry.hasProtection(player, 3, HazardClass.BACTERIA)) //liable to change to hazmat 1 at bob's pleasure
-								HbmLivingProps.setContagion(player, 3 * hour);
-						}
-					}
-				}
-			}
-
-			if(contagion > 0) {
-				HbmLivingProps.setContagion(entity, contagion - 1);
-
-				//aerial transmission only happens once a second 5 minutes into the contagion
-				if(contagion < (2 * hour + 55 * minute) && contagion % 20 == 0) {
-
-					double range = entity.isWet() ? 16D : 2D; //avoid rain, just avoid it
-
-					List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(range, range, range));
-
-					for(Entity ent : list) {
-
-						if(ent instanceof EntityLivingBase) {
-							EntityLivingBase living = (EntityLivingBase) ent;
-							if(HbmLivingProps.getContagion(living) <= 0) {
-								if(!ArmorUtil.checkForHaz2(living) || !ArmorRegistry.hasProtection(living, 3, HazardClass.BACTERIA)) //liable to change to hazmat 1 at bob's pleasure
-									HbmLivingProps.setContagion(living, 3 * hour);
-							}
-						}
-
-						if(ent instanceof EntityItem) {
-							ItemStack stack = ((EntityItem)ent).getEntityItem();
-
-							if(!stack.hasTagCompound())
-								stack.stackTagCompound = new NBTTagCompound();
-
-							stack.stackTagCompound.setBoolean("ntmContagion", true);
-						}
-					}
-				}
-
-				//one hour in, add rare and subtle screen fuckery
-				if(contagion < 2 * hour && rand.nextInt(1000) == 0) {
-					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 20, 0));
-				}
-
-				//two hours in, give 'em the full blast
-				if(contagion < 1 * hour && rand.nextInt(100) == 0) {
-					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 60, 0));
-					entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 300, 4));
-				}
-
-				//T-30 minutes, take damage every 20 seconds
-				if(contagion < 30 * minute && rand.nextInt(400) == 0) {
-					entity.attackEntityFrom(ModDamageSource.mku, 1F);
-				}
-
-				//T-5 minutes, take damage every 5 seconds
-				if(contagion < 5 * minute && rand.nextInt(100) == 0) {
-					entity.attackEntityFrom(ModDamageSource.mku, 2F);
-				}
-
-				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20 && canVomit(entity)) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "vomit");
-					nbt.setString("mode", "blood");
-					nbt.setInteger("count", 25);
-					nbt.setInteger("entity", entity.getEntityId());
-					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
-
-					if((contagion + entity.getEntityId()) % 200 == 19)
-						world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.vomit", 1.0F, 1.0F);
-				}
-
-				//end of contagion, drop dead
-				if(contagion == 0) {
-					entity.attackEntityFrom(ModDamageSource.mku, 1000F);
-				}
-			}
-		}
+	private static void handleBloodstream(EntityLivingBase entity) {
+		com.hbm.extprop.HbmBloodstreamProps.getData(entity).tick();
 	}
 
 	private static void handleLungDisease(EntityLivingBase entity) {

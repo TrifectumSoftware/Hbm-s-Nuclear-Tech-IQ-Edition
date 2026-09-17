@@ -138,7 +138,10 @@ public class FluidType {
 	}
 
 	public FluidType addTraits(FluidTrait... traits) {
-		for(FluidTrait trait : traits) this.traits.put(trait.getClass(), trait);
+		for(FluidTrait trait : traits) {
+			trait.setFluidType(this);
+			this.traits.put(trait.getClass(), trait);
+		}
 		return this;
 	}
 

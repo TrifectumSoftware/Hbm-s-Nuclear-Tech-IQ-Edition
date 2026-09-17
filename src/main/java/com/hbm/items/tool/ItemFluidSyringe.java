@@ -79,13 +79,14 @@ public class ItemFluidSyringe extends Item implements IFillableItem {
 			int dose;
 
 			if(this.maxDose > 10 && player.isSneaking()) {
-				dose = fill;
+				dose = Math.min(10 * 10, fill);
 				intensity = 2.0F;
 			} else {
 				dose = Math.min(10, fill);
 			}
 
 			Injectables.process(player, type, dose, intensity, true);
+			Injectables.applyStackPayload(stack, player, intensity);
 			int newFill = fill - dose;
 			if(newFill == 0) this.setFill(stack, Fluids.NONE, (short) 0);
 			else this.setFill(stack, type, (short) newFill);

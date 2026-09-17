@@ -13,7 +13,6 @@ import com.hbm.render.anim.AnimationEnums.ToolAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations;
-import com.hbm.util.ShadyUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -61,10 +60,6 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 
 		if(!(entityLiving instanceof EntityPlayerMP))
 			return false;
-
-		if(entityLiving instanceof EntityPlayer && ((EntityPlayer)entityLiving).getUniqueID().toString().equals(ShadyUtil.Tankish)) {
-			stack.setItemDamage(0);
-		}
 
 		if(stack.getItemDamage() >= stack.getMaxDamage())
 			return false;

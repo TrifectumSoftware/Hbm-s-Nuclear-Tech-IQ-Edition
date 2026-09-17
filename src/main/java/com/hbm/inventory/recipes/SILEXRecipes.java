@@ -212,13 +212,13 @@ public class SILEXRecipes {
 			// BLOATATE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_bloatate, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_th232), 30)
-					.addOut(new ItemStack(ModItems.nugget_thorium_fuel), 54 - i * 20)
+					.addOut(new ItemStack(ModItems.nugget_thorium_fuel), 84 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.THORIUM.ordinal()), 16 + 16 * i) );
 
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_bloatate, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_th232), 30)
-					.addOut(new ItemStack(ModItems.nugget_thorium_fuel), 53 - i * 20)
+					.addOut(new ItemStack(ModItems.nugget_thorium_fuel), 83 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.THORIUM.ordinal()), 16 + 16 * i) );
 
 			// LEP //

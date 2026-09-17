@@ -4,6 +4,8 @@ import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.armor.ItemModShield;
+import com.hbm.items.tool.ItemMagneticCrafter;
+import com.hbm.items.tool.ItemMagneticRestocker;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
@@ -143,7 +145,52 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 					}
 				}
 			}
+
+			// im sorry
+			// magnetic crafter
+
+			if(key == EnumKeybind.MAGNETIC_CRAFTER) {
+
+				if(!this.player.worldObj.isRemote) {
+
+					boolean canOpen = false;
+
+					ItemStack held = player.getHeldItem();
+					if(held != null && held.getItem() instanceof ItemMagneticCrafter) canOpen = true;
+
+					if(!canOpen) {
+						for(int i = 0; i < 4; i++) {
+							ItemStack armor = player.getCurrentArmor(i);
+							if(armor == null || !ArmorModHandler.hasMods(armor)) continue;
+
+							for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
+								if(mod != null && mod.getItem() instanceof ItemMagneticCrafter) canOpen = true;
+							}
+						}
+					}
+
+				if(canOpen) {
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, player.worldObj, 0, 0, 0);
+				}
+			}
 		}
+
+			// magnetic crafter
+			// magnetic restocker
+		if(key == EnumKeybind.MAGNETIC_RESTOCKER_MERGE) {
+
+			if(!this.player.worldObj.isRemote && ItemMagneticRestocker.hasRestocker(player)) {
+				ItemMagneticRestocker.deposit(player, player.isSneaking());
+			}
+		}
+
+		if(key == EnumKeybind.MAGNETIC_RESTOCKER_RESTOCK) {
+
+			if(!this.player.worldObj.isRemote && ItemMagneticRestocker.hasRestocker(player)) {
+				ItemMagneticRestocker.restock(player);
+			}
+		}
+	}
 
 		keysPressed[key.ordinal()] = pressed;
 	}
