@@ -27,21 +27,20 @@ public class BiomeGenPrague extends BiomeGenBaseCelestial {
 
 	@Override
 	public void decorate(World world, Random random, int chunkX, int chunkZ) {
+		/*
 		if (WorldConfig.betonSpawn > 0 && random.nextInt(WorldConfig.betonSpawn) == 0) {
-			int x = chunkX + random.nextInt(16) + 8;
-			int z = chunkZ + random.nextInt(16) + 8;
-			for(int bx = -5; bx <= 5; bx++)
-				for(int bz = -5; bz <= 5; bz++)
-						if(Math.abs(bx) < 5 && Math.abs(bz) < 5)
-							world.setBlock(x + bx, 0, z + bz, ModBlocks.ore_bedrock_concrete, 0, 2);
+			int x = chunkX * 16;
+			int z = chunkZ * 16;
+			for(int bx = 2; bx < 14; bx++)
+				for(int bz = 2; bz <= 14; bz++)
+					world.setBlock(x + bx, 0, z + bz, ModBlocks.ore_bedrock_concrete, 0, 2);
+		} else if (WorldConfig.bedrockOilSpawn > 0 && random.nextInt(WorldConfig.bedrockOilSpawn) == 0) {
+			int x = chunkX * 16;
+			int z = chunkZ * 16;
+			for(int bx = 2; bx < 14; bx++)
+				for(int bz = 2; bz < 14; bz++)
+					world.setBlock(x + bx, 0, z + bz, ModBlocks.ore_bedrock_oil, 0, 2);
 		}
-		if (WorldConfig.bedrockOilSpawn > 0 && random.nextInt(WorldConfig.bedrockOilSpawn) == 0) {
-			int x = chunkX + random.nextInt(16) + 8;
-			int z = chunkZ + random.nextInt(16) + 8;
-			for(int bx = -5; bx <= 5; bx++)
-				for(int bz = -5; bz <= 5; bz++)
-					if(Math.abs(bx) < 5 && Math.abs(bz) < 5)
-						world.setBlock(x + bx, 0, z + bz, ModBlocks.ore_bedrock_oil, 0, 2);
-		}
+		*/
 	}
 }

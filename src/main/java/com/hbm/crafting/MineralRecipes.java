@@ -82,6 +82,10 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.powder_cs137, ModItems.powder_cs137_tiny);
 		add1To9Pair(ModItems.powder_i131, ModItems.powder_i131_tiny);
 
+		add1To9Pair(ModItems.powder_diffused_buurmium, ModItems.powder_diffused_buurmium_tiny);
+		add1To9Pair(ModItems.powder_pure_buurmium, ModItems.powder_pure_buurmium_tiny);
+		add1To9Pair(ModItems.powder_metastable_buurmium, ModItems.powder_metastable_buurmium_tiny);
+
 		add1To9Pair(ModItems.ingot_technetium, ModItems.nugget_technetium);
 		add1To9Pair(ModItems.ingot_co60, ModItems.nugget_co60);
 		add1To9Pair(ModItems.ingot_sr90, ModItems.nugget_sr90);

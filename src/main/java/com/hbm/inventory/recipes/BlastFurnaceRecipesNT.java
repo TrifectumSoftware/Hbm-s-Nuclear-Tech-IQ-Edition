@@ -15,7 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
-	
+
 	public static final BlastFurnaceRecipesNT INSTANCE = new BlastFurnaceRecipesNT();
 
 	@Override public int inputItemLimit() { return 2; }
@@ -101,15 +101,18 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 				.inputItems(new OreDictStack(STEEL.ingot()), new OreDictStack(NI.ingot()))
 				.outputItems(new ItemStack(ModItems.ingot_stainless, 2)));
 
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.bronze").setDuration(400)
+			.inputItems(new OreDictStack(CU.ingot(), 2), new OreDictStack(SN.ingot()))
+			.outputItems(new ItemStack(ModItems.ingot_bronze)));
 	}
 
 	@Override
 	public String getFileName() {
 		return "hbmBlastFurnace.json";
 	}
-	
+
 	public GenericRecipe getRecipe(ItemStack s0, ItemStack s1) {
-		
+
 		for(GenericRecipe recipe : this.recipeOrderedList) {
 			if(recipe.inputItem.length == 1) {
 				if(s0 != null && s1 == null && recipe.inputItem[0].matchesRecipe(s0, false)) return recipe;
@@ -120,7 +123,7 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 				if(recipe.inputItem[1].matchesRecipe(s0, true) && recipe.inputItem[0].matchesRecipe(s1, false)) return recipe;
 			}
 		}
-		
+
 		return null;
 	}
 }

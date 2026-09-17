@@ -225,7 +225,8 @@ public class BlockBobble extends BlockContainer implements IGUIProvider, INBTBlo
 		BAVOLISK(		"bavolisk",							"bavolisk",			"Texture artist",											"Listen closely. Do you hear it?$You will hear the laughter of thousands as the sky opens up.$You will hear the trumpets play their happy sounds.$The scalding blood of life will pour down onto us all.$Together, we will be still. Together, a feast fit for a king.$Together, welded by love and purest connection.$Be still and feast.",	true,	ScrapType.BOARD_BLANK),
 		JANDBDAVENPORT("jandbdavenport", "jandbdavenport", "Texture artist", "i wish cats were real", true, ScrapType.BOARD_BLANK),
 		EL1D11("el1d11", "el1d11", "Modeller", "Vitya is my pawn >~<", true, ScrapType.BOARD_BLANK),
-		FREDDY42("freddy42", "freddy42", "Wiki editor and tam69 respect", "Tam69 is so fr*cking chaotic and silli >:3", true, ScrapType.BOARD_BLANK);
+		FREDDY42("freddy42", "freddy42", "Wiki editor and tam69 respect", "Tam69 is so fr*cking chaotic and silli >:3", true, ScrapType.BOARD_BLANK),
+		SIEPERT(		"Siepert",						"Siepert",		"Buurman integration",				"Patrz jak koszę beton",		true, ScrapType.CARD_PROCESSOR);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket

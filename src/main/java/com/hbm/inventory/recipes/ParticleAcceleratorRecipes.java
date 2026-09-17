@@ -77,7 +77,7 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_strange),
-				new ComparableStack(ModItems.powder_magic),
+				new ComparableStack(ModItems.powder_metastable_buurmium), // self insert
 				12_500,
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.dust)

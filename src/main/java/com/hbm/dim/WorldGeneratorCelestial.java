@@ -120,7 +120,7 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
 					add(new JigsawPiece("meteor_loot_fallback", StructureManager.meteor_dragon_fallback) {{ blockTable = crates; }}, 1);
 				}});
 			}};
-		}}, PlanetGen.getSpaceDimensions());
+		}}, PlanetGen.getSpaceDimensionsExcept(SpaceConfig.czechoslowakiaDimension));
 
 		// Specify which ores spawn where
 		BlockOre.addAllBodies(ModBlocks.ore_iron);

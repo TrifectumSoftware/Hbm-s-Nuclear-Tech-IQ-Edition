@@ -1,0 +1,11 @@
+{
+    "name": "Buurmic Acid",
+    "icon": ["hbm:item.fluid_icon", 1, 255],
+    "trigger": [["hbm:item.fluid_icon", 1, 255]],
+    "title": {
+        "en_US": "Buurmic Acid"
+    },
+    "content": {
+        "en_US": "A very potent and reactive acid, made with [[nitric acid|Nitric Acid]] and [[pure buurmium|Buurmium]]. It can be used in a [[PUREX]] to purify buurmium more efficiently, or can be processed further into a [[light buurmium solution|Light Buurmium Solution]], which is required for Metastable Buurmium-2137."
+    }
+}

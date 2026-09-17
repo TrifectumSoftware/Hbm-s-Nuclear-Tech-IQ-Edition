@@ -708,6 +708,8 @@ public class ModEventHandlerClient {
 	}
 
 	private static final ResourceLocation MUSIC_LOCATION = new ResourceLocation("hbm:music.game.space");
+	private static final ResourceLocation MUSIC_LOCATION_CZECHOSLOWAKIA = new ResourceLocation("hbm:music.game.czechoslowakia");
+	private static final boolean ENABLE_CZECHOSLOWAKIA_MUSIC = false;
 	private ISound currentSong;
 
 	@SubscribeEvent
@@ -736,7 +738,9 @@ public class ModEventHandlerClient {
 			}
 		}
 		if((provider instanceof WorldProviderCelestial || provider instanceof WorldProviderOrbit) && provider.dimensionId != 0) {
-			event.result = currentSong = PositionedSoundRecord.func_147673_a(MUSIC_LOCATION);
+			event.result = currentSong = provider.dimensionId == SpaceConfig.czechoslowakiaDimension ?
+				(ENABLE_CZECHOSLOWAKIA_MUSIC ? PositionedSoundRecord.func_147673_a(MUSIC_LOCATION_CZECHOSLOWAKIA) : null) :
+				PositionedSoundRecord.func_147673_a(MUSIC_LOCATION);
 		}
 	}
 

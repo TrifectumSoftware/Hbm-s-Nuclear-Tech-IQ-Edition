@@ -201,6 +201,8 @@ public class OreDictManager {
 	public static final DictFrame BBRONZE = new DictFrame("BismuthBronze");
 	/** ARSENIC BRONZE */
 	public static final DictFrame ABRONZE = new DictFrame("ArsenicBronze");
+	/** TIN BRONZE */
+	public static final DictFrame TBRONZE = new DictFrame("TinBronze");
 	/** BISMUTH STRONTIUM CALCIUM COPPER OXIDE */
 	public static final DictFrame BSCCO = new DictFrame("BSCCO");
 	/** LEAD */
@@ -295,6 +297,7 @@ public class OreDictManager {
 	/*
 	 * HAZARDS, MISC
 	 */
+	public static final DictFrame SN = new DictFrame("Tin");
 	/** LITHIUM */
 	public static final DictFrame LI = new DictFrame("Lithium");
 	/** SODIUM */
@@ -361,6 +364,8 @@ public class OreDictManager {
 	public static final DictGroup ANY_RESISTANTALLOY = new DictGroup("AnyResistantAlloy", TCALLOY, CDALLOY);
 	/** Any post RBMK bronze like BB or AB */
 	public static final DictGroup ANY_BISMOIDBRONZE = new DictGroup("AnyBismoidBronze", BBRONZE, ABRONZE);
+	/** Any bronze */
+	public static final DictGroup ANY_BRONZE = new DictGroup("AnyBronze", BBRONZE, ABRONZE, TBRONZE);
 	/** Any "powder" propellant like gunpowder, ballistite and cordite */
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
 	/** Any smokeless powder like ballistite and cordite */
@@ -458,6 +463,8 @@ public class OreDictManager {
 		CDALLOY																.ingot(ingot_cdalloy)																												.block(block_cdalloy);
 		BBRONZE																.ingot(ingot_bismuth_bronze);
 		ABRONZE																.ingot(ingot_arsenic_bronze);
+		TBRONZE																.ingot(ingot_bronze)												.plateCast(Mats.MAT_BRONZE.make(plate_cast));
+		SN																	.ingot(ingot_tin)													.dust(powder_tin);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.oreAll(ore_lead);
 		BSCCO																.ingot(ingot_bscco);
 		BI			.nugget(nugget_bismuth)		.billet(billet_bismuth)		.ingot(ingot_bismuth)												.dust(powder_bismuth)											.block(block_bismuth);
@@ -913,6 +920,7 @@ public class OreDictManager {
 		ANY_RESISTANTALLOY.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(CASTPLATE, true).addPrefix(WELDEDPLATE, true).addPrefix(BLOCK, true)
 		.addPrefix(LIGHTBARREL, true).addPrefix(HEAVYBARREL, true).addPrefix(LIGHTRECEIVER, true).addPrefix(HEAVYRECEIVER, true);
 		ANY_BISMOIDBRONZE.addPrefix(INGOT, true).addPrefix(CASTPLATE, true).addPrefix(LIGHTBARREL, true).addPrefix(HEAVYBARREL, true).addPrefix(LIGHTRECEIVER, true).addPrefix(HEAVYRECEIVER, true);
+		ANY_BRONZE.addPrefix(INGOT, true).addPrefix(CASTPLATE, true);
 		ANY_TAR.addPrefix(ANY, false);
 		ANY_COAL_COKE.addPrefix(DUST, true);
 		ANY_BISMOID.addPrefix(NUGGET, true).addPrefix(INGOT, true).addPrefix(BLOCK, true);

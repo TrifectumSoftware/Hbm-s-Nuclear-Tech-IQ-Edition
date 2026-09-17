@@ -83,13 +83,25 @@ public class TileEntityGeysir extends TileEntity {
 		}
 	}
 
+	private void concrete() {
+		for(int i = 0; i < 3; i++) {
+			EntityOrangeFX fx = new EntityOrangeFX(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 0.0, 0.0, 0.0);
+
+			fx.motionX = worldObj.rand.nextGaussian() * 0.45;
+			fx.motionZ = worldObj.rand.nextGaussian() * 0.45;
+			fx.motionY = timer * 0.3;
+
+			worldObj.spawnEntityInWorld(fx);
+		}
+	}
+
 	protected int getDelay() {
 
 		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 		Random rand = worldObj.rand;
 
-		if(b == ModBlocks.geysir_chlorine) {
+		if(b == ModBlocks.geysir_chlorine || b == ModBlocks.geysir_concrete) {
 			return (meta == 0 ? 20 : 400 + rand.nextInt(100));
 		} else if(b == ModBlocks.geysir_nether) {
 			return (meta == 0 ? (rand.nextBoolean() ? 300 : 450) : 80 + rand.nextInt(60));
@@ -104,6 +116,7 @@ public class TileEntityGeysir extends TileEntity {
 
 		if(b == ModBlocks.geysir_chlorine) chlorine();
 		else if(b == ModBlocks.geysir_nether) fire();
+		else if(b == ModBlocks.geysir_concrete) concrete();
 	}
 
 }

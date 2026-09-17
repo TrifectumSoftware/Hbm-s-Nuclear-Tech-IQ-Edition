@@ -170,7 +170,7 @@ public class GUIScreenGenomeSequencer extends GuiScreen {
 		GUIElements.drawDivider(guiLeft + 8, guiTop + TAB_Y + TAB_SIZE + 3, 240, 0xFF00ff00);
 	}
 
-	/** Draws a 16x16 tab icon with normalized UVs (drawTexturedModalRect assumes a 256x256 sheet). */
+
 	private void drawTabIcon(int index, int x, int y, float tint) {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TAB_ICONS[index]);
 		GL11.glColor4f(tint, tint, tint, 1.0F);
@@ -197,7 +197,6 @@ public class GUIScreenGenomeSequencer extends GuiScreen {
 		}
 	}
 
-	/** Draws one half of the genome, each digit tinted by its segment. */
 	private void drawGenomeHalf(String hex, int offset, int y) {
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < hex.length(); i++) {

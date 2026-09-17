@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
+import javax.vecmath.Vector2d;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -22,7 +23,7 @@ public class BufferUtil {
 			buf.writeInt(-1);
 			return;
 		}
-		
+
 		final byte[] bytes = value.getBytes(CHARSET);
 		buf.writeInt(bytes.length);
 		buf.writeBytes(bytes);
@@ -88,6 +89,30 @@ public class BufferUtil {
 		double z = buf.readDouble();
 
 		return Vec3.createVectorHelper(x, y, z);
+	}
+
+	/**
+	 * Writes a vector to a buffer.
+	 */
+	public static void writeVec2d(ByteBuf buf, Vector2d vector) {
+		buf.writeBoolean(vector != null);
+		if(vector == null) return;
+		buf.writeDouble(vector.x);
+		buf.writeDouble(vector.y);
+	}
+
+	/**
+	 * Reads a vector from a buffer.
+	 */
+	public static Vector2d readVec2d(ByteBuf buf) {
+		boolean vectorExists = buf.readBoolean();
+		if(!vectorExists) {
+			return null;
+		}
+		double x = buf.readDouble();
+		double y = buf.readDouble();
+
+		return new Vector2d(x, y);
 	}
 
 	/**

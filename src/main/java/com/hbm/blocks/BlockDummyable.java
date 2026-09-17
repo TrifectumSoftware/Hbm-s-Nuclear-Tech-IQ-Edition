@@ -678,7 +678,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			int x = mop.blockX + placedSide.offsetX;
 			int y = mop.blockY + placedSide.offsetY;
 			int z = mop.blockZ + placedSide.offsetZ;
-			
+
 
 			// The direction the player is facing, for offsetting the block away from the player
 			ForgeDirection facing = ForgeDirection.NORTH;
@@ -724,7 +724,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			GL11.glDepthMask(false);
 			tess.startDrawing(GL11.GL_LINES);
 			tess.setBrightness(240);
-			
+
 			double timer = (Clock.get_ms() % (1000D * Math.PI)) / 250D;
 			double sine = Math.sin(timer);
 			int color = (int) (255 * (sine * 0.25 + 0.75));
@@ -898,7 +898,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			}
 
 			tess.setColorRGBA(0, 0, color, 255);
-			
+
 			// boo-yeah
 			for(double[] extra : this.getAABBExtras()) {
 				ForgeDirection rot = facing.getRotation(ForgeDirection.UP);

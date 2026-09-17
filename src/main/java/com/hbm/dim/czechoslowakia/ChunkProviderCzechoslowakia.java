@@ -1,6 +1,8 @@
 package com.hbm.dim.czechoslowakia;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockOre;
+import com.hbm.config.WorldConfig;
 import com.hbm.dim.ChunkProviderCelestial;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -34,12 +36,26 @@ public class ChunkProviderCzechoslowakia extends ChunkProviderCelestial {
 		}
 
 		this.random.setSeed((x * 53253L + z * 23523L) ^ this.findSeed());
-		int floors = this.random.nextInt(4) + 2;
+		int floors = Math.max((int)(this.random.nextGaussian() * 4 + 4) + 2, 3);
 		int rot = this.random.nextInt(4);
 		byte[][] pattern = STRUCTURES[this.random.nextInt(STRUCTURES.length)];
 		Block walls = ModBlocks.concrete_rebar;
 		Block windows = Blocks.glass;
 		placePattern(blocks, pattern, floors, rot, walls, windows);
+
+		if (WorldConfig.betonSpawn > 0 && this.random.nextInt(WorldConfig.betonSpawn) == 0) {
+			for(int bx = 2; bx < 14; bx++)
+				for(int bz = 2; bz <= 14; bz++) {
+					int pos = ((bx) * 16 + (bz)) * 256;
+					blocks[pos] = ModBlocks.ore_bedrock_concrete;
+				}
+		} else if (WorldConfig.bedrockOilSpawn > 0 && this.random.nextInt(WorldConfig.bedrockOilSpawn) == 0) {
+			for(int bx = 2; bx < 14; bx++)
+				for(int bz = 2; bz < 14; bz++) {
+					int pos = ((bx) * 16 + (bz)) * 256;
+					blocks[pos] = ModBlocks.ore_bedrock_oil;
+				}
+		}
 	}
 
 	protected long findSeed() {

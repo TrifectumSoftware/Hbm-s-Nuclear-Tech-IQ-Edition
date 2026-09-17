@@ -25,6 +25,13 @@ The fork is also a mix of serious and nonserious content with joke items scatter
 Join to see progress at https://discord.gg/dwpsq9q989 
 You can also see iris-lgtm's other projects/games there.
 
+## NOTE ON PRs:
+
+IF another fork dev, such as Mellow, or Bob himself wants one of my features, it is **THEIR** responsibility to port it, i will **NOT** be PRing things from this fork to upstream. That is their responsibility and i am busy enough as is.
+
+
+
+
 
 **This is for 1.7.10!** For 1.12, check out these projects:
 

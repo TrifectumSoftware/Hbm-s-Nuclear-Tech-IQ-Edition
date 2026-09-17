@@ -90,6 +90,7 @@ public class MatDistribution extends SerializableRecipe {
 		registerOre(OreDictManager.COBALTITE.ore(), MAT_COBALTITE, INGOT.q(6));
 		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(6));
 		registerOre(OreDictManager.CONGLOMERATE.ore(), MAT_CONGLOMERATE, INGOT.q(4));
+		registerOre(OreDictManager.ANY_CONCRETE.block(), MAT_CONCRETE, BLOCK.q(1));
 
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CALCIUM), MAT_FLUX, DUST.q(12));

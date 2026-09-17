@@ -607,12 +607,12 @@ public class SILEXRecipes {
 			// BUURMIUM
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_dbm, 1, i), new SILEXRecipe(600, 100, 4)
 				.addOut(new ItemStack(ModItems.powder_cement), 100 - i * 20)
-				.addOut(new ItemStack(ModItems.powder_pure_buurmium), i * 10)
+				.addOut(new ItemStack(ModItems.powder_pure_buurmium_tiny), i * 10)
 				.addOut(new ItemStack(ModItems.powder_cement, 2), 75)
 			);
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_dbm, 1, i + 5), new SILEXRecipe(600, 100, 4)
 				.addOut(new ItemStack(ModItems.powder_cement), 100 - i * 20)
-				.addOut(new ItemStack(ModItems.powder_pure_buurmium), i * 10)
+				.addOut(new ItemStack(ModItems.powder_pure_buurmium_tiny), i * 10)
 				.addOut(new ItemStack(ModItems.powder_cement, 2), 75)
 				.addOut(new ItemStack(ModItems.powder_xe135_tiny), 21)
 			);

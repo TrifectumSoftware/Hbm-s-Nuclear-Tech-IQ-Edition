@@ -298,7 +298,8 @@ public class ItemBedrockOreNew extends Item {
 				T("light",		o(MAT_IRON, 18),			o(MAT_COPPER, 9),			o(MAT_CRYOLITE, 6),			o(MAT_SODIUM, 3)),
 				T("heavy",		o(MAT_TUNGSTEN, 18),		o(MAT_TUNGSTEN, 9),			o(MAT_ZINC, 6),				o(MAT_ZINC, 3)),
 				T("nonmetal",	o(MAT_COAL, 18),			o(MAT_LIGNITE, 9),			o(MAT_SULFUR, 6),			o(MAT_KNO, 3)),
-				T("crystal",	o(MAT_REDSTONE, 18),		o(MAT_ASBESTOS, 9),			o(MAT_DIAMOND, 6),			o(MAT_EMERALD, 3))
+				T("crystal",	o(MAT_REDSTONE, 18),		o(MAT_ASBESTOS, 9),			o(MAT_DIAMOND, 6),			o(MAT_EMERALD, 3)),
+				T("concrete",	o(MAT_CONCRETE, 18),		o(MAT_CONCRETE, 18),		o(MAT_CONCRETE, 18),		o(MAT_CONCRETE, 18))
 			);
 
 			register(

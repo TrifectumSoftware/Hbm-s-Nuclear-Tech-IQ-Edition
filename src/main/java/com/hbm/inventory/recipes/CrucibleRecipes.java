@@ -48,7 +48,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 		super.deleteRecipes();
 		this.moldRecipes.clear();
 	}
-	
+
 	/*
 	 * IMPORTANT: crucibles do not have stack size checks for the recipe's result, meaning that they can overflow if the resulting stacks are
 	 * bigger than the input stacks, so make sure that material doesn't "expand". very few things do that IRL when alloying anyway.
@@ -59,7 +59,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 
 		int n = MaterialShapes.NUGGET.q(1);
 		int i = MaterialShapes.INGOT.q(1);
-		
+
 		this.register(new CrucibleRecipe("crucible.steel").setup(20, new ItemStack(ModItems.ingot_steel))
 				.inputs(new MaterialStack(Mats.MAT_IRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n * 3), new MaterialStack(Mats.MAT_FLUX, n))
 				.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
@@ -75,23 +75,23 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 					.inputs(new MaterialStack(Mats.MAT_METEORICIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n * 3), new MaterialStack(Mats.MAT_FLUX, n))
 					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
 		}
-		
+
 		this.register(new CrucibleRecipe("crucible.hematite").setup(6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE))
 				.inputs(new MaterialStack(Mats.MAT_HEMATITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
 				.outputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
-		
+
 		this.register(new CrucibleRecipe("crucible.cobaltite").setup(6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.COBALTITE))
 				.inputs(new MaterialStack(Mats.MAT_COBALTITE, i * 6), new MaterialStack(Mats.MAT_CARBON, n * 2), new MaterialStack(Mats.MAT_FLUX, n))
 				.outputs(new MaterialStack(Mats.MAT_COBALT, i)));
-		
+
 		this.register(new CrucibleRecipe("crucible.malachite").setup(6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.MALACHITE))
 				.inputs(new MaterialStack(Mats.MAT_MALACHITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
 				.outputs(new MaterialStack(Mats.MAT_COPPER, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
-		
+
 		this.register(new CrucibleRecipe("crucible.redcopper").setup(2, new ItemStack(ModItems.ingot_red_copper))
 				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_REDSTONE, n))
 				.outputs(new MaterialStack(Mats.MAT_MINGRADE, n * 2)));
-		
+
 		this.register(new CrucibleRecipe("crucible.hss").setup(9, new ItemStack(ModItems.ingot_dura_steel))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
 				.outputs(new MaterialStack(Mats.MAT_DURA, n * 9)));
@@ -103,31 +103,35 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 		this.register(new CrucibleRecipe("crucible.ferro").setup(3, new ItemStack(ModItems.ingot_ferrouranium))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n))
 				.outputs(new MaterialStack(Mats.MAT_FERRO, n * 3)));
-		
+
 		this.register(new CrucibleRecipe("crucible.tcalloy").setup(9, new ItemStack(ModItems.ingot_tcalloy))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNETIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
-		
+
 		this.register(new CrucibleRecipe("crucible.cdalloy").setup(9, new ItemStack(ModItems.ingot_cdalloy))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_CADMIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_CDALLOY, i)));
-		
+
 		this.register(new CrucibleRecipe("crucible.bbronze").setup(9, new ItemStack(ModItems.ingot_bismuth_bronze))
 				.inputs(new MaterialStack(Mats.MAT_COPPER, n * 8), new MaterialStack(Mats.MAT_BISMUTH, n), new MaterialStack(Mats.MAT_FLUX, n * 3))
 				.outputs(new MaterialStack(Mats.MAT_BBRONZE, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
-		
+
 		this.register(new CrucibleRecipe("crucible.abronze").setup(9, new ItemStack(ModItems.ingot_arsenic_bronze))
 				.inputs(new MaterialStack(Mats.MAT_COPPER, n * 8), new MaterialStack(Mats.MAT_ARSENIC, n), new MaterialStack(Mats.MAT_FLUX, n * 3))
 				.outputs(new MaterialStack(Mats.MAT_ABRONZE, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
-		
+
+		this.register(new CrucibleRecipe("crucible.tbronze").setup(9, new ItemStack(ModItems.ingot_bronze))
+			.inputs(new MaterialStack(Mats.MAT_COPPER, n * 3), new MaterialStack(Mats.MAT_TIN, n), new MaterialStack(Mats.MAT_FLUX, n))
+			.outputs(new MaterialStack(Mats.MAT_BRONZE, n * 4), new MaterialStack(Mats.MAT_SLAG, n)));
+
 		this.register(new CrucibleRecipe("crucible.cmb").setup(3, new ItemStack(ModItems.ingot_combine_steel))
 				.inputs(new MaterialStack(Mats.MAT_MAGTUNG, n * 6), new MaterialStack(Mats.MAT_MUD, n * 3))
 				.outputs(new MaterialStack(Mats.MAT_CMB, i)));
-		
+
 		this.register(new CrucibleRecipe("crucible.magtung").setup(3, new ItemStack(ModItems.ingot_magnetized_tungsten))
 				.inputs(new MaterialStack(Mats.MAT_TUNGSTEN, i), new MaterialStack(Mats.MAT_SCHRABIDIUM, n * 1))
 				.outputs(new MaterialStack(Mats.MAT_MAGTUNG, i)));
-		
+
 		this.register(new CrucibleRecipe("crucible.bscco").setup(3, new ItemStack(ModItems.ingot_bscco))
 				.inputs(new MaterialStack(Mats.MAT_BISMUTH, n * 2), new MaterialStack(Mats.MAT_STRONTIUM, n * 2), new MaterialStack(Mats.MAT_CALCIUM, n * 2), new MaterialStack(Mats.MAT_COPPER, n * 3))
 				.outputs(new MaterialStack(Mats.MAT_BSCCO, i)));
@@ -139,11 +143,11 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 		this.register(new CrucibleRecipe("crucible.stainless").setup(2, new ItemStack(ModItems.ingot_stainless))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_NICKEL, n))
 				.outputs(new MaterialStack(Mats.MAT_STAINLESS, n * 2)));
-		
+
 		this.register(new CrucibleRecipe("crucible.hotSand").setup(6, new ItemStack(Blocks.glass))
 				.inputs(new MaterialStack(Mats.MAT_SODIUM, n), new MaterialStack(Mats.MAT_HOT_SAND, i))
 				.outputs(new MaterialStack(Mats.MAT_LIQUID_GLASS, i * 9)));
-		
+
 		this.register(new CrucibleRecipe("crucible.hotSandFlux").setup(6, new ItemStack(Blocks.glass))
 				.inputs(new MaterialStack(Mats.MAT_SODIUM, n), new MaterialStack(Mats.MAT_HOT_SAND, i), new MaterialStack(Mats.MAT_FLUX, n))
 				.outputs(new MaterialStack(Mats.MAT_LIQUID_GLASS, i * 18)));
@@ -169,7 +173,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 		String name = obj.get("name").getAsString();
 		int freq = obj.get("frequency").getAsInt();
 		ItemStack icon = this.readItemStack(obj.get("icon").getAsJsonArray());
-		
+
 		MaterialStack[] input = new MaterialStack[obj.get("input").getAsJsonArray().size()];
 		for(int i = 0; i < input.length; i++) {
 			JsonArray entry = obj.get("input").getAsJsonArray().get(i).getAsJsonArray();
@@ -177,7 +181,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 			int amount = entry.get(1).getAsInt();
 			input[i] = new MaterialStack(Mats.matByName.get(matname), amount);
 		}
-		
+
 		MaterialStack[] output = new MaterialStack[obj.get("output").getAsJsonArray().size()];
 		for(int i = 0; i < output.length; i++) {
 			JsonArray entry = obj.get("output").getAsJsonArray().get(i).getAsJsonArray();
@@ -185,7 +189,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 			int amount = entry.get(1).getAsInt();
 			output[i] = new MaterialStack(Mats.matByName.get(matname), amount);
 		}
-		
+
 		this.register(new CrucibleRecipe(name).setup(freq, icon).inputs(input).outputs(output));
 	}
 
@@ -196,7 +200,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 		writer.name("frequency").value(rec.frequency);
 		writer.name("icon");
 		this.writeItemStack(rec.getIcon(), writer);
-		
+
 		writer.name("input");
 		writer.beginArray();
 		for(MaterialStack mat : rec.input) {
@@ -207,7 +211,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 			writer.setIndent("  ");
 		}
 		writer.endArray();
-		
+
 		writer.name("output");
 		writer.beginArray();
 		for(MaterialStack mat : rec.output) {
@@ -219,7 +223,7 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 		}
 		writer.endArray();
 	}
-	
+
 	/** Returns a map containing all recipes where an item becomes a liquid material in the crucible. */
 	public static HashMap<AStack, List<ItemStack>> getSmeltingRecipes() {
 		HashMap<AStack, List<ItemStack>> map = new HashMap();

@@ -23,6 +23,7 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ItemEnums.EnumCokeType;
+import com.hbm.items.ItemGenericPart;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemMeteoriteBase;
 import com.hbm.items.food.ItemFlask.EnumInfusion;
@@ -100,6 +101,7 @@ public class AnvilRecipes extends SerializableRecipe {
 
 		smithingRecipes.add(new AnvilSmithingRecipe(1916169, new ItemStack(ModItems.wings_murk, 1), new ComparableStack(ModItems.wings_limp), new ComparableStack(ModItems.particle_tachyon)));
 		smithingRecipes.add(new AnvilSmithingRecipe(4, new ItemStack(ModItems.flask_infusion, 1, EnumInfusion.SHIELD.ordinal()), new ComparableStack(ModItems.gem_alexandrite), new ComparableStack(ModItems.bottle_nuka)));
+		smithingRecipes.add(new AnvilSmithingT69Recipe(1916169, new ItemStack(ModItems.tam69, 1), new ComparableStack(ModItems.tin_can), new ComparableStack(ModItems.tin_can)));
 
 		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.ingot_gunmetal, 1), new OreDictStack(CU.ingot()), new OreDictStack(ZI.ingot())));
 
@@ -190,7 +192,7 @@ public class AnvilRecipes extends SerializableRecipe {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(Blocks.stonebrick, 16), new ComparableStack(ModItems.ingot_firebrick, 16), new OreDictStack(IRON.ingot(), 8), new OreDictStack(CU.ingot(), 8)},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_annihilator))).setTier(2));
-		
+
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(IRON.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.platemetal, 4, 0))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(TI.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.sheetmetal, 4))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(AL.ingot(), 1), new AnvilOutput(new ItemStack(ModBlocks.deco_aluminium, 4))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
@@ -244,7 +246,7 @@ public class AnvilRecipes extends SerializableRecipe {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new OreDictStack(STEEL.ingot(), 8),
-						new OreDictStack(CU.plate(), 4),
+						new OreDictStack(ANY_BRONZE.plateCast(), 4),
 						new ComparableStack(ModItems.motor, 2),
 						exp ? new ComparableStack(ModItems.circuit, 2, EnumCircuitType.ANALOG) : new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_assembly_machine))).setTier(2));
@@ -265,6 +267,14 @@ public class AnvilRecipes extends SerializableRecipe {
 						new OreDictStack(CU.plate(), 8),
 						new OreDictStack(PB.pipe(), 2)
 				}, new AnvilOutput(new ItemStack(ModBlocks.pump_steam))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+			new AStack[] {
+				new OreDictStack(KEY_PLANKS, 16),
+				new ComparableStack(ModItems.ingot_bronze, 8),
+				new ComparableStack(ModItems.part_generic, 4, ItemGenericPart.EnumPartType.PISTON_PNEUMATIC),
+				new OreDictStack(CU.shell(), 2)
+			}, new AnvilOutput(new ItemStack(ModBlocks.machine_press))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

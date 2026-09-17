@@ -19,3 +19,6 @@ INCASE UPSTREAM HAS ANY duplicated features, we will merge whoever has the bette
 For example if bob implements an autofeeder which hardcodes some fluid cases to do x amount of hunger, of course ours is more detailed so ours will have credence.
 
 Also, we will be using custom versioning.
+
+Besides that, i have added an AI Policy instead of a blanket ban, cause i really dislike being unprofessional in these matters. Yes, i know it is an MC mod, But it is still a piece of software, and such things are not to be handled childishly
+read the AI_POLICY.md for information

@@ -82,6 +82,7 @@ public class TileMappings {
 		put(TileEntityMachineCentrifuge.class, "tileentity_centrifuge");
 		put(TileEntityNukeMan.class, "tileentity_nukeman");
 		put(TileEntityMachineUF6Tank.class, "tileentity_uf6_tank");
+		put(TileEntityDriveRack.class, "tileentity_drive_rack");
 		put(TileEntityMachinePuF6Tank.class, "tileentity_puf6_tank");
 		put(TileEntityMachineReactorBreeding.class, "tileentity_reactor");
 		put(TileEntityFurnaceSpace.class, "tileentity_furnace_space");
@@ -328,6 +329,7 @@ public class TileMappings {
 		put(TileEntityTurretHIMARS.class, "tileentity_turret_himars");
 		put(TileEntityTurretSentry.class, "tileentity_turret_sentry");
 		put(TileEntityTurretSentryDamaged.class, "tileentity_turret_sentry_damaged");
+		put(TileEntityTurretRailgun.class, "tileentity_turret_railgun");
 	}
 
 	private static void putMachines() {
@@ -344,6 +346,7 @@ public class TileMappings {
 		put(TileEntityStirling.class, "tileentity_stirling");
 		put(TileEntitySawmill.class, "tileentity_sawmill");
 		put(TileEntityCrucible.class, "tileentity_crucible");
+		put(TileEntityDriveRack.class, "tileentity_drive_rack");
 		put(TileEntityHeatBoiler.class, "tileentity_heat_boiler");
 		put(TileEntityHeatBoilerIndustrial.class, "tileentity_heat_boiler_industrial");
 

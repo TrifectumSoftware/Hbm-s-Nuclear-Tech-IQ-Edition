@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockPlushie.PlushieType;
 import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
@@ -8,13 +11,17 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.inventory.container.ContainerMachinePress;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachinePress;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import com.hbm.util.BufferUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -29,12 +36,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePress extends TileEntityMachineBase implements IGUIProvider {
-
-	public int speed = 0; // speed ticks up once (or four times if preheated) when operating
-	public static final int maxSpeed = 400; // max speed ticks for acceleration
-	public static final int progressAtMax = 25; // max progress speed when hot
-	public int burnTime = 0; // burn ticks of the loaded fuel, 200 ticks equal one operation
+public class TileEntityMachinePress extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver {
+	public static final int maxSpeed = 200; // max speed ticks for acceleration
+	public static final int consumption = 100; // steam mb/t
 
 	public int press; // extension of the press, operation is completed if maxPress is reached
 	public double renderPress; // client-side version of the press var, a double for smoother rendering
@@ -45,10 +49,15 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	boolean isRetracting = false; // direction the press is currently going
 	private int delay; // delay between direction changes to look a bit more appealing
 
+	public FluidTank[] tanks; //hhhhhh
+
 	public ItemStack syncStack;
 
 	public TileEntityMachinePress() {
 		super(13);
+		tanks = new FluidTank[2];
+		tanks[0] = new FluidTank(Fluids.STEAM, 8000);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 1000);
 	}
 
 	@Override
@@ -66,33 +75,23 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 				worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord), 1);
 			}
 
-			boolean preheated = false;
-
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == ModBlocks.press_preheater) {
-					preheated = true;
-					break;
-				}
+				trySubscribe(tanks[0].getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				sendFluid(tanks[1], worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
 
 			boolean canProcess = this.canProcess();
 
-			if((canProcess || this.isRetracting) && this.burnTime >= 200) {
-				this.speed += preheated ? 4 : 1;
-
-				if(this.speed > this.maxSpeed) {
-					this.speed = this.maxSpeed;
-				}
-			} else {
-				this.speed -= 1;
-				if(this.speed < 0) {
-					this.speed = 0;
+			if (canProcess) {
+				this.tanks[0].setFill(this.tanks[0].getFill() - consumption);
+				if ((this.tanks[1].getFill() + 20) < this.tanks[1].getMaxFill()) {
+					this.tanks[1].setFill(this.tanks[1].getFill() + (consumption / 100));
 				}
 			}
 
 			if(delay <= 0) {
 
-				int stampSpeed = speed * progressAtMax / maxSpeed;
+				int stampSpeed = maxSpeed;
 
 				if(this.isRetracting) {
 					this.press -= stampSpeed;
@@ -138,9 +137,6 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 
 						this.isRetracting = true;
 						this.delay = 5;
-						if(this.burnTime >= 200) {
-							this.burnTime -= 200; // only subtract fuel if operation was actually successful
-						}
 
 						this.markDirty();
 					}
@@ -149,17 +145,6 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 				}
 			} else {
 				delay--;
-			}
-
-			if(slots[0] != null && burnTime < 200 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) { // less than one operation stored? burn more fuel!
-				burnTime += TileEntityFurnace.getItemBurnTime(slots[0]);
-
-				if(slots[0].stackSize == 1 && slots[0].getItem().hasContainerItem(slots[0])) {
-					slots[0] = slots[0].getItem().getContainerItem(slots[0]).copy();
-				} else {
-					this.decrStackSize(0, 1);
-				}
-				this.markChanged();
 			}
 
 			this.networkPackNT(50);
@@ -187,26 +172,24 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		buf.writeInt(this.speed);
-		buf.writeInt(this.burnTime);
 		buf.writeInt(this.press);
 		BufferUtil.writeItemStack(buf, slots[2]);
+		for(FluidTank tank : tanks) tank.serialize(buf);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		this.speed = buf.readInt();
-		this.burnTime = buf.readInt();
 		this.syncPress = buf.readInt();
 		this.syncStack = BufferUtil.readItemStack(buf);
 
 		this.turnProgress = 2;
+		for(FluidTank tank : tanks) tank.deserialize(buf);
 	}
 
 	public boolean canProcess() {
-		if(burnTime < 200) return false;
 		if(slots[1] == null || slots[2] == null) return false;
+		if(tanks[0].getFill() < consumption) return false;
 
 		ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
 
@@ -248,18 +231,16 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		press = nbt.getInteger("press");
-		burnTime = nbt.getInteger("burnTime");
-		speed = nbt.getInteger("speed");
 		isRetracting = nbt.getBoolean("ret");
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("press", press);
-		nbt.setInteger("burnTime", burnTime);
-		nbt.setInteger("speed", speed);
 		nbt.setBoolean("ret", isRetracting);
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
 	}
 
 	AxisAlignedBB aabb;
@@ -286,5 +267,20 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachinePress(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
 	}
 }

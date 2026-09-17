@@ -651,6 +651,7 @@ public class ModBlocks {
 	public static Block geysir_chloric;
 	public static Block geysir_waste;
 	public static Block geysir_waste_massive;
+	public static Block geysir_concrete;
 
 	public static Block flame_war;
 	public static Block float_bomb;
@@ -1221,6 +1222,8 @@ public class ModBlocks {
 	public static Block machine_autocrafter;
 	public static Block machine_funnel;
 
+	public static Block machine_drive_rack;
+
 	public static Block anvil_iron;
 	public static Block anvil_lead;
 	public static Block anvil_steel;
@@ -1247,6 +1250,7 @@ public class ModBlocks {
 	public static Block turret_himars;
 	public static Block turret_sentry;
 	public static Block turret_sentry_damaged;
+	public static Block turret_railgun;
 
 	public static Block rbmk_rod;
 	public static Block rbmk_rod_mod;
@@ -2036,6 +2040,7 @@ public class ModBlocks {
 		geysir_chloric = new BlockGeysierDCM(Material.rock).setBlockName("geysir_chloric").setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setHardness(2.0F).setBlockTextureName(RefStrings.MODID + ":basalt");;
 		geysir_waste = new BlockWasteGeysir(Material.rock).setBlockName("geysir_waste").setStepSound(Block.soundTypeStone).setHardness(2.0F).setBlockTextureName(RefStrings.MODID + ":waste_geysir");
 		geysir_waste_massive = new BlockWasteGeysirMassive(Material.rock).setBlockName("geysir_waste_massive").setStepSound(Block.soundTypeStone).setHardness(2.0F).setBlockTextureName(RefStrings.MODID + ":waste_geysir");
+		geysir_concrete = new BlockGeysir(Material.rock).setBlockName("geysir_concrete").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 
 		cyst = new BlockCyst(Material.coral).setBlockName("cyst").setStepSound(Block.soundTypeCloth).setHardness(0.5F);
 
@@ -2112,6 +2117,8 @@ public class ModBlocks {
 		machine_crucible = new MachineCrucible().setBlockName("machine_crucible").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 		machine_boiler = new MachineHeatBoiler().setBlockName("machine_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		machine_industrial_boiler = new MachineHeatBoilerIndustrial().setBlockName("machine_industrial_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+
+		machine_drive_rack = new MachineDriveRack(Material.iron).setBlockName("machine_drive_rack").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_drive_rack");
 
 		foundry_mold = new FoundryMold().setBlockName("foundry_mold").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 		foundry_basin = new FoundryBasin().setBlockName("foundry_basin").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
@@ -2467,6 +2474,7 @@ public class ModBlocks {
 		turret_himars = new TurretHIMARS(Material.iron).setBlockName("turret_himars").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_sentry = new TurretSentry().setBlockName("turret_sentry").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_sentry_damaged = new TurretSentryDamaged().setBlockName("turret_sentry_damaged").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_rust");
+		turret_railgun = new TurretRailgun(Material.iron).setBlockName("turret_railgun").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		rbmk_rod = new RBMKRod(false).setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
 		rbmk_rod_mod = new RBMKRod(true).setBlockName("rbmk_rod_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_mod");
@@ -3446,6 +3454,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(geysir_chloric, geysir_chloric.getUnlocalizedName());
 	GameRegistry.registerBlock(geysir_waste, geysir_waste.getUnlocalizedName());
 	GameRegistry.registerBlock(geysir_waste_massive, geysir_waste_massive.getUnlocalizedName());
+	GameRegistry.registerBlock(geysir_concrete, geysir_concrete.getUnlocalizedName());
 
 		//Nukes
 		GameRegistry.registerBlock(nuke_gadget, nuke_gadget.getUnlocalizedName());
@@ -3486,6 +3495,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_himars, turret_himars.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_sentry, turret_sentry.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_sentry_damaged, turret_sentry_damaged.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_railgun, turret_railgun.getUnlocalizedName());
 
 		//Wall-mounted Explosives
 		GameRegistry.registerBlock(charge_dynamite, ItemBlockBase.class, charge_dynamite.getUnlocalizedName());
@@ -3633,6 +3643,7 @@ public class ModBlocks {
 		register(machine_sawmill);
 		register(machine_crucible);
 		register(machine_strand_caster);
+		register(machine_drive_rack);
 		register(machine_boiler);
 		register(machine_industrial_boiler);
 		register(foundry_mold);

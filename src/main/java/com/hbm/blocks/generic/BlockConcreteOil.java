@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.render.block.RenderBlockMultipass;

@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 public class ElectrolyserFluidRecipes extends SerializableRecipe {
 
 	public static HashMap<FluidType, ElectrolysisRecipe> recipes = new HashMap();
-	
+
 	@Override
 	public void registerDefaults() {
 		recipes.put(Fluids.WATER, new ElectrolysisRecipe(2_000, new FluidStack(Fluids.HYDROGEN, 200), new FluidStack(Fluids.OXYGEN, 200), 10));
@@ -41,7 +41,6 @@ public class ElectrolyserFluidRecipes extends SerializableRecipe {
 
 		recipes.put(Fluids.LITHCARBONATE, new ElectrolysisRecipe(1_000, new FluidStack(Fluids.OXYGEN, 12_000), new FluidStack(Fluids.NONE, 0), 10, new ItemStack(ModItems.powder_lithium, 1), new ItemStack(ModItems.ingot_graphite, 1)));
 
-		recipes.put(Fluids.HEAVY_SAND_SLOP, new ElectrolysisRecipe(500, new FluidStack(Fluids.MONAZITE_SLOP, 250), new FluidStack(Fluids.CHLORINE, 250), new ItemStack(ModItems.powder_zirconium, 2)));
 		recipes.put(Fluids.MONAZITE_SLOP, new ElectrolysisRecipe(250, new FluidStack(Fluids.NONE, 0), new FluidStack(Fluids.CHLORINE, 250), new ItemStack(ModItems.powder_thorium, 1), new ItemStack(ModItems.powder_desh_mix, 1)));
 		recipes.put(Fluids.TICL4, new ElectrolysisRecipe(1000, new FluidStack(Fluids.NONE, 0), new FluidStack(Fluids.CHLORINE, 500), new ItemStack(ModItems.powder_titanium, 4)));
 

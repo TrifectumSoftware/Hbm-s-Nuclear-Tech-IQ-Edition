@@ -3,6 +3,7 @@ package com.hbm.world;
 import java.util.ArrayList;
 
 import com.hbm.config.SpaceConfig;
+import com.hbm.dim.czechoslowakia.WorldGeneratorCzechoslowakia;
 import com.hbm.dim.czechoslowakia.WorldProviderCzechoslowakia;
 import com.hbm.dim.dres.WorldGeneratorDres;
 import com.hbm.dim.dross.WorldProviderDross;
@@ -63,12 +64,19 @@ public class PlanetGen {
 		GameRegistry.registerWorldGenerator(new WorldGeneratorMinmus(), 1);
 		GameRegistry.registerWorldGenerator(new WorldGeneratorLaythe(), 1);
 		GameRegistry.registerWorldGenerator(new WorldGeneratorTekto(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorCzechoslowakia(), 1);
 	}
 
 	private static ArrayList<Integer> spaceDimensions = new ArrayList<>();
 
 	public static int[] getSpaceDimensions() {
 		return BobMathUtil.intCollectionToArray(spaceDimensions);
+	}
+
+	public static int[] getSpaceDimensionsExcept(int... exclude) {
+		ArrayList<Integer> list = new ArrayList<>(spaceDimensions);
+		for (int i : exclude) list.remove(Integer.valueOf(i));
+		return BobMathUtil.intCollectionToArray(list);
 	}
 
 	private static void registerDimension(int dimensionId, Class<? extends WorldProvider> clazz) {

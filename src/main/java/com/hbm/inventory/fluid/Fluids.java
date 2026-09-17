@@ -330,6 +330,7 @@ public class Fluids {
 	public static FluidType BUURMIC_ACID;
 	public static FluidType DILUTED_BUURMIC_ACID;
 	public static FluidType LIGHT_BUURMIUM_SOLUTION;
+	public static FluidType STALEAIR;
 
 	/* Legacy names for compatibility purposes */
 	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
@@ -632,7 +633,7 @@ public class Fluids {
 		POISON =			new FluidType("POISON",				0x9B2F2F, 1, 0, 0, EnumSymbol.NONE).addTraits(new FT_Drug().setThreshold(0.005F).setDissipationRate(5F).addSideEffect("seizure"), LIQUID, new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 3F, 20, HazardClass.PARTICLE_FINE, false)));
 		NUTRIENT_SLOP =			new FluidType("NUTRIENT_SLOP",		0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Consumable().setFood(0.1F, 0.02F));
 		TAMSLOP =				new FluidType("TAMSLOP",			0x5B9E3F, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Consumable().setFood(1.0F, 0.1F).addEffect(Potion.regeneration.id, 2));
-		TICL4 =				new FluidType("TICL4",				0xFF69B4, 1, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		TICL4 =				new FluidType("TICL4",				0xF2F2A4, 3, 0, 2, EnumSymbol.ACID).addTraits(LIQUID, new FT_Corrosive(30));
 		HEAVY_SAND_SLOP =		new FluidType("HEAVY_SAND_SLOP",	0x8B7D6B, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		MONAZITE_SLOP =			new FluidType("MONAZITE_SLOP",		0xC4A84B, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		NETHERAIR =				new FluidType("NETHERAIR",			0xB34B4B, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Gastank(0x8C21FF, 0xFFFFFF)).addTraits(GASEOUS);
@@ -692,6 +693,7 @@ public class Fluids {
 		GANJA =			new FluidType("GANJA",			0x4E7A27, 0, 0, 0, EnumSymbol.NONE).addTraits(new FT_Drug().setConsumption(50).setThreshold(0.02F).setDissipationRate(30F).addEffect(HbmPotion.ganja.id, 0), LIQUID);
 		CONSTRUCTION_FOAM =	new FluidType("CONSTRUCTION_FOAM", 0xE6E2DA, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam());
 
+		STALEAIR = new FluidType("STALEAIR", 0xCCCCCC, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Gastank(0xCCCCCC, 0xFFFF00)).addTraits(GASEOUS);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 
@@ -1021,6 +1023,7 @@ public class Fluids {
 		metaOrder.add(INK_BLACK);
 		metaOrder.add(GANJA);
 		metaOrder.add(CONSTRUCTION_FOAM);
+		metaOrder.add(STALEAIR);
 
 		//ANY INTERNAL RENAMING MUST BE REFLECTED HERE - DON'T FORGET TO CHANGE: LANG FILES + TYPE'S STRING ID + NAME OF TANK/GUI TEXTURE FILES!
 		// V

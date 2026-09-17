@@ -396,7 +396,9 @@ public abstract class WorldProviderCelestial extends WorldProviderSurface {
 			FluidEntry entry = atmosphere.fluids.get(i);
 			Vec3 fluidColor;
 
-			if(entry.fluid == Fluids.EVEAIR) {
+			if (entry.fluid == Fluids.STALEAIR) {
+				fluidColor = Vec3.createVectorHelper(127F / 255F * sun, 127F / 255F * sun, 140F / 255F * sun);
+			} else if(entry.fluid == Fluids.EVEAIR) {
 				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
 			} else if(entry.fluid == Fluids.DUNAAIR || entry.fluid == Fluids.CARBONDIOXIDE) {
 				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);

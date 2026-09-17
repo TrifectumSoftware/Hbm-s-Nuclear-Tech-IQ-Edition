@@ -371,6 +371,9 @@ public class HazardRegistry {
 		HazardSystem.register(powder_diffused_buurmium, makeData(RADIATION, 2.137F));
 		HazardSystem.register(powder_pure_buurmium, makeData(RADIATION, 213.7F));
 		HazardSystem.register(powder_metastable_buurmium, makeData(RADIATION, 2137.0F));
+		HazardSystem.register(powder_diffused_buurmium_tiny, makeData(RADIATION, 2.137F * nugget));
+		HazardSystem.register(powder_pure_buurmium_tiny, makeData(RADIATION, 213.7F * nugget));
+		HazardSystem.register(powder_metastable_buurmium_tiny, makeData(RADIATION, 2137.0F * nugget));
 
 		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 3F);
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
@@ -452,6 +455,9 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_lecm, cmrg * 2.2F * rod_rbmk / 5F, wst * rod_rbmk);
 		registerRBMKRod(rbmk_fuel_mecm, cmrg * 2.2F * rod_rbmk / 3F, wst * rod_rbmk * 3F);
 		registerRBMKRod(rbmk_fuel_hecm, cmrg * 2.2F * rod_rbmk /1.5F, wst * rod_rbmk * 5F);
+		registerRBMKRod(rbmk_fuel_dbm, 2.137F * rod_rbmk, 2.137F * 100.0F * rod_rbmk);
+		registerRBMKRod(rbmk_fuel_pbm, 213.7F * rod_rbmk, 213.7F * 100.0F * rod_rbmk);
+		registerRBMKRod(rbmk_fuel_mbm, 2137F * rod_rbmk, 2137F * 100.0F * rod_rbmk);
 
 
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, wst * billet * 20F);
@@ -490,6 +496,9 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_lecm, cmrg * billet, wst * cf252 * 2.5F);
 		registerRBMKPellet(rbmk_pellet_mecm, cmrg * billet, wst * cf252 * 2.6F);
 		registerRBMKPellet(rbmk_pellet_hecm, cmrg * billet, wst * cf252 * 2.7F);
+		registerRBMKPellet(rbmk_pellet_dbm, 2.137F * billet, 2.137F * 100.0F * billet);
+		registerRBMKPellet(rbmk_pellet_pbm, 213.7F * billet, 213.7F * 100.0F * billet);
+		registerRBMKPellet(rbmk_pellet_mbm, 2137F * billet, 2137F * 100.0F * billet);
 
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.SCHRABIDIUM), makeData(RADIATION, sa326 * ingot * 4));
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.HES), makeData(RADIATION, saf * ingot * 4));

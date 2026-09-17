@@ -1,0 +1,11 @@
+{
+	"name": "Buurmium",
+	"icon": ["hbm:item.powder_pure_buurmium", 1, 0],
+	"trigger": [["hbm:item.powder_diffused_buurmium"],["hbm:item.powder_pure_buurmium"],["hbm:item.powder_metastable_buurmium"]],
+	"title": {
+		"en_US": "Buurmium"
+	},
+	"content": {
+		"en_US": "A strange element found in the mantle of Czechoslowakia. Discovered in 1976 by two neighbors, it has very reactive properties and as such is a great [[RBMK]] fuel.<br>When refining [[natural concrete|Natural Concrete]], trace amounts of it can be obtained in a diffused form. To remove the mixed-in cement, the diffused buurmium must be processed in the RBMK and subsequently processed in a SILEX, or alternatively, if the fuel is depleted enough, processed in the PUREX using [[buurmic acid|Buurmic Acid]]."
+	}
+}

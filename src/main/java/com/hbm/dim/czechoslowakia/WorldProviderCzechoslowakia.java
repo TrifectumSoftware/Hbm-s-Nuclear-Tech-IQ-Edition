@@ -3,6 +3,8 @@ package com.hbm.dim.czechoslowakia;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.czechoslowakia.biome.BiomeGenPrague;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 

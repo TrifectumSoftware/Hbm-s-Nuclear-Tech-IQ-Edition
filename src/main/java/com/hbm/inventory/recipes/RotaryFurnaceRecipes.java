@@ -42,7 +42,7 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(3)), 200, 25, new OreDictStack(IRON.fragment(), 9), new OreDictStack(ANY_COKE.gem())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(4)), 400, 25, new OreDictStack(IRON.fragment(), 9), new OreDictStack(ANY_COKE.gem()), new ComparableStack(ModItems.powder_flux)));
 
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_DESH, INGOT.q(1)), 100, 200, new FluidStack(Fluids.LIGHTOIL, 100), new ComparableStack(ModItems.powder_desh_ready)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_DESH, INGOT.q(2)), 100, 200, new FluidStack(Fluids.LIGHTOIL, 100), new ComparableStack(ModItems.powder_desh_ready)));
 
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_GUNMETAL, INGOT.q(4)), 200, 100, new OreDictStack(CU.ingot(), 3), new OreDictStack(ZI.ingot(), 1)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_WEAPONSTEEL, INGOT.q(1)), 200, 400, new FluidStack(Fluids.GAS_COKER, 100), new OreDictStack(STEEL.ingot(), 1), new ComparableStack(ModItems.powder_flux, 2)));
@@ -52,6 +52,9 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(2)), 100, 400, new FluidStack(Fluids.SODIUM_ALUMINATE, 150)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_ALUMINIUM, INGOT.q(3)), 40, 200, new FluidStack(Fluids.SODIUM_ALUMINATE, 150), new ComparableStack(ModItems.powder_flux, 2)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_BLOATATE, INGOT.q(2)), 200, 400, new FluidStack(Fluids.BLOATSPIRIT, 250), new OreDictStack(TH232.dust(), 4), new OreDictStack(CU.dust(), 1)));
+
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_BRONZE, INGOT.q(4)), 200, 300, new OreDictStack(CU.dust(), 3), new OreDictStack(SN.dust())));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_BRONZE, INGOT.q(6)), 200, 400, new FluidStack(Fluids.GAS, 1000), new OreDictStack(CU.dust(), 3), new OreDictStack(SN.dust()), new OreDictStack(PB.dust())));
 	}
 
 	public static HashMap getRecipes() {

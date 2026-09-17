@@ -30,6 +30,7 @@ public class ResourceManager {
 	public static final IModelCustom turret_arty = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_arty.obj")).asVBO();
 	public static final IModelCustom turret_himars = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_himars.obj")).asVBO();
 	public static final IModelCustom turret_sentry = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_sentry.obj")).asVBO();
+	public static final IModelCustom turret_railgun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_railgun.obj")).asVBO();
 
 	public static final IModelCustom turret_howard_damaged = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_howard_damaged.obj")).asVBO();
 
@@ -216,6 +217,9 @@ public class ResourceManager {
 
 	//Cyclotron
 	public static final IModelCustom cyclotron = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/cyclotron.obj")).asVBO();
+
+	//Drive Rack
+	public static final IModelCustom drive_rack = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/drive_rack.obj")).asVBO();
 
 	//Albion Particle Accelerator
 	public static final IModelCustom pa_source = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/particleaccelerator/source.obj")).asVBO();
@@ -518,6 +522,7 @@ public class ResourceManager {
 	public static final ResourceLocation turret_himars_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/himars.png");
 	public static final ResourceLocation turret_sentry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/sentry.png");
 	public static final ResourceLocation turret_sentry_damaged_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/sentry_damaged.png");
+	public static final ResourceLocation turret_railgun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/railgun.png");
 
 	public static final ResourceLocation himars_standard_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/himars_standard.png");
 	public static final ResourceLocation himars_single_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/himars_single.png");
@@ -603,6 +608,7 @@ public class ResourceManager {
 	public static final ResourceLocation orbital_computer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/spaceship_computer.png");
 	public static final ResourceLocation transporter_pad_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/transporter_pad.png");
 	public static final ResourceLocation hydroponic_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/hydroponic.png");
+	public static final ResourceLocation drive_rack_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drive_rack.png");
 
 	//Flare Stack
 	public static final ResourceLocation oilflare_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/flare_stack.png");
@@ -1268,6 +1274,7 @@ public class ResourceManager {
 	public static final ResourceLocation grenade_nuka_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/nuka_label.png");
 	public static final ResourceLocation grenade_nuka_fuze_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/nuka_fuze.png");
 
+	public static final ResourceLocation bj_helmet = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_helmet.png");
 	public static final ResourceLocation bj_eyepatch = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_eyepatch.png");
 	public static final ResourceLocation bj_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_leg.png");
 	public static final ResourceLocation bj_chest = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_chest.png");
@@ -1374,6 +1381,7 @@ public class ResourceManager {
 	public static final IModelCustom projectiles = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/projectiles/projectiles.obj"));
 	public static final IModelCustom leadburster = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/projectiles/leadburster.obj"));
 	public static final IModelCustom casings = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/effect/casings.obj")).asVBO();
+	public static final IModelCustom railgun_sabot = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/projectiles/sabot.obj")).asVBO();
 
 	//Bomber
 	public static final IModelCustom dornier = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/dornier.obj"));

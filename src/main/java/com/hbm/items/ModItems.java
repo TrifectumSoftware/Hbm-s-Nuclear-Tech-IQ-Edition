@@ -44,28 +44,14 @@ import com.hbm.items.special.*;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.items.tool.*;
 import com.hbm.items.tool.ItemToolAbility.EnumToolType;
-import com.hbm.items.weapon.BSword;
-import com.hbm.items.weapon.GunB92;
-import com.hbm.items.weapon.GunB92Cell;
-import com.hbm.items.weapon.ItemAmmo;
-import com.hbm.items.weapon.ItemAmmoArty;
-import com.hbm.items.weapon.ItemAmmoHIMARS;
-import com.hbm.items.weapon.ItemCrucible;
-import com.hbm.items.weapon.ItemCustomMissile;
-import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.*;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.items.weapon.ItemCustomMissilePart.Rarity;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
-import com.hbm.items.weapon.ItemCustomRocket;
-import com.hbm.items.weapon.ItemDisperser;
-import com.hbm.items.weapon.ItemGrenadeDynamite;
-import com.hbm.items.weapon.ItemGrenadeFishing;
-import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.items.weapon.ItemMissile.MissileTier;
-import com.hbm.items.weapon.WeaponizedCell;
 import com.hbm.items.weapon.grenade.ItemGrenadeExtra;
 import com.hbm.items.weapon.grenade.ItemGrenadeFilling;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze;
@@ -275,6 +261,11 @@ public class ModItems {
 
 	public static Item ingot_tt;
 	public static Item ingot_ttas;
+	public static Item ingot_bronze;
+	public static Item ingot_tin;
+	public static Item powder_tin;
+	public static Item tin_can;
+	public static Item tam69;
 
 	@Deprecated public static Item ore_byproduct;
 
@@ -516,9 +507,13 @@ public class ModItems {
 	public static Item nugget_lanthanium;
 	public static Item ingot_actinium;
 
+	// Called a buurman, behaves like 125mB of liquid concrete. Fine.
 	public static Item powder_diffused_buurmium;
 	public static Item powder_pure_buurmium;
 	public static Item powder_metastable_buurmium;
+	public static Item powder_diffused_buurmium_tiny;
+	public static Item powder_pure_buurmium_tiny;
+	public static Item powder_metastable_buurmium_tiny;
 
 	public static Item ingot_meteorite;
 	public static Item ingot_meteorite_forged;
@@ -1603,6 +1598,7 @@ public class ModItems {
 	public static Item ammo_dgk;
 	public static Item ammo_arty;
 	public static Item ammo_himars;
+	public static Item ammo_railgun;
 
 	public static Item gun_b92;
 	public static Item gun_b92_ammo;
@@ -1952,6 +1948,7 @@ public class ModItems {
 	public static Item bismuth_plate;
 	public static Item bismuth_legs;
 	public static Item bismuth_boots;
+	public static Item bj_eyepatch;
 	public static Item bj_helmet;
 	public static Item bj_plate;
 	public static Item bj_plate_jetpack;
@@ -2646,6 +2643,9 @@ public class ModItems {
 		powder_diffused_buurmium = new Item().setUnlocalizedName("powder_diffused_buurmium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_diffused_buurmium");
 		powder_pure_buurmium = new Item().setUnlocalizedName("powder_pure_buurmium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_pure_buurmium");
 		powder_metastable_buurmium = new Item().setUnlocalizedName("powder_metastable_buurmium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_metastable_buurmium");
+		powder_diffused_buurmium_tiny = new Item().setUnlocalizedName("powder_diffused_buurmium_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_diffused_buurmium_tiny");
+		powder_pure_buurmium_tiny = new Item().setUnlocalizedName("powder_pure_buurmium_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_pure_buurmium_tiny");
+		powder_metastable_buurmium_tiny = new Item().setUnlocalizedName("powder_metastable_buurmium_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_metastable_buurmium_tiny");
 
 		ingot_meteorite = new ItemHot(200).setUnlocalizedName("ingot_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_meteorite");
 		ingot_meteorite_forged = new ItemHot(200).setUnlocalizedName("ingot_meteorite_forged").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_meteorite_forged");
@@ -2757,6 +2757,11 @@ public class ModItems {
 		powder_gallium_tiny= new Item().setUnlocalizedName("powder_gallium_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_gallium_tiny");
 		ingot_tt = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("ingot_tt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_techtactium");
 		ingot_ttas = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("ingot_ttas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_techtactium_as");
+		ingot_bronze = new Item().setUnlocalizedName("ingot_bronze").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bronze");
+		ingot_tin = new Item().setUnlocalizedName("ingot_tin").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_tin");
+		powder_tin = new Item().setUnlocalizedName("powder_tin").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_tin");
+		tin_can = new Item().setUnlocalizedName("tin_can").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":tin_can");
+		tam69 = new ItemCustomLore().setUnlocalizedName("tam69").setTextureName(RefStrings.MODID + ":tam69");
 		ingot_gaas = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("ingot_gaas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_gaas1");
 		nugget_gaas = new Item().setUnlocalizedName("nugget_gaas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_gaas");
 		billet_gaas = new Item().setUnlocalizedName("billet_gaas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_gaas1");
@@ -4136,6 +4141,7 @@ public class ModItems {
 		ammo_misc = new ItemAmmo(AmmoMisc.class).setUnlocalizedName("ammo_misc");
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");
 		ammo_himars = new ItemAmmoHIMARS().setUnlocalizedName("ammo_himars");
+		ammo_railgun = new ItemAmmoRailgun().setUnlocalizedName("ammo_railgun");
 
 		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_alt");
 		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92");
@@ -5064,6 +5070,11 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_gallium, ingot_gallium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_gaas, ingot_gaas.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_tt, ingot_tt.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_bronze, ingot_bronze.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_tin, ingot_tin.getUnlocalizedName());
+		GameRegistry.registerItem(powder_tin, powder_tin.getUnlocalizedName());
+		GameRegistry.registerItem(tin_can, tin_can.getUnlocalizedName());
+		GameRegistry.registerItem(tam69, tam69.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_ttas, ingot_ttas.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_iridium, ingot_iridium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_palladium, ingot_palladium.getUnlocalizedName());
@@ -5125,6 +5136,9 @@ public class ModItems {
 		GameRegistry.registerItem(powder_diffused_buurmium, powder_diffused_buurmium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_pure_buurmium, powder_pure_buurmium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_metastable_buurmium, powder_metastable_buurmium.getUnlocalizedName());
+		GameRegistry.registerItem(powder_diffused_buurmium_tiny, powder_diffused_buurmium_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(powder_pure_buurmium_tiny, powder_pure_buurmium_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(powder_metastable_buurmium_tiny, powder_metastable_buurmium_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_desh, ingot_desh.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_ferrouranium, ingot_ferrouranium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_starmetal, ingot_starmetal.getUnlocalizedName());
@@ -6582,6 +6596,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_dgk, ammo_dgk.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_arty, ammo_arty.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_himars, ammo_himars.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_railgun, ammo_railgun.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_container, ammo_container.getUnlocalizedName());
 
@@ -7049,6 +7064,7 @@ public class ModItems {
 		GameRegistry.registerItem(ncrpa_legs, ncrpa_legs.getUnlocalizedName());
 		GameRegistry.registerItem(ncrpa_boots, ncrpa_boots.getUnlocalizedName());
 		GameRegistry.registerItem(bj_helmet, bj_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(bj_eyepatch, bj_eyepatch.getUnlocalizedName());
 		GameRegistry.registerItem(bj_plate, bj_plate.getUnlocalizedName());
 		GameRegistry.registerItem(bj_plate_jetpack, bj_plate_jetpack.getUnlocalizedName());
 		GameRegistry.registerItem(bj_legs, bj_legs.getUnlocalizedName());

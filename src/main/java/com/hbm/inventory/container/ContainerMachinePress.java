@@ -19,13 +19,13 @@ public class ContainerMachinePress extends Container {
 		press = tedf;
 
 		// Coal
-		this.addSlotToContainer(new Slot(tedf, 0, 26, 53));
+		//this.addSlotToContainer(new Slot(tedf, 0, 26, 53));
 		// Stamp
-		this.addSlotToContainer(new Slot(tedf, 1, 80, 17));
+		this.addSlotToContainer(new Slot(tedf, 1, 61, 17));
 		// Input
-		this.addSlotToContainer(new Slot(tedf, 2, 80, 53));
+		this.addSlotToContainer(new Slot(tedf, 2, 61, 53));
 		// Output
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 140, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 122, 35));
 		// Extra Storage
 		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(tedf, 4 + i, 8 + i * 18, 84));
@@ -56,7 +56,7 @@ public class ContainerMachinePress extends Container {
 					return null;
 				}
 			} else {
-				
+
 				if(TileEntityFurnace.isItemFuel(var3)) {
 					if(!this.mergeItemStack(var5, 0, 1, false)) {
 						if(!this.mergeItemStack(var5, 4, 13, false)) {
