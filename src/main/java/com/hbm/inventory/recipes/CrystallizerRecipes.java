@@ -10,6 +10,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.inventory.FluidStack;
@@ -238,6 +239,16 @@ public class CrystallizerRecipes extends SerializableRecipe {
 
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type), bedrock).setReq(64), new FluidStack(Fluids.SLOP, 1000));
 		}
+
+		int quikreteTime = 100;
+		registerRecipe(new ComparableStack(ModItems.quikrete_concrete), new CrystallizerRecipe(new ItemStack(ModBlocks.concrete, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
+		registerRecipe(new ComparableStack(ModItems.quikrete_reinforced_concrete), new CrystallizerRecipe(new ItemStack(ModBlocks.concrete_rebar, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
+		registerRecipe(new ComparableStack(ModItems.quikrete_ducrete), new CrystallizerRecipe(new ItemStack(ModBlocks.ducrete, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
+		registerRecipe(new ComparableStack(ModItems.quikrete_reinforced_ducrete), new CrystallizerRecipe(new ItemStack(ModBlocks.reinforced_ducrete, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
+		registerRecipe(new ComparableStack(ModItems.quikrete_limestone), new CrystallizerRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
+		registerRecipe(new ComparableStack(ModItems.quikrete_netherrack), new CrystallizerRecipe(new ItemStack(Blocks.netherrack, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
+		registerRecipe(new ComparableStack(ModItems.quikrete_depthrock), new CrystallizerRecipe(new ItemStack(ModBlocks.stone_depth, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
+		registerRecipe(new ComparableStack(ModItems.quikrete_nether_depthrock), new CrystallizerRecipe(new ItemStack(ModBlocks.stone_depth_nether, 4), quikreteTime), new FluidStack(Fluids.WATER, 250));
 
 		FluidStack[] dyes = new FluidStack[] {new FluidStack(Fluids.WOODOIL, 100), new FluidStack(Fluids.FISHOIL, 100), new FluidStack(Fluids.LIGHTOIL, 100)};
 		for(FluidStack dye : dyes) {

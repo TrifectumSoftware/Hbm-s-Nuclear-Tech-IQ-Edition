@@ -167,6 +167,15 @@ public class ModItems {
 	public static Item powder_limestone;
 	public static Item powder_cement;
 
+	public static Item quikrete_concrete;
+	public static Item quikrete_reinforced_concrete;
+	public static Item quikrete_ducrete;
+	public static Item quikrete_reinforced_ducrete;
+	public static Item quikrete_limestone;
+	public static Item quikrete_netherrack;
+	public static Item quikrete_depthrock;
+	public static Item quikrete_nether_depthrock;
+
 	public static Item niter;
 	public static Item ingot_copper;
 	public static Item ingot_red_copper;
@@ -2685,6 +2694,14 @@ public class ModItems {
 		powder_ash = new ItemEnumMulti(EnumAshType.class, true, true).setUnlocalizedName("powder_ash").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ash");
 		powder_limestone = new Item().setUnlocalizedName("powder_limestone").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_limestone");
 		powder_cement = new ItemLemon(2, 0.5F, false).setUnlocalizedName("powder_cement").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cement");
+		quikrete_concrete = new Item().setUnlocalizedName("quikrete_concrete").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_concrete");
+		quikrete_reinforced_concrete = new Item().setUnlocalizedName("quikrete_reinforced_concrete").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_reinforced_concrete");
+		quikrete_ducrete = new Item().setUnlocalizedName("quikrete_ducrete").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_ducrete");
+		quikrete_reinforced_ducrete = new Item().setUnlocalizedName("quikrete_reinforced_ducrete").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_reinforced_ducrete");
+		quikrete_limestone = new Item().setUnlocalizedName("quikrete_limestone").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_limestone");
+		quikrete_netherrack = new Item().setUnlocalizedName("quikrete_netherrack").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_netherrack");
+		quikrete_depthrock = new Item().setUnlocalizedName("quikrete_depthrock").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_depthrock");
+		quikrete_nether_depthrock = new Item().setUnlocalizedName("quikrete_nether_depthrock").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":quikrete_nether_depthrock");
 
 		ingot_gh336 = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("ingot_gh336").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_gh336");
 		nugget_gh336 = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("nugget_gh336").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_gh336");
@@ -5390,6 +5407,14 @@ public class ModItems {
 		GameRegistry.registerItem(powder_ash, powder_ash.getUnlocalizedName());
 		GameRegistry.registerItem(powder_limestone, powder_limestone.getUnlocalizedName());
 		GameRegistry.registerItem(powder_cement, powder_cement.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_concrete, quikrete_concrete.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_reinforced_concrete, quikrete_reinforced_concrete.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_ducrete, quikrete_ducrete.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_reinforced_ducrete, quikrete_reinforced_ducrete.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_limestone, quikrete_limestone.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_netherrack, quikrete_netherrack.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_depthrock, quikrete_depthrock.getUnlocalizedName());
+		GameRegistry.registerItem(quikrete_nether_depthrock, quikrete_nether_depthrock.getUnlocalizedName());
 
 		GameRegistry.registerItem(nickel_salts, nickel_salts.getUnlocalizedName());
 

@@ -198,7 +198,14 @@ public class Mats {
 	public static final NTMMaterial MAT_PVC			= makeNonSmeltable(_ES + 05, 		PVC,			0xFCFCFC, 0x9F9F9F, 0xF0F0F0).setAutogen(FRAGMENT, DUST, STOCK, GRIP).n();
 
 	//Beton
-	public static final NTMMaterial MAT_CONCRETE = makeNonSmeltable(_ES + 6, ANY_CONCRETE, 0xCCCCCC, 0x888888, 0x888888).n();
+	public static final NTMMaterial MAT_CONCRETE = makeNonSmeltable(_ES + 6, ANY_CONCRETE, 0xCCCCCC, 0x888888, 0x888888).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_REINFORCED_CONCRETE = makeNonSmeltable(_ES + 7, df("ReinforcedConcrete"), 0xA8A8A8, 0x6E6E6E, 0x888888).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_DURCRETE = makeNonSmeltable(_ES + 8, df("Ducrete"), 0x8E9288, 0x5A5E56, 0x74786E).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_REINFORCED_DURCRETE = makeNonSmeltable(_ES + 9, df("ReinforcedDucrete"), 0x6E7268, 0x3E423A, 0x565A50).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_LIMESTONE = makeNonSmeltable(_ES + 10, df("LimestoneRock"), 0xCFCBB6, 0x8F8B76, 0xAFAE9A).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_NETHERRACK = makeNonSmeltable(_ES + 11, df("Netherrack"), 0x7A3B3B, 0x3D1414, 0x5C2828).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_DEPTHROCK = makeNonSmeltable(_ES + 12, df("Depthrock"), 0x5C5C66, 0x2C2C34, 0x44444E).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_NETHER_DEPTHROCK = makeNonSmeltable(_ES + 13, df("NetherDepthrock"), 0x6E3B47, 0x341722, 0x512832).setAutogen(FRAGMENT).n();
 	public static NTMMaterial makeSmeltable(int id, DictFrame dict, int color) { return makeSmeltable(id, dict, color, color, color); }
 
 

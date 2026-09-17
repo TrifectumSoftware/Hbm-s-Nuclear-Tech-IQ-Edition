@@ -107,7 +107,6 @@ public class TileEntityTurretRailgun extends TileEntityMachineBase implements IG
 
 			this.sabot = this.getSabotLoaded();
 
-			// unit target vector finding
 			if (this.active && this.power > 0 && this.sabot != null) {
 				ItemAmmoRailgun.RailgunSabot sabotData = ItemAmmoRailgun.itemTypes[this.sabot.getItemDamage()];
 				this.v0 = sabotData.v0;
@@ -151,7 +150,6 @@ public class TileEntityTurretRailgun extends TileEntityMachineBase implements IG
 				if (this.charge >= maxCharge) this.fire(this.v0);
 			}
 
-			// slowly discharge the buffer if nothing is happening
 			if (this.charge > 0L && !(this.charging || this.calculating)) this.charge *= 0.98;
 
 			this.networkPackNT(250);

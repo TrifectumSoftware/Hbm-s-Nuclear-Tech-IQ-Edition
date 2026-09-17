@@ -14,7 +14,6 @@ public class ContainerDriveProcessor extends ContainerBase {
 
 		// 2 - upgrade slot
 
-		// 3 - battery slot
 
 		addSlotToContainer(new Slot(machine, 0, 30, 18));
 		addSlotToContainer(new Slot(machine, 1, 50, 38));
