@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerSampleSynthesizer;
 import com.hbm.inventory.gui.GUISampleSynthesizer;
+import com.hbm.items.ItemVial;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFloppyDisk;
 import com.hbm.lib.Library;
@@ -65,25 +66,12 @@ public class TileEntitySampleSynthesizer extends TileEntityMachineBase implement
 		}
 	}
 
-	private boolean hasPathogenData(ItemStack vial) {
-		if(!vial.hasTagCompound()) return false;
-		NBTTagCompound nbt = vial.stackTagCompound;
-		return nbt.hasKey("frame") || (nbt.hasKey("pathogen") && nbt.getCompoundTag("pathogen").hasKey("frame"));
-	}
-
-	private String readFrameId(ItemStack vial) {
-		NBTTagCompound nbt = vial.stackTagCompound;
-		if(nbt.hasKey("frame")) return nbt.getString("frame");
-		if(nbt.hasKey("pathogen")) return nbt.getCompoundTag("pathogen").getString("frame");
-		return null;
-	}
-
 	private void scanVial() {
 
 		if(slots[0] == null || slots[0].getItem() != ModItems.floppy_disk) return;
 		if(slots[1] == null || slots[1].getItem() != ModItems.vial) return;
 
-		String frameId = readFrameId(slots[1]);
+		String frameId = ItemVial.readFrame(slots[1]);
 		if(frameId == null) return;
 
 		float amount = 0;
@@ -170,7 +158,7 @@ public class TileEntitySampleSynthesizer extends TileEntityMachineBase implement
 				status = EnumChatFormatting.RED + "No disk ";
 				return;
 			}
-			if(slots[1] == null || slots[1].getItem() != ModItems.vial || !hasPathogenData(slots[1])) {
+			if(slots[1] == null || slots[1].getItem() != ModItems.vial || ItemVial.readFrame(slots[1]) == null) {
 				status = EnumChatFormatting.RED + "No sample ";
 				return;
 			}

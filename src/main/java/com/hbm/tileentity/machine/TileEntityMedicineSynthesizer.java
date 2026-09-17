@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMedicineSynthesizer;
+import com.hbm.items.ItemVial;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFloppyDisk;
 import com.hbm.items.tool.ItemMedicalSyringe;
@@ -48,7 +49,6 @@ public class TileEntityMedicineSynthesizer extends TileEntityMachineBase impleme
 	public long power;
 	public long maxPower = 1000000;
 
-	/** Whether the top frame of the machine's mesh is shown; toggled with a screwdriver. */
 	public boolean showFrameTop = true;
 
 	public TileEntityMedicineSynthesizer() {
@@ -101,7 +101,7 @@ public class TileEntityMedicineSynthesizer extends TileEntityMachineBase impleme
 
 		ItemStack vial = slots[SLOT_VIAL];
 		if(vial == null || vial.getItem() != ModItems.vial) return false;
-		String vialFrame = readVialFrame(vial);
+		String vialFrame = ItemVial.readFrame(vial);
 		if(vialFrame == null) return false;
 
 		ItemStack floppy = slots[SLOT_FLOPPY];
@@ -115,14 +115,6 @@ public class TileEntityMedicineSynthesizer extends TileEntityMachineBase impleme
 		if(output != null && (output.getItem() != ModItems.medical_syringe || IFillableItem.getFluidFill(output) > 0)) return false;
 
 		return true;
-	}
-
-	private String readVialFrame(ItemStack vial) {
-		if(!vial.hasTagCompound()) return null;
-		NBTTagCompound nbt = vial.stackTagCompound;
-		if(nbt.hasKey("frame")) return nbt.getString("frame");
-		if(nbt.hasKey("pathogen")) return nbt.getCompoundTag("pathogen").getString("frame");
-		return null;
 	}
 
 	private void process() {

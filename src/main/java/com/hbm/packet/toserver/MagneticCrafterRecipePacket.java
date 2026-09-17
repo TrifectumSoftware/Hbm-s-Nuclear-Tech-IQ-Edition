@@ -3,24 +3,20 @@ package com.hbm.packet.toserver;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.hbm.blocks.generic.BlockStorageCrate;
 import com.hbm.inventory.container.ContainerMagneticCrafter;
-import com.hbm.items.block.ItemBlockStorageCrate;
-import com.hbm.items.tool.ItemMagneticCrafter;
+import com.hbm.items.tool.ItemMagneticRestocker;
 import com.hbm.main.NTMSounds;
-import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public class MagneticCrafterRecipePacket implements IMessage {
 
@@ -108,9 +104,10 @@ public class MagneticCrafterRecipePacket implements IMessage {
 				if(options == null || options.length == 0) continue;
 
 				ItemStack toPlace = takeFromLimbo(options, limbo);
-				if(toPlace == null) toPlace = takeFromPlayer(player, options);
-				if(toPlace == null) toPlace = takeFromInventoryCrates(player, options);
-				if(toPlace == null) toPlace = takeFromMagneticCrates(player, options);
+				if(toPlace == null) toPlace = takeMatching(player.inventory, options);
+				if(toPlace == null) for(IInventory crate : ItemMagneticRestocker.getAllCrates(player)) {
+					if((toPlace = takeMatching(crate, options)) != null) break;
+				}
 
 				if(toPlace != null) {
 					craftMatrix.setInventorySlotContents(slot, toPlace);
@@ -143,77 +140,17 @@ public class MagneticCrafterRecipePacket implements IMessage {
 			return null;
 		}
 
-		private ItemStack takeFromPlayer(EntityPlayerMP player, ItemStack[] options) {
-			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
-				ItemStack stack = player.inventory.getStackInSlot(i);
+		private ItemStack takeMatching(IInventory inv, ItemStack[] options) {
+			for(int i = 0; i < inv.getSizeInventory(); i++) {
+				ItemStack stack = inv.getStackInSlot(i);
 				if(stack == null) continue;
 
 				for(ItemStack option : options) {
 					if(option != null && stack.isItemEqual(option)) {
-						return player.inventory.decrStackSize(i, 1);
+						return inv.decrStackSize(i, 1);
 					}
 				}
 			}
-			return null;
-		}
-
-		private ItemStack takeFromInventoryCrates(EntityPlayerMP player, ItemStack[] options) {
-			for(int i = 0; i < player.inventory.mainInventory.length; i++) {
-				ItemStack crateStack = player.inventory.mainInventory[i];
-				if(crateStack == null) continue;
-				if(!(crateStack.getItem() instanceof ItemBlockStorageCrate)) continue;
-				if(!(Block.getBlockFromItem(crateStack.getItem()) instanceof BlockStorageCrate)) continue;
-				if(!crateStack.hasTagCompound() || !crateStack.getTagCompound().getBoolean("magnetic")) continue;
-
-				ItemBlockStorageCrate.InventoryCrate inv = new ItemBlockStorageCrate.InventoryCrate(player, crateStack);
-
-				for(int slot = 0; slot < inv.getSizeInventory(); slot++) {
-					ItemStack stack = inv.getStackInSlot(slot);
-					if(stack == null) continue;
-
-					for(ItemStack option : options) {
-						if(option != null && stack.isItemEqual(option)) {
-							return inv.decrStackSize(slot, 1);
-						}
-					}
-				}
-			}
-
-			return null;
-		}
-
-		private ItemStack takeFromMagneticCrates(EntityPlayerMP player, ItemStack[] options) {
-			int range = ItemMagneticCrafter.RANGE;
-			int minX = (int) Math.floor(player.posX) - range;
-			int maxX = (int) Math.floor(player.posX) + range;
-			int minY = (int) Math.floor(player.posY) - range;
-			int maxY = (int) Math.floor(player.posY) + range;
-			int minZ = (int) Math.floor(player.posZ) - range;
-			int maxZ = (int) Math.floor(player.posZ) + range;
-
-			for(int x = minX; x <= maxX; x++) {
-				for(int y = minY; y <= maxY; y++) {
-					for(int z = minZ; z <= maxZ; z++) {
-						TileEntity te = player.worldObj.getTileEntity(x, y, z);
-						if(!(te instanceof TileEntityCrateBase)) continue;
-
-						TileEntityCrateBase crate = (TileEntityCrateBase) te;
-						if(!crate.isMagnetic || crate.isLocked()) continue;
-
-						for(int slot = 0; slot < crate.getSizeInventory(); slot++) {
-							ItemStack stack = crate.getStackInSlot(slot);
-							if(stack == null) continue;
-
-							for(ItemStack option : options) {
-								if(option != null && stack.isItemEqual(option)) {
-									return crate.decrStackSize(slot, 1);
-								}
-							}
-						}
-					}
-				}
-			}
-
 			return null;
 		}
 	}

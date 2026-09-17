@@ -87,6 +87,7 @@ public class MatDistribution extends SerializableRecipe {
 		registerOre(OreDictManager.ZI.ore(), MAT_ZINC, INGOT.q(2), MAT_STONE, QUART.q(1));
 
 		registerOre(OreDictManager.HEMATITE.ore(), MAT_HEMATITE, INGOT.q(1));
+		registerOre(OreDictManager.CASSITERITE.ore(), MAT_CASSITERITE, INGOT.q(3));
 		registerOre(OreDictManager.COBALTITE.ore(), MAT_COBALTITE, INGOT.q(6));
 		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(6));
 		registerOre(OreDictManager.CONGLOMERATE.ore(), MAT_CONGLOMERATE, INGOT.q(4));

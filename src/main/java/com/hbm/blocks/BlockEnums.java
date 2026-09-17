@@ -14,7 +14,8 @@ public class BlockEnums {
 		RUTILE,
 		ANTHRACITE,
 		FLAMING_ANTHRACITE,
-		COBALTITE
+		COBALTITE,
+		CASSITERITE
 	}
 
 	public static enum EnumMeteorType {

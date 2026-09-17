@@ -2,6 +2,7 @@ package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumMeteorType;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.inventory.OreDictManager.DictFrame;
@@ -92,6 +93,8 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 21), new ItemStack(ModItems.ingot_lanthanium), 4.0F);
 		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 22), new ItemStack(ModItems.ingot_uranium), 6.0F);
 		GameRegistry.addSmelting(new ItemStack(ModItems.raw_ore, 1, 23), new ItemStack(ModItems.ingot_schrabidium), 128.0F);
+
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.stone_resource, 1, EnumStoneType.CASSITERITE.ordinal()), new ItemStack(ModItems.ingot_tin), 0.5F);
 
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.ore_meteor, EnumMeteorType.IRON), new ItemStack(Items.iron_ingot, 16), 10.0F);
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.ore_meteor, EnumMeteorType.COPPER), new ItemStack(ModItems.ingot_copper, 16), 10.0F);

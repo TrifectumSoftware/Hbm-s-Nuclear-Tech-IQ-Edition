@@ -240,7 +240,6 @@ public class ModItemsArmor {
 				.setHasHardLanding(true)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 0))
-				.addEffect(new PotionEffect(Potion.field_76443_y.id, 20, 0))
 				.addEffect(new PotionEffect(HbmPotion.radx.id, 20, 0))
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")

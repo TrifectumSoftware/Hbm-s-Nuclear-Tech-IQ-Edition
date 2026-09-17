@@ -107,12 +107,7 @@ public class ItemMagneticRestocker extends ItemArmorMod {
 
 	private static ItemStack depositStack(EntityPlayer player, ItemStack stack, boolean shift) {
 
-		for(ItemBlockStorageCrate.InventoryCrate inv : getInventoryCrates(player)) {
-			stack = depositToCrate(inv, stack, shift);
-			if(stack == null) return null;
-		}
-
-		for(TileEntityCrateBase crate : getWorldCrates(player)) {
+		for(IInventory crate : getAllCrates(player)) {
 			stack = depositToCrate(crate, stack, shift);
 			if(stack == null) return null;
 		}
@@ -154,12 +149,7 @@ public class ItemMagneticRestocker extends ItemArmorMod {
 
 	private static ItemStack takeFromCrates(EntityPlayer player, ItemStack stack, int amount) {
 
-		for(ItemBlockStorageCrate.InventoryCrate inv : getInventoryCrates(player)) {
-			ItemStack taken = takeFromCrate(inv, stack, amount);
-			if(taken != null) return taken;
-		}
-
-		for(TileEntityCrateBase crate : getWorldCrates(player)) {
+		for(IInventory crate : getAllCrates(player)) {
 			ItemStack taken = takeFromCrate(crate, stack, amount);
 			if(taken != null) return taken;
 		}
@@ -183,9 +173,9 @@ public class ItemMagneticRestocker extends ItemArmorMod {
 		return a.isItemEqual(b) && ItemStack.areItemStackTagsEqual(a, b);
 	}
 
-	private static List<ItemBlockStorageCrate.InventoryCrate> getInventoryCrates(EntityPlayer player) {
+	public static List<IInventory> getAllCrates(EntityPlayer player) {
 
-		List<ItemBlockStorageCrate.InventoryCrate> list = new ArrayList<>();
+		List<IInventory> list = new ArrayList<>();
 
 		for(ItemStack stack : player.inventory.mainInventory) {
 			if(stack == null || !(stack.getItem() instanceof ItemBlockStorageCrate)) continue;
@@ -194,13 +184,6 @@ public class ItemMagneticRestocker extends ItemArmorMod {
 
 			list.add(new ItemBlockStorageCrate.InventoryCrate(player, stack));
 		}
-
-		return list;
-	}
-
-	private static List<TileEntityCrateBase> getWorldCrates(EntityPlayer player) {
-
-		List<TileEntityCrateBase> list = new ArrayList<>();
 
 		int px = (int) Math.floor(player.posX);
 		int py = (int) Math.floor(player.posY);

@@ -67,6 +67,7 @@ public class Mats {
 	public static final NTMMaterial MAT_OBSIDIAN		= makeSmeltable(_VS + 02,		df("Obsidian"),		0x3D234D).n();
 	public static final NTMMaterial MAT_GLOWSTONE		= makeNonSmeltable(_VS + 05,		GLOWSTONE,			0xFFFF00, 0x535300, 0xFFFF00).setAutogen(FRAGMENT).n();
 	public static final NTMMaterial MAT_HEMATITE		= makeAdditive(	2601,			HEMATITE,			0xDFB7AE, 0x5F372E, 0x6E463D).m();
+	public static final NTMMaterial MAT_CASSITERITE		= makeAdditive(	2605,			CASSITERITE,		0xCFDAE3, 0x6E7880, 0x9AA6B0).m();
 	public static final NTMMaterial MAT_COBALTITE		= makeAdditive(	2702,			COBALTITE,			0xC2D1EE, 0x353554, 0x8F72AE).m();
 	public static final NTMMaterial MAT_WROUGHTIRON		= makeSmeltable(2602,			df("WroughtIron"),	0xFAAB89).m();
 	public static final NTMMaterial MAT_PIGIRON			= makeSmeltable(2603,			df("PigIron"),		0xFF8B59).m();

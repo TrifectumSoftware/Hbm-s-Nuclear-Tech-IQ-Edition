@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 
 public class ItemVial extends Item implements IFillableItem {
@@ -28,6 +29,14 @@ public class ItemVial extends Item implements IFillableItem {
 		this.setTextureName(RefStrings.MODID + ":vial");
 		this.setCreativeTab(null);
 		this.setMaxStackSize(64);
+	}
+
+	public static String readFrame(ItemStack vial) {
+		if(vial == null || !vial.hasTagCompound()) return null;
+		NBTTagCompound nbt = vial.stackTagCompound;
+		if(nbt.hasKey("frame")) return nbt.getString("frame");
+		if(nbt.hasKey("pathogen")) return nbt.getCompoundTag("pathogen").getString("frame");
+		return null;
 	}
 
 	@Override

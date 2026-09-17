@@ -137,6 +137,7 @@ public class WorldConfig {
 	public static int endTikiteSpawn = 8;
 
 	public static boolean enableHematite = true;
+	public static boolean enableCassiterite = true;
 	public static boolean enableMalachite = true;
 	public static boolean enableBauxite = true;
 	public static boolean enableRutile = true;
@@ -316,6 +317,7 @@ public class WorldConfig {
 		endTikiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.E00_tikiteSpawnrate", "Amount of end trixite per chunk", 8);
 
 		enableHematite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L00_enableHematite", "Toggles hematite deposits", true);
+		enableCassiterite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L07_enableCassiterite", "Toggles cassiterite deposits", true);
 		enableMalachite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L01_enableMalachite", "Toggles malachite deposits", true);
 		enableBauxite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L02_enableBauxite", "Toggles bauxite deposits", true);
 		enableRutile = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.EL03_enableRutile", "Toggles rutile deposits", true);

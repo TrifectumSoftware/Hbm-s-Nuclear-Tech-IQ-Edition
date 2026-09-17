@@ -46,16 +46,6 @@ public class ItemFloppyDisk extends Item {
 		return pathogen == null ? null : pathogen.getString("genome");
 	}
 
-	public static boolean isSequenced(ItemStack stack) {
-		NBTTagCompound pathogen = getPathogen(stack);
-		return pathogen != null && pathogen.getBoolean("sequenced");
-	}
-
-	public static void markSequenced(ItemStack stack) {
-		NBTTagCompound pathogen = getPathogen(stack);
-		if(pathogen != null) pathogen.setBoolean("sequenced", true);
-	}
-
 	public static String getDiskName(ItemStack stack) {
 		NBTTagCompound pathogen = getPathogen(stack);
 		return pathogen == null ? null : (pathogen.hasKey("name") ? pathogen.getString("name") : null);

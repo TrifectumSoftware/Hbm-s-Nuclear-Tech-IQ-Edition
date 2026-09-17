@@ -288,6 +288,7 @@ public class OreDictManager {
 	public static final DictFrame RUTILE = new DictFrame("Rutile");
 	public static final DictFrame ANTHRACITE = new DictFrame("Anthracite");
 	public static final DictFrame COBALTITE = new DictFrame("Cobaltite");
+	public static final DictFrame CASSITERITE = new DictFrame("Cassiterite");
 	public static final DictFrame CRYOLITE = new DictFrame("Cryolite");	public static final DictFrame RICHMAGMA = new DictFrame("RichMagma");
 	public static final DictFrame FLOUR = new DictFrame("foodFlour");
 	public static final DictFrame PENTLANDITE = new DictFrame("Pentlandite");
@@ -537,6 +538,7 @@ public class OreDictManager {
 		RUTILE																															.gem(fromOne(stone_resource, EnumStoneType.RUTILE));
 		ANTHRACITE																														.gem(fromOne(stone_resource, EnumStoneType.ANTHRACITE));
 		COBALTITE																														.ore(fromOne(stone_resource, EnumStoneType.COBALTITE));
+		CASSITERITE																														.ore(fromOne(stone_resource, EnumStoneType.CASSITERITE));
 		CRYOLITE	.crystal(fromOne(chunk_ore, EnumChunkType.CRYOLITE));
 		SLAG																									.block(block_slag);
 		CONGLOMERATE																													.ore(fromOne(stone_resource, EnumStoneType.CONGLOMERATE));

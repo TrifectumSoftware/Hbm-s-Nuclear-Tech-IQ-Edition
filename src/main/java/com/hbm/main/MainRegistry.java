@@ -626,6 +626,7 @@ public class MainRegistry {
 		// Global caves + layers
 		// Sulfur caves can't be defined globally due to vacuums evaporating fluids
 		if(WorldConfig.enableHematite) new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal()).setGlobal(true).setScaleH(0.04D).setScaleV(0.25D).setThreshold(230);
+		if(WorldConfig.enableCassiterite) new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.CASSITERITE.ordinal()).setGlobal(true).setScaleH(0.04D).setScaleV(0.25D).setThreshold(230);
 		if(WorldConfig.enableBauxite) new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.BAUXITE.ordinal()).setGlobal(true).setScaleH(0.03D).setScaleV(0.15D).setThreshold(300);
 		if(WorldConfig.enableMalachite) new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal()).setGlobal(true).setScaleH(0.1D).setScaleV(0.15D).setThreshold(275);
 		if(WorldConfig.enableRutile) new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.RUTILE.ordinal()).setDimension(-1).setScaleH(0.03D).setScaleV(0.15D).setThreshold(300);

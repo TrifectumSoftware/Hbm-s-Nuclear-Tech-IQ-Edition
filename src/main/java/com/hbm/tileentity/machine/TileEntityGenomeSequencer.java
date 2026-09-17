@@ -61,7 +61,6 @@ public class TileEntityGenomeSequencer extends TileEntityMachineBase implements 
 		String frameId = ItemFloppyDisk.getFrameId(disk);
 		if(frameId == null) return;
 
-		ItemFloppyDisk.markSequenced(disk);
 		String storedName = ItemFloppyDisk.getDiskName(disk);
 		name = storedName == null ? "" : storedName;
 

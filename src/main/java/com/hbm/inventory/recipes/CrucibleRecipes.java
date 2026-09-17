@@ -80,6 +80,10 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 				.inputs(new MaterialStack(Mats.MAT_HEMATITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
 				.outputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
 
+		this.register(new CrucibleRecipe("crucible.cassiterite").setup(6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CASSITERITE))
+				.inputs(new MaterialStack(Mats.MAT_CASSITERITE, i), new MaterialStack(Mats.MAT_FLUX, n))
+				.outputs(new MaterialStack(Mats.MAT_TIN, i * 2), new MaterialStack(Mats.MAT_TUNGSTEN, i)));
+
 		this.register(new CrucibleRecipe("crucible.cobaltite").setup(6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.COBALTITE))
 				.inputs(new MaterialStack(Mats.MAT_COBALTITE, i * 6), new MaterialStack(Mats.MAT_CARBON, n * 2), new MaterialStack(Mats.MAT_FLUX, n))
 				.outputs(new MaterialStack(Mats.MAT_COBALT, i)));
