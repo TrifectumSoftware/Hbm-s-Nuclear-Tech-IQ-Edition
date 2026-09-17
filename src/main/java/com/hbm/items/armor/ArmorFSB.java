@@ -31,6 +31,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -245,6 +246,14 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 				if(!((ArmorFSB) armor.getItem()).isArmorEnabled(armor)) return false;
 			}
 			return true;
+		}
+		return false;
+	}
+
+	public static boolean hasBrokenNeedles(EntityLivingBase entity) {
+		for(int i = 0; i < 4; i++) {
+			ItemStack armor = entity.getEquipmentInSlot(i);
+			if(armor != null && armor.getItem() instanceof ArmorFSB && ((ArmorFSB) armor.getItem()).brokenNeedles) return true;
 		}
 		return false;
 	}

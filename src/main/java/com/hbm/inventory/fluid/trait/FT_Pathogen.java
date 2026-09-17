@@ -22,10 +22,6 @@ public class FT_Pathogen extends FluidTrait {
 		info.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("hbmfluid.trait.contagious") + "]");
 	}
 
-	public static void infect(EntityLivingBase target, String frameId, float dose, float intensity) {
-		infect(target, frameId, dose, intensity, null);
-	}
-
 	public static void infect(EntityLivingBase target, String frameId, float dose, float intensity, String genome) {
 		if(!com.hbm.config.ServerConfig.DISEASE_INJECTED.get()) return;
 		DiseaseDefinition frame = DiseaseRegistry.get(frameId);

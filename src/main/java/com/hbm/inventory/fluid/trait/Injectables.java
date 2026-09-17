@@ -22,6 +22,9 @@ public class Injectables {
 		if(isInjection && VersatileConfig.hasPotionSickness(entity))
 			return;
 
+		if(isInjection && com.hbm.items.armor.ArmorFSB.hasBrokenNeedles(entity))
+			return;
+
 		if(isInjection && type.isCorrosive()) {
 			entity.attackEntityFrom(DamageSource.generic, amount * intensity * 0.5F);
 		}
