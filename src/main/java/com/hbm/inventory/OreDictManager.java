@@ -465,7 +465,7 @@ public class OreDictManager {
 		BBRONZE																.ingot(ingot_bismuth_bronze);
 		ABRONZE																.ingot(ingot_arsenic_bronze);
 		TBRONZE																.ingot(ingot_bronze)												.plateCast(Mats.MAT_BRONZE.make(plate_cast));
-		SN																	.ingot(ingot_tin)													.dust(powder_tin);
+		SN																	.ingot(ingot_tin)				.dustSmall(powder_tin_tiny)			.dust(powder_tin);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.oreAll(ore_lead);
 		BSCCO																.ingot(ingot_bscco);
 		BI			.nugget(nugget_bismuth)		.billet(billet_bismuth)		.ingot(ingot_bismuth)												.dust(powder_bismuth)											.block(block_bismuth);

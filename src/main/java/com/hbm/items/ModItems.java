@@ -266,6 +266,7 @@ public class ModItems {
 	public static Item powder_tin;
 	public static Item tin_can;
 	public static Item tam69;
+	public static Item powder_tin_tiny;
 
 	@Deprecated public static Item ore_byproduct;
 
@@ -2760,6 +2761,7 @@ public class ModItems {
 		ingot_bronze = new Item().setUnlocalizedName("ingot_bronze").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bronze");
 		ingot_tin = new Item().setUnlocalizedName("ingot_tin").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_tin");
 		powder_tin = new Item().setUnlocalizedName("powder_tin").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_tin");
+		powder_tin_tiny = new Item().setUnlocalizedName("powder_tin_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_tin_tiny");
 		tin_can = new Item().setUnlocalizedName("tin_can").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":tin_can");
 		tam69 = new ItemCustomLore().setUnlocalizedName("tam69").setTextureName(RefStrings.MODID + ":tam69");
 		ingot_gaas = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("ingot_gaas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_gaas1");
@@ -5073,6 +5075,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_bronze, ingot_bronze.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_tin, ingot_tin.getUnlocalizedName());
 		GameRegistry.registerItem(powder_tin, powder_tin.getUnlocalizedName());
+		GameRegistry.registerItem(powder_tin_tiny, powder_tin_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(tin_can, tin_can.getUnlocalizedName());
 		GameRegistry.registerItem(tam69, tam69.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_ttas, ingot_ttas.getUnlocalizedName());

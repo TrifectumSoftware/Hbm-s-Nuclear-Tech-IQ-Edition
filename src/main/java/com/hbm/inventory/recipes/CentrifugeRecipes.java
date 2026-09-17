@@ -48,6 +48,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 
 		boolean lbs = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCentrifuge;
 
+		recipes.put(new ComparableStack(ModBlocks.tin_sand), new ItemStack[] {
+			new ItemStack(ModItems.powder_tin_tiny, 2),
+			new ItemStack(ModItems.powder_tin_tiny, 2),
+			new ItemStack(ModItems.powder_tin_tiny, 2),
+			new ItemStack(Blocks.sand, 1) });
+
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE)), new ItemStack[] {
 				new ItemStack(ModItems.powder_cobalt_tiny, 2),
 				new ItemStack(ModItems.powder_boron_tiny, 2),

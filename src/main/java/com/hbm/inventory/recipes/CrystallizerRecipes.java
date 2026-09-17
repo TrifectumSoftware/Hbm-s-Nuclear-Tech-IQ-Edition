@@ -126,6 +126,8 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(new ComparableStack(ModItems.scrap_oil),			new CrystallizerRecipe(new ItemStack(ModItems.nugget_arsenic), 100).prod(0.3F).setReq(16), new FluidStack(Fluids.RADIOSOLVENT, 100));
 		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.FULLERENE)), new CrystallizerRecipe(new ItemStack(ModItems.ingot_cft), baseTime).prod(0.1F).setReq(4), new FluidStack(Fluids.XYLENE, 1_000));
 
+		registerRecipe(new ComparableStack(ModBlocks.tin_sand),			new CrystallizerRecipe(ModItems.powder_tin, utilityTime).prod(0.1F));
+
 		registerRecipe(new OreDictStack(DIAMOND.dust()), 				new CrystallizerRecipe(Items.diamond, utilityTime));
 		registerRecipe(new OreDictStack(EMERALD.dust()), 				new CrystallizerRecipe(Items.emerald, utilityTime));
 		registerRecipe(new OreDictStack(LAPIS.dust()),					new CrystallizerRecipe(new ItemStack(Items.dye, 1, 4), utilityTime));
