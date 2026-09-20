@@ -283,6 +283,7 @@ public class Fluids {
 	public static FluidType AMBROSIA;
 	public static FluidType MORNINGSTARS_FIRE;
 	public static FluidType HEPARIN;
+	public static FluidType DNA;
 	public static FluidType CHEVREUL_SALT;
 	public static FluidType DIALYSATE;
 	public static FluidType DEW_OF_THE_GARDEN;
@@ -314,6 +315,14 @@ public class Fluids {
 	public static FluidType INK_BLACK;
 	public static FluidType GANJA;
 	public static FluidType CONSTRUCTION_FOAM;
+	public static FluidType CONSTRUCTION_FOAM_CONCRETE;
+	public static FluidType CONSTRUCTION_FOAM_REINFORCED_CONCRETE;
+	public static FluidType CONSTRUCTION_FOAM_DUCRETE;
+	public static FluidType CONSTRUCTION_FOAM_REINFORCED_DUCRETE;
+	public static FluidType CONSTRUCTION_FOAM_LIMESTONE;
+	public static FluidType CONSTRUCTION_FOAM_NETHERRACK;
+	public static FluidType CONSTRUCTION_FOAM_DEPTHROCK;
+	public static FluidType CONSTRUCTION_FOAM_NETHER_DEPTHROCK;
 	public static FluidType POISON;
 	public static FluidType TICL4;
 	public static FluidType HEAVY_SAND_SLOP;
@@ -656,6 +665,7 @@ public class Fluids {
 		AMBROSIA =			new FluidType("AMBROSIA",		0xFFE8A0, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xFFE8A0)).addTraits(LIQUID, new FT_Heavenly());
 		MORNINGSTARS_FIRE = new FluidType("MORNINGSTARS_FIRE",	0xFFFFFF, 2, 4, 2, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFFFFFF, 0xE0E0E0)).addTraits(GASEOUS, new FT_Flammable(1_000_000), new FT_Combustible(FuelGrade.AERO, 1_500_000), new FT_Rocket(321, 1_564_000), new FT_Hellish());
 		HEPARIN =			new FluidType("HEPARIN",			0xE09090, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xE09090)).addTraits(LIQUID);
+		DNA =				new FluidType("DNA",				0x6A5ACD, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		CHEVREUL_SALT =		new FluidType("CHEVREUL_SALT",		0x40A8A8, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x40A8A8)).addTraits(LIQUID);
 		DIALYSATE =			new FluidType("DIALYSATE",			0x90C8E8, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x90C8E8)).addTraits(LIQUID);
 		DEW_OF_THE_GARDEN = new FluidType("DEW_OF_THE_GARDEN",	0xF7F0C0, 4, 0, 4, EnumSymbol.NONE).addContainers(new CD_Canister(0xF7F0C0)).addTraits(LIQUID, new FT_Corrosive(30), new FT_Heavenly());
@@ -698,6 +708,15 @@ public class Fluids {
 		STALEAIR = new FluidType("STALEAIR", 0xCCCCCC, 0, 0, 0, EnumSymbol.NONE).addContainers(new CD_Gastank(0xCCCCCC, 0xFFFF00)).addTraits(GASEOUS);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
+
+		CONSTRUCTION_FOAM_CONCRETE = new FluidType("CONSTRUCTION_FOAM_CONCRETE", 0xC6C2BA, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(1));
+		CONSTRUCTION_FOAM_REINFORCED_CONCRETE = new FluidType("CONSTRUCTION_FOAM_REINFORCED_CONCRETE", 0xB0ACA4, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(2));
+		CONSTRUCTION_FOAM_DUCRETE = new FluidType("CONSTRUCTION_FOAM_DUCRETE", 0xBFB9A3, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(3));
+		CONSTRUCTION_FOAM_REINFORCED_DUCRETE = new FluidType("CONSTRUCTION_FOAM_REINFORCED_DUCRETE", 0xA8A28C, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(4));
+		CONSTRUCTION_FOAM_LIMESTONE = new FluidType("CONSTRUCTION_FOAM_LIMESTONE", 0xD6CCAD, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(5));
+		CONSTRUCTION_FOAM_NETHERRACK = new FluidType("CONSTRUCTION_FOAM_NETHERRACK", 0x9E4E48, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(6));
+		CONSTRUCTION_FOAM_DEPTHROCK = new FluidType("CONSTRUCTION_FOAM_DEPTHROCK", 0x8A8A8A, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(7));
+		CONSTRUCTION_FOAM_NETHER_DEPTHROCK = new FluidType("CONSTRUCTION_FOAM_NETHER_DEPTHROCK", 0x9A6A66, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(8));
 
 
 		File folder = MainRegistry.configHbmDir;
@@ -961,6 +980,7 @@ public class Fluids {
 		metaOrder.add(AMBROSIA);
 		metaOrder.add(MORNINGSTARS_FIRE);
 		metaOrder.add(HEPARIN);
+		metaOrder.add(DNA);
 		metaOrder.add(CHEVREUL_SALT);
 		metaOrder.add(DIALYSATE);
 		metaOrder.add(DEW_OF_THE_GARDEN);
@@ -1025,6 +1045,14 @@ public class Fluids {
 		metaOrder.add(INK_BLACK);
 		metaOrder.add(GANJA);
 		metaOrder.add(CONSTRUCTION_FOAM);
+		metaOrder.add(CONSTRUCTION_FOAM_CONCRETE);
+		metaOrder.add(CONSTRUCTION_FOAM_REINFORCED_CONCRETE);
+		metaOrder.add(CONSTRUCTION_FOAM_DUCRETE);
+		metaOrder.add(CONSTRUCTION_FOAM_REINFORCED_DUCRETE);
+		metaOrder.add(CONSTRUCTION_FOAM_LIMESTONE);
+		metaOrder.add(CONSTRUCTION_FOAM_NETHERRACK);
+		metaOrder.add(CONSTRUCTION_FOAM_DEPTHROCK);
+		metaOrder.add(CONSTRUCTION_FOAM_NETHER_DEPTHROCK);
 		metaOrder.add(STALEAIR);
 		metaOrder.add(SOLDERING_ALLOY);
 

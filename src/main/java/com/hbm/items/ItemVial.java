@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 
 public class ItemVial extends Item implements IFillableItem {
@@ -79,6 +80,10 @@ public class ItemVial extends Item implements IFillableItem {
 		FluidType type = IFillableItem.getFluidType(stack);
 		int fill = IFillableItem.getFluidFill(stack);
 		list.add(type.getLocalizedName() + ": " + fill + "mB");
+		String sample = com.hbm.handler.contagion.GenomeSample.getKey(stack);
+		if(sample != null) {
+			list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("item.vial.genomeSample", sample, com.hbm.handler.contagion.GenomeSample.getValue(stack)));
+		}
 		if(stack.hasTagCompound() && stack.stackTagCompound.hasKey(ItemMedicalSyringe.KEY_OWNER_NAME)) {
 			list.add(I18nUtil.resolveKey("desc.item.medicalSyringe.owner", stack.stackTagCompound.getString(ItemMedicalSyringe.KEY_OWNER_NAME)));
 		}

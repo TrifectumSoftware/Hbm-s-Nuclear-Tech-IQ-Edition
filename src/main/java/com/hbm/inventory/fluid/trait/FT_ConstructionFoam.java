@@ -8,6 +8,16 @@ import net.minecraft.world.World;
 
 public class FT_ConstructionFoam extends FluidTrait {
 
+	public final int foamMeta;
+
+	public FT_ConstructionFoam() {
+		this(0);
+	}
+
+	public FT_ConstructionFoam(int foamMeta) {
+		this.foamMeta = foamMeta;
+	}
+
 	public void applyFoam(World world, MovingObjectPosition mop) {
 
 		int side = mop.sideHit;
@@ -48,7 +58,7 @@ public class FT_ConstructionFoam extends FluidTrait {
 	private void place(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y, z);
 		if(block.isAir(world, x, y, z) || block.isReplaceable(world, x, y, z)) {
-			world.setBlock(x, y, z, ModBlocks.construction_foam);
+			world.setBlock(x, y, z, ModBlocks.construction_foam, this.foamMeta, 3);
 		}
 	}
 }

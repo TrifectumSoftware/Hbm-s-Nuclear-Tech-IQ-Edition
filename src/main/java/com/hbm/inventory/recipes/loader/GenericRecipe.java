@@ -144,8 +144,8 @@ public class GenericRecipe {
 		String consumption = BobMathUtil.getShortNumber(this.power) + "HE/t";
 		
 		int side = 164;
-		fontRenderer.drawString(duration, side - fontRenderer.getStringWidth(duration), 45, 0x404040);
-		fontRenderer.drawString(consumption, side - fontRenderer.getStringWidth(consumption), 57, 0x404040);
+		fontRenderer.drawString(duration, side - fontRenderer.getStringWidth(duration), 63, 0x404040);
+		fontRenderer.drawString(consumption, side - fontRenderer.getStringWidth(consumption), 75, 0x404040);
 	}
 
 	public List<String> print() {

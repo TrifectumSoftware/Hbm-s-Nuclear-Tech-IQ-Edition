@@ -10,4 +10,5 @@ public class MagneticSeparatorRecipeHandler extends NEIGenericRecipeHandler {
 	}
 
 	@Override public String getRecipeID() { return "ntmMagneticSeparator"; }
+	@Override public int recipiesPerPage() { return 1; }
 }

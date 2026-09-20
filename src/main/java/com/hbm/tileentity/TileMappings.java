@@ -561,6 +561,7 @@ public class TileMappings {
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
 		put(TileEntityRadioAUTOCAL.class, "tileentity_rtty_autocal");
 		put(TileEntityGenomeSequencer.class, "tileentity_genome_sequencer");
+		put(TileEntityIncubator.class, "tileentity_incubator");
 		put(TileEntityMedicineSynthesizer.class, "tileentity_medicine_synthesizer");
 
 		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");

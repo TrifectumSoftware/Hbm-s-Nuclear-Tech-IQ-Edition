@@ -97,6 +97,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(PUREXRecipes.INSTANCE);
 		recipeHandlers.add(HaemodialysisRecipes.INSTANCE);
 		recipeHandlers.add(MagneticSeparatorRecipes.INSTANCE);
+		recipeHandlers.add(IncubatorRecipes.INSTANCE);
 		recipeHandlers.add(SludgeProcessorRecipes.INSTANCE);
 		recipeHandlers.add(FusionRecipes.INSTANCE);
 		recipeHandlers.add(PrecAssRecipes.INSTANCE);
