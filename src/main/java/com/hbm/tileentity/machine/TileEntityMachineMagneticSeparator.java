@@ -13,7 +13,9 @@ import com.hbm.inventory.gui.GUIMachineMagneticSeparator;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMagneticDisc;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineMagneticSeparator;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
@@ -51,6 +53,7 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 	public int rotation = 0;
 	public boolean open = true;
 	public int idleTicks = 1000;
+	public AudioWrapper audio;
 
 	public ModuleMachineMagneticSeparator module;
 
@@ -123,6 +126,10 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 		if(this.animationTicks > 0) {
 			this.animationTicks--;
 			if(this.open) {
+				if (this.audio != null) {
+					this.audio.stopSound();
+					this.audio = null;
+				}
 				if(this.animAcceleration < OPENING_ANIMATION_TICKS[0]) this.animAcceleration++;
 				else if(this.animPause < OPENING_ANIMATION_TICKS[1]) this.animPause++;
 				else if(this.animRotation < OPENING_ANIMATION_TICKS[2]) this.animRotation++;
@@ -133,23 +140,49 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 				else this.rotation++;
 			}
 		} else {
-			if(!this.open) this.rotation++;
+			if(!this.open) {
+				this.rotation++;
+				if (this.audio == null) {
+					this.audio = this.createAudioLoop();
+					this.audio.startSound();
+				} else if (!this.audio.isPlaying()) {
+					this.audio = this.rebootAudio(this.audio);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if (this.audio != null) {
+			this.audio.stopSound();
+			this.audio = null;
 		}
 	}
 
 	public void setState(boolean state) {
 		if(this.open == state) return;
+		if (this.audio != null) {
+			this.audio.stopSound();
+			this.audio = null;
+		}
 		this.open = state;
 		this.animAcceleration = 0;
 		this.animPause = 0;
 		this.animRotation = 0;
 		if(state) {
-			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "machine.magnetic_open", 1.0F, 1.0F);
+			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "hbm:machine.magnetic_open", 1.0F, 1.0F);
 			this.animationTicks = 20 * 20;
 		} else {
-			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "machine.magnetic_close", 1.0F, 1.0F);
+			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "hbm:machine.magnetic_close", 1.0F, 1.0F);
 			this.animationTicks = 21 * 20;
 		}
+	}
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:machine.magnetic_loop", this.xCoord + 0.5F, this.yCoord + 0.5F, this.zCoord + 0.5F, 1.0F, 16.0F, 1.0F);
 	}
 
 	private void damageDisc() {
