@@ -25,7 +25,7 @@ public class BlockConstructionFoam extends BlockBase {
 		hardensToMeta[foamMeta] = blockMeta;
 	}
 
-	/** The block this foam meta hardens into, falling back to hardened construction foam. */
+	/// The block the foam meta turns itno :shaking_face:
 	public static Block getResult(int foamMeta) {
 		Block result = hardensTo[foamMeta & 15];
 		return result != null ? result : ModBlocks.hardened_construction_foam;

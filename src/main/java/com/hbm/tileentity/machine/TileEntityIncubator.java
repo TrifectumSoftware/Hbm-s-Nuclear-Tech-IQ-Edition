@@ -209,7 +209,7 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 		return makeVial(base, genome);
 	}
 
-	
+
 	private boolean canAccept(ItemStack output) {
 		if(output == null) return false;
 		if(slots[3] == null) return true;
