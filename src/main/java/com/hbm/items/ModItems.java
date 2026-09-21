@@ -2255,6 +2255,8 @@ public class ModItems {
 	public static Item detonator_deadman;
 	public static Item detonator_de;
 	public static Item bomb_caller;
+	public static Item neuralyser;
+	public static Item deadmans_neuralyser;
 	public static Item meteor_remote;
 	public static Item anchor_remote;
 	public static Item remote;
@@ -4404,6 +4406,8 @@ public class ModItems {
 		detonator_deadman = new ItemDrop().setUnlocalizedName("detonator_deadman").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_deadman");
 		detonator_de = new ItemDrop().setUnlocalizedName("detonator_de").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_de");
 		bomb_caller = new ItemBombCaller().setUnlocalizedName("bomb_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bomb_caller");
+		neuralyser = new ItemNeuralyser().setUnlocalizedName("neuralyser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":neuralyser_select");
+		deadmans_neuralyser = new ItemModDeadMansNeuralyser().setUnlocalizedName("deadmans_neuralyser").setTextureName(RefStrings.MODID + ":deadmans_neuralyser");
 		meteor_remote = new ItemMeteorRemote().setUnlocalizedName("meteor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":meteor_remote");
 		anchor_remote = new ItemAnchorRemote().setUnlocalizedName("anchor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":anchor_remote");
 		spawn_chopper = new ItemChopper().setUnlocalizedName("chopper").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chopper");
@@ -7134,6 +7138,8 @@ public class ModItems {
 		GameRegistry.registerItem(detonator_deadman, detonator_deadman.getUnlocalizedName());
 		GameRegistry.registerItem(detonator_de, detonator_de.getUnlocalizedName());
 		GameRegistry.registerItem(bomb_caller, bomb_caller.getUnlocalizedName());
+		GameRegistry.registerItem(neuralyser, neuralyser.getUnlocalizedName());
+		GameRegistry.registerItem(deadmans_neuralyser, deadmans_neuralyser.getUnlocalizedName());
 		GameRegistry.registerItem(meteor_remote, meteor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(anchor_remote, anchor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(defuser, defuser.getUnlocalizedName());

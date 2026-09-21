@@ -73,10 +73,12 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
+import com.hbm.entity.mob.EntityHusk;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.IAttackHandler;
 import com.hbm.items.armor.IDamageHandler;
 import com.hbm.items.armor.ItemArmorMod;
+import com.hbm.items.armor.ItemModDeadMansNeuralyser;
 import com.hbm.items.armor.ItemModDefuser;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
@@ -350,6 +352,18 @@ public class ModEventHandler {
 						HbmLivingProps.incrementRadiation(event.entityLiving, dmg * dmg);
 						event.setCanceled(true);
 						return;
+					}
+
+					if(revive.getItem() instanceof ItemModDeadMansNeuralyser && event.entityLiving instanceof EntityPlayerMP && !event.entityLiving.worldObj.isRemote) {
+
+						EntityHusk husk = ItemModDeadMansNeuralyser.getLinkedHusk(event.entityLiving, revive);
+
+						if(husk != null) {
+							event.entityLiving.setHealth(event.entityLiving.getMaxHealth());
+							event.setCanceled(true);
+							husk.beginDeathTransfer((EntityPlayer) event.entityLiving);
+							return;
+						}
 					}
 				}
 			}

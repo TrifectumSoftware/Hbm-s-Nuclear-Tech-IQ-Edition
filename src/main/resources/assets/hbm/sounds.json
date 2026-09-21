@@ -14,6 +14,7 @@
 	"misc.htrloop": {"category": "block", "sounds": [{"name": "misc/htrloop", "stream": false}]},
 	"misc.fireflash": {"category": "player", "sounds": [{"name": "misc/flashfire", "stream": false}]},
 	"misc.stationhum": {"category": "ambient", "sounds": [{"name": "misc/stationhum", "stream": false}]},
+	"misc.glitch": {"category": "player", "sounds": [{"name": "misc/glitch", "stream": false}]},
 
 	"misc.spinshot": {"category": "block", "sounds": ["misc/spinshot1", "misc/spinshot2"]},
 	"misc.spincharge": {"category": "block", "sounds": [{"name": "misc/spincharge", "stream": false}]},
