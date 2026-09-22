@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.fluidmk2.IFluidReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockPlushie.PlushieType;
 import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
@@ -35,6 +36,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.io.Console;
 
 public class TileEntityMachinePress extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver {
 	public static final int maxSpeed = 200; // max speed ticks for acceleration
@@ -75,9 +78,9 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 				worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord), 1);
 			}
 
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				trySubscribe(tanks[0].getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-				sendFluid(tanks[1], worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			for(DirPos pos : getConPos()) {
+				trySubscribe(tanks[0].getTankType(), worldObj, pos);
+				sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			boolean canProcess = this.canProcess();
@@ -198,6 +201,12 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 		if(slots[3] == null) return true;
 		if(slots[3].stackSize + output.stackSize <= slots[3].getMaxStackSize() && slots[3].getItem() == output.getItem() && slots[3].getItemDamage() == output.getItemDamage()) return true;
 		return false;
+	}
+
+	public DirPos[] getConPos() {
+		//TODO: finish this
+
+		return new DirPos[0];
 	}
 
 	@Override

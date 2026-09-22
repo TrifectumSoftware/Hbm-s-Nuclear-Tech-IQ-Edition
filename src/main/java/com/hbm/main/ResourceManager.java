@@ -82,6 +82,7 @@ public class ResourceManager {
 	public static final IModelCustom liquefactor = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/liquefactor.obj")).asVBO();
 	public static final IModelCustom solidifier = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/solidifier.obj")).asVBO();
 	public static final IModelCustom compressor = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/compressor.obj")).asVBO();
+	public static final IModelCustom steam_press = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/steam_press.obj")).asVBO();
 	public static final IModelCustom coker = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/coker.obj")).asVBO();
 	public static final IModelCustom pyrooven = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/pyrooven.obj")).asVBO();
 	public static final IModelCustom alkyl = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/alkylation_unit.obj")).asVBO();
@@ -670,6 +671,7 @@ public class ResourceManager {
 	public static final ResourceLocation combustion_engine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/combustion_engine.png");
 
 	//Press
+	public static final ResourceLocation steam_press_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/steam_press.png");
 	public static final ResourceLocation press_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/press_body.png");
 	public static final ResourceLocation press_head_tex = new ResourceLocation(RefStrings.MODID, "textures/models/press_head.png");
 	public static final ResourceLocation epress_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/epress_body.png");
