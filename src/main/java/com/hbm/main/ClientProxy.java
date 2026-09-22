@@ -83,6 +83,7 @@ import com.hbm.render.model.ModelSifterEel;
 import com.hbm.render.tileentity.*;
 import com.hbm.render.util.MissilePart;
 import com.hbm.render.util.NeuralyserFade;
+import com.hbm.render.entity.player.RenderPlayerHusk;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.render.util.RenderOverhead;
@@ -856,6 +857,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityDummy.class, new RenderDummy());
 		RenderingRegistry.registerEntityRenderingHandler(EntityUndeadSoldier.class, new RenderUndeadSoldier());
 		RenderingRegistry.registerEntityRenderingHandler(EntityHusk.class, new RenderHusk());
+		RenderingRegistry.registerEntityRenderingHandler(EntityPlayer.class, new RenderPlayerHusk());
 		RenderingRegistry.registerEntityRenderingHandler(EntityDepress.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRedLightning.class, new RenderRedLightning());
 		RenderingRegistry.registerEntityRenderingHandler(EntityGreenLightning.class, new RenderGreenLightning());

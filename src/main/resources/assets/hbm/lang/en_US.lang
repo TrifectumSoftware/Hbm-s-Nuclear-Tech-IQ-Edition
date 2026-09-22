@@ -784,6 +784,7 @@ container.leadBox=Containment Box
 container.machineAmmoPress=Ammo Press
 container.machineArcWelder=Arc Welder
 container.incubator=Incubator
+container.cloner=Cloner
 gui.incubator.time=Time: %s
 container.machineArcFurnaceLarge=Arc Furnace
 container.machineAssemblyFactory=Assembly Factory
@@ -6687,6 +6688,7 @@ tile.machine_arc_furnace_off.name=Arc Furnace
 tile.machine_arc_furnace_on.name=Arc Furnace
 tile.machine_arc_welder.name=Arc Welder
 tile.machine_incubator.name=Incubator
+tile.machine_cloner.name=Cloner
 tile.machine_armor_table.name=Armor Modification Table
 tile.machine_ashpit.name=Ashpit
 tile.machine_ashpit.desc=Collects ashes from fireboxes and heating ovens
@@ -7926,6 +7928,7 @@ container.bloodCentrifuge=Blood Sampler
 tile.block_blood_centrifuge.name=Aranos Blood Sample Machine
 
 item.medical_syringe.name=Medical Syringe
+item.medical_syringe_notch.name=Medical Syringe (Notch)
 
 desc.item.medicalSyringe.useSelf=Right click to extract a blood sample from yourself
 desc.item.medicalSyringe.useEntity=Left click to extract a blood sample from another entity

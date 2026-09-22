@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.entity.mob.EntityHusk;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.SymbolHandler;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -151,6 +152,12 @@ public class ItemNeuralyser extends Item {
 		NBTTagCompound outgoing = new NBTTagCompound();
 		player.writeToNBT(outgoing);
 
+		String targetName = husk.getOwnerName();
+		String targetUUID = husk.getOwnerUUID();
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		String bodyName = props.huskUUID.isEmpty() ? player.getCommandSenderName() : props.huskName;
+		String bodyUUID = props.huskUUID.isEmpty() ? player.getUniqueID().toString() : props.huskUUID;
+
 		double px = player.posX, py = player.posY, pz = player.posZ;
 		float pyaw = player.rotationYaw, ppitch = player.rotationPitch;
 
@@ -166,8 +173,10 @@ public class ItemNeuralyser extends Item {
 		if(player.getHealth() <= 0F) player.setHealth(player.getMaxHealth());
 		player.fallDistance = 0F;
 		SymbolHandler.setActiveSymbol(player, symbol);
+		setHuskForm(player, targetName, targetUUID);
 
 		husk.setPlayerData(outgoing);
+		husk.setSkinOwner(bodyName, bodyUUID);
 		husk.setLocationAndAngles(px, py, pz, pyaw, ppitch);
 
 		player.worldObj.playSoundAtEntity(player, NTMSounds.UNPACK, 1.0F, 1.0F);
@@ -192,6 +201,7 @@ public class ItemNeuralyser extends Item {
 		if(player.getHealth() <= 0F) player.setHealth(player.getMaxHealth());
 		player.fallDistance = 0F;
 		SymbolHandler.setActiveSymbol(player, symbol);
+		setHuskForm(player, husk.getOwnerName(), husk.getOwnerUUID());
 		husk.setDead();
 
 		player.worldObj.playSoundAtEntity(player, NTMSounds.UNPACK, 1.0F, 1.0F);
@@ -203,6 +213,12 @@ public class ItemNeuralyser extends Item {
 			mp.playerNetServerHandler.setPlayerLocation(hx, hy, hz, hyaw, hpitch);
 			PacketDispatcher.wrapper.sendTo(new PlayerNBTNeuralyserPacket(incoming), mp);
 		}
+	}
+
+	private static void setHuskForm(EntityPlayer player, String name, String uuid) {
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		props.huskName = name == null ? "" : name;
+		props.huskUUID = uuid == null ? "" : uuid;
 	}
 
 	private static void applyLocation(NBTTagCompound tag, double x, double y, double z, float yaw, float pitch) {

@@ -136,6 +136,27 @@ public class EntityHusk extends EntityLiving {
 		this.adopted = true;
 	}
 
+	public void setupClone(String uuid, String name) {
+		this.ownerName = name == null ? "" : name;
+		this.ownerUUID = uuid == null ? "" : uuid;
+		this.getDataWatcher().updateObject(DW_OWNER_NAME, this.ownerName);
+		this.getDataWatcher().updateObject(DW_OWNER_UUID, this.ownerUUID);
+		this.getDataWatcher().updateObject(DW_HUSK_ID, this.ownerUUID);
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setTag("Inventory", new NBTTagList());
+		this.setPlayerData(data);
+
+		this.adopted = true;
+	}
+
+	public void setSkinOwner(String name, String uuid) {
+		this.ownerName = name == null ? "" : name;
+		this.ownerUUID = uuid == null ? "" : uuid;
+		this.getDataWatcher().updateObject(DW_OWNER_NAME, this.ownerName);
+		this.getDataWatcher().updateObject(DW_OWNER_UUID, this.ownerUUID);
+	}
+
 	public void setPlayerData(NBTTagCompound tag) {
 		this.playerData = (tag == null ? new NBTTagCompound() : tag);
 

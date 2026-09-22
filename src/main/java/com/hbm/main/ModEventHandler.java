@@ -379,6 +379,12 @@ public class ModEventHandler {
 		if(event.entity.worldObj.isRemote)
 			return;
 
+		if(event.entityLiving instanceof EntityPlayer) {
+			HbmPlayerProps props = HbmPlayerProps.getData((EntityPlayer) event.entityLiving);
+			props.huskName = "";
+			props.huskUUID = "";
+		}
+
 		if(GeneralConfig.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
 			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
