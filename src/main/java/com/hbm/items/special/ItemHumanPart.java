@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;
@@ -61,16 +59,6 @@ public class ItemHumanPart extends ItemEnumMulti {
 		} catch(IllegalArgumentException ex) {
 			return null;
 		}
-	}
-
-	public static void applyBlood(int[] totals, FluidType blood) {
-		if(blood == Fluids.MEDX) totals[EnumBodyStat.VITALITY.ordinal()] += 60;
-		else if(blood == Fluids.STIMPAK) totals[EnumBodyStat.STRENGTH.ordinal()] += 60;
-		else if(blood == Fluids.SUPER_STIMPAK) totals[EnumBodyStat.STRENGTH.ordinal()] += 90;
-		else if(blood == Fluids.PSYCHO) totals[EnumBodyStat.AGILITY.ordinal()] += 80;
-		else if(blood == Fluids.RADAWAY) totals[EnumBodyStat.RECOVERY.ordinal()] += 60;
-		else if(blood == Fluids.BLOOD) totals[EnumBodyStat.AGILITY.ordinal()] += 40;
-		else if(blood == Fluids.SCUTTERBLOOD) totals[EnumBodyStat.TOUGHNESS.ordinal()] += 60;
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.hbm.entity.mob;
 
 import java.util.UUID;
 
+import com.hbm.extprop.HbmBloodstreamProps;
+import com.hbm.handler.blood.BloodBehavior;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHumanPart;
@@ -37,6 +39,7 @@ public class EntityHusk extends EntityLiving {
 	private static final int DW_LEGGINGS = 28;
 	private static final int DW_CHEST = 29;
 	private static final int DW_HELMET = 30;
+	private static final int DW_BLOOD = 31;
 
 	private NBTTagCompound playerData = new NBTTagCompound();
 	private String ownerName = "";
@@ -59,6 +62,7 @@ public class EntityHusk extends EntityLiving {
 		super.entityInit();
 		this.getDataWatcher().addObject(DW_OWNER_NAME, "");
 		this.getDataWatcher().addObject(DW_OWNER_UUID, "");
+		this.getDataWatcher().addObject(DW_BLOOD, 0);
 		this.getDataWatcher().addObjectByDataType(DW_HELD, 5);
 		this.getDataWatcher().addObjectByDataType(DW_BOOTS, 5);
 		this.getDataWatcher().addObjectByDataType(DW_LEGGINGS, 5);
@@ -75,6 +79,11 @@ public class EntityHusk extends EntityLiving {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+
+		if(!this.worldObj.isRemote && this.ticksExisted % 20 == 0) {
+			int blood = HbmBloodstreamProps.getData(this).getBloodType().getID();
+			if(this.getDataWatcher().getWatchableObjectInt(DW_BLOOD) != blood) this.getDataWatcher().updateObject(DW_BLOOD, blood);
+		}
 
 		if(!this.worldObj.isRemote && !this.adopted) {
 			EntityPlayer player = this.worldObj.getClosestPlayer(this.posX, this.posY, this.posZ, 16.0D);
@@ -139,6 +148,7 @@ public class EntityHusk extends EntityLiving {
 		this.ownerUUID = uuid == null ? "" : uuid;
 		this.getDataWatcher().updateObject(DW_OWNER_NAME, this.ownerName);
 		this.getDataWatcher().updateObject(DW_OWNER_UUID, this.ownerUUID);
+		this.getDataWatcher().updateObject(DW_BLOOD, blood == null ? 0 : blood.getID());
 
 		int[] totals = new int[EnumBodyStat.values().length];
 		StringBuilder traits = new StringBuilder();
@@ -153,7 +163,10 @@ public class EntityHusk extends EntityLiving {
 			}
 		}
 
-		ItemHumanPart.applyBlood(totals, blood);
+		BloodBehavior behavior = BloodBehavior.get(blood);
+		if(behavior != null) behavior.applyStats(totals);
+
+		HbmBloodstreamProps.getData(this).setBloodType(blood);
 
 		NBTTagCompound data = new NBTTagCompound();
 		data.setTag("Inventory", new NBTTagList());
@@ -235,6 +248,10 @@ public class EntityHusk extends EntityLiving {
 	public String getHuskId() {
 		UUID uuid = this.getUniqueID();
 		return uuid == null ? "" : uuid.toString();
+	}
+
+	public int getBloodId() {
+		return this.getDataWatcher().getWatchableObjectInt(DW_BLOOD);
 	}
 
 	public String getHuskDisplayName() {

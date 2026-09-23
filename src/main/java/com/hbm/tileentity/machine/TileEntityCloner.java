@@ -14,12 +14,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHumanPart;
 import com.hbm.items.tool.ItemMedicalSyringe;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluidmk2.IFillableItem;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,6 +50,8 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 
 	public FluidTank tank;
 
+	private AudioWrapper audio;
+
 	public void setTankType(FluidType type) {
 		this.tank.setTankType(type);
 		this.markDirty();
@@ -66,7 +70,10 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 	@Override
 	public void updateEntity() {
 
-		if(worldObj.isRemote) return;
+		if(worldObj.isRemote) {
+			this.updateAudio();
+			return;
+		}
 
 		boolean wanted = this.active && this.getSampleUUID() != null && this.getLoadedParts() == ALL_PARTS;
 		if(wanted) this.power = Library.chargeTEFromItems(slots, SLOT_BATTERY, power, maxPower);
@@ -101,6 +108,7 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 		if(!this.active) return false;
 		if(this.power < this.consumption) return false;
 		if(this.getSampleUUID() == null) return false;
+		if(this.tank.getTankType() == Fluids.NONE) return false;
 		return this.getLoadedParts() == ALL_PARTS;
 	}
 
@@ -144,7 +152,6 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 		}
 
 		FluidType blood = this.tank.getTankType();
-		if(blood == Fluids.NONE) blood = IFillableItem.getFluidType(syringe);
 
 		EntityHusk husk = new EntityHusk(worldObj);
 		husk.setupClone(uuid, syringe.stackTagCompound.getString(ItemMedicalSyringe.KEY_OWNER_NAME), parts, blood);
@@ -152,7 +159,10 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 		worldObj.spawnEntityInWorld(husk);
 
 		syringe.stackTagCompound = null;
+		this.tank.setFill(0);
 		this.markDirty();
+
+		worldObj.playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, NTMSounds.ASSEMBLER_STOP, 1F, 1F);
 	}
 
 	@Override
@@ -240,5 +250,49 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		if(data.getBoolean("toggle")) this.toggle();
+	}
+
+	private void updateAudio() {
+		boolean running = this.active && this.progress > 0
+				&& MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) < 15D * 15D;
+
+		if(running) {
+			if(this.audio == null) {
+				this.audio = this.createAudioLoop();
+				this.audio.startSound();
+			} else if(!this.audio.isPlaying()) {
+				this.audio = this.rebootAudio(this.audio);
+			}
+
+			this.audio.keepAlive();
+			this.audio.updateVolume(this.getVolume(1F));
+
+		} else if(this.audio != null) {
+			this.audio.stopSound();
+			this.audio = null;
+		}
+	}
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.CHEMPLANT_LOOP, xCoord, yCoord, zCoord, 1F, 10F, 1F, 10);
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		if(this.audio != null) {
+			this.audio.stopSound();
+			this.audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if(this.audio != null) {
+			this.audio.stopSound();
+			this.audio = null;
+		}
 	}
 }

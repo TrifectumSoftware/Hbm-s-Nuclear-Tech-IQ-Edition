@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.entity.mob.EntityHusk;
+import com.hbm.extprop.HbmBloodstreamProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.SymbolHandler;
 import com.hbm.items.ModItems;
@@ -179,6 +180,7 @@ public class ItemNeuralyser extends Item {
 		SymbolHandler.setActiveSymbol(player, symbol);
 		setHuskForm(player, targetName, targetUUID);
 		setHuskBody(player, husk);
+		HbmBloodstreamProps.getData(player).setBloodType(HbmBloodstreamProps.getData(husk).getBloodType());
 
 		husk.setPlayerData(outgoing);
 		husk.setSkinOwner(bodyName, bodyUUID);
@@ -208,6 +210,7 @@ public class ItemNeuralyser extends Item {
 		SymbolHandler.setActiveSymbol(player, symbol);
 		setHuskForm(player, husk.getOwnerName(), husk.getOwnerUUID());
 		setHuskBody(player, husk);
+		HbmBloodstreamProps.getData(player).setBloodType(HbmBloodstreamProps.getData(husk).getBloodType());
 		husk.setDead();
 
 		player.worldObj.playSoundAtEntity(player, NTMSounds.UNPACK, 1.0F, 1.0F);

@@ -54,6 +54,7 @@ import com.hbm.extprop.HbmBloodstreamProps;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.special.ItemHumanPart.EnumBodyStat;
+import com.hbm.handler.blood.BloodBehavior;
 import com.hbm.items.special.ItemHumanPart.EnumPartTrait;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BobmazonOfferFactory;
@@ -1360,9 +1361,21 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
+	public void onBloodBehaviorTick(LivingUpdateEvent event) {
+		EntityLivingBase entity = event.entityLiving;
+		if(!(entity instanceof EntityPlayer) && !(entity instanceof EntityHusk)) return;
+
+		BloodBehavior behavior = BloodBehavior.get(entity);
+		if(behavior != null) behavior.onTick(entity);
+	}
+
+	@SubscribeEvent
 	public void onHuskBodyHurt(LivingHurtEvent event) {
 
 		if(event.entity.worldObj.isRemote) return;
+
+		BloodBehavior behavior = BloodBehavior.get(event.entityLiving);
+		if(behavior != null) behavior.onHurt(event.entityLiving, event);
 
 		if(event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entityLiving;

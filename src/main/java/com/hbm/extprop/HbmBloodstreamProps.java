@@ -47,6 +47,33 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 	private final List<BloodEntry> entries = new ArrayList<>();
 	private final Set<String> immuneGenomes = new HashSet<>();
 	private int coughBoost = 0;
+	private int baseBlood = -1;
+
+	private int baseId() {
+		return this.baseBlood < 0 ? Fluids.HUMAN_BLOOD.getID() : this.baseBlood;
+	}
+
+	public FluidType getBloodType() {
+		if(this.baseBlood < 0) return Fluids.HUMAN_BLOOD;
+		FluidType type = Fluids.fromID(this.baseBlood);
+		return type == null ? Fluids.HUMAN_BLOOD : type;
+	}
+
+	public void setBloodType(FluidType type) {
+		if(type == null || type == Fluids.NONE) return;
+
+		int previous = this.baseId();
+		this.baseBlood = type.getID();
+
+		for(BloodEntry entry : entries) {
+			if(entry.frameId != null || entry.fluidId != previous) continue;
+			entry.fluidId = this.baseBlood;
+			entry.amount = BASE_BLOOD;
+			return;
+		}
+
+		entries.add(new BloodEntry(this.baseBlood, BASE_BLOOD, null, null));
+	}
 
 	public HbmBloodstreamProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -67,14 +94,16 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 	}
 
 	private void ensureBaseBlood() {
+		int base = this.baseId();
+
 		for(BloodEntry entry : entries) {
 			if(entry.frameId != null) continue;
-			if(entry.fluidId == Fluids.HUMAN_BLOOD.getID()) {
+			if(entry.fluidId == base) {
 				entry.amount = BASE_BLOOD;
 				return;
 			}
 		}
-		entries.add(new BloodEntry(Fluids.HUMAN_BLOOD.getID(), BASE_BLOOD, null, null));
+		entries.add(new BloodEntry(base, BASE_BLOOD, null, null));
 	}
 
 	@Override
@@ -123,7 +152,7 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 
 	public void addBlood(float amount) {
 		for(BloodEntry entry : entries) {
-			if(entry.frameId == null && entry.fluidId == Fluids.HUMAN_BLOOD.getID()) {
+			if(entry.frameId == null && entry.fluidId == this.baseId()) {
 				entry.amount = Math.min(BASE_BLOOD, entry.amount + amount);
 				return;
 			}
@@ -132,7 +161,7 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 
 	public void drainBlood(float amount) {
 		for(BloodEntry entry : entries) {
-			if(entry.frameId == null && entry.fluidId == Fluids.HUMAN_BLOOD.getID()) {
+			if(entry.frameId == null && entry.fluidId == this.baseId()) {
 				entry.amount = Math.max(0, entry.amount - amount);
 				return;
 			}
@@ -141,7 +170,7 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 
 	public float getBloodAmount() {
 		for(BloodEntry entry : entries) {
-			if(entry.frameId == null && entry.fluidId == Fluids.HUMAN_BLOOD.getID()) {
+			if(entry.frameId == null && entry.fluidId == this.baseId()) {
 				return entry.amount;
 			}
 		}
@@ -236,9 +265,9 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 	public void tick() {
 
 		ensureBaseBlood();
-		entries.removeIf(e -> e.frameId == null && e.fluidId != Fluids.HUMAN_BLOOD.getID() && e.amount < 0.5F);
+		entries.removeIf(e -> e.frameId == null && e.fluidId != this.baseId() && e.amount < 0.5F);
 		for(BloodEntry entry : entries) {
-			if(entry.frameId == null && entry.fluidId != Fluids.HUMAN_BLOOD.getID()) {
+			if(entry.frameId == null && entry.fluidId != this.baseId()) {
 				FluidType type = Fluids.fromID(entry.fluidId);
 				if(type == null || !type.hasTrait(FT_Drug.class)) continue;
 				FT_Drug drug = type.getTrait(FT_Drug.class);
@@ -479,7 +508,7 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 	public float getTotalFluid() {
 		float total = BASE_BLOOD;
 		for(BloodEntry entry : entries) {
-			if(entry.frameId == null && entry.fluidId != Fluids.HUMAN_BLOOD.getID() && entry.amount > 0) {
+			if(entry.frameId == null && entry.fluidId != this.baseId() && entry.amount > 0) {
 				total += entry.amount;
 			}
 		}
@@ -507,6 +536,7 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 			immunityList.appendTag(tag);
 		}
 		props.setTag("immunity", immunityList);
+		props.setInteger("baseBlood", this.baseBlood);
 
 		nbt.setTag("HbmBloodstreamProps", props);
 	}
@@ -518,6 +548,7 @@ public class HbmBloodstreamProps implements IExtendedEntityProperties {
 		NBTTagCompound props = (NBTTagCompound) nbt.getTag("HbmBloodstreamProps");
 
 		if(props != null) {
+			this.baseBlood = props.hasKey("baseBlood") ? props.getInteger("baseBlood") : -1;
 			entries.clear();
 			NBTTagList entryList = props.getTagList("entries", Constants.NBT.TAG_COMPOUND);
 			for(int i = 0; i < entryList.tagCount(); i++) {

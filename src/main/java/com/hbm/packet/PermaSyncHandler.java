@@ -16,6 +16,7 @@ import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.dim.trait.CBT_War;
 import com.hbm.dim.trait.CBT_War.Projectile;
 import com.hbm.dim.trait.CelestialBodyTrait;
+import com.hbm.extprop.HbmBloodstreamProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.CelestialNukeShockHandler;
 import com.hbm.handler.ImpactWorldHandler;
@@ -51,6 +52,7 @@ public class PermaSyncHandler {
 
 
 	public static Map<Integer, GameProfile> huskForms = new ConcurrentHashMap<Integer, GameProfile>();
+	public static Map<Integer, Integer> huskBlood = new ConcurrentHashMap<Integer, Integer>();
 	public static float[] pollution = new float[PollutionType.values().length];
 
 	public static void writePacket(ByteBuf buf, World world, EntityPlayerMP player) {
@@ -88,6 +90,7 @@ public class PermaSyncHandler {
 			buf.writeInt(p.getEntityId());
 			ByteBufUtils.writeUTF8String(buf, props.huskName);
 			ByteBufUtils.writeUTF8String(buf, props.huskUUID);
+			buf.writeInt(HbmBloodstreamProps.getData(p).getBloodType().getID());
 		}
 		/// HUSK FORMS ///
 
@@ -215,6 +218,7 @@ public class PermaSyncHandler {
 
 		/// HUSK FORMS ///
 		Map<Integer, GameProfile> forms = new ConcurrentHashMap<Integer, GameProfile>();
+		Map<Integer, Integer> blood = new ConcurrentHashMap<Integer, Integer>();
 		int formCount = buf.readShort();
 		for(int i = 0; i < formCount; i++) {
 			int id = buf.readInt();
@@ -226,8 +230,11 @@ public class PermaSyncHandler {
 			} catch(IllegalArgumentException ex) {
 				// malformed uuid
 			}
+
+			blood.put(id, Integer.valueOf(buf.readInt()));
 		}
 		huskForms = forms;
+		huskBlood = blood;
 		/// HUSK FORMS ///
 
 		/// POLLUTION ///

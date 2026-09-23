@@ -25,8 +25,6 @@ import com.hbm.tileentity.machine.TileEntityCloner;
 import com.hbm.util.i18n.I18nUtil;
 import com.mojang.authlib.GameProfile;
 
-import api.hbm.fluidmk2.IFillableItem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -156,7 +154,7 @@ public class GUICloner extends GuiInfoContainer {
 
 	private void drawBodyScreen() {
 		ItemStack syringe = cloner.slots[TileEntityCloner.SLOT_SYRINGE];
-		FluidType blood = syringe == null ? Fluids.NONE : IFillableItem.getFluidType(syringe);
+		FluidType blood = cloner.tank.getTankType();
 		String donor = syringe != null && syringe.hasTagCompound() ? syringe.stackTagCompound.getString(ItemMedicalSyringe.KEY_OWNER_NAME) : "";
 
 		int[] totals = new int[EnumBodyStat.values().length];
