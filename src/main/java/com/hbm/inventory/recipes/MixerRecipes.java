@@ -101,6 +101,15 @@ public class MixerRecipes extends SerializableRecipe {
 
 		register(Fluids.HTCO4, new MixerRecipe(250, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModItems.nugget_technetium)));
 		register(Fluids.CONSTRUCTION_FOAM, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)));
+
+		register(Fluids.CONSTRUCTION_FOAM_CONCRETE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_concrete, 1)));
+		register(Fluids.CONSTRUCTION_FOAM_REINFORCED_CONCRETE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_reinforced_concrete, 1)));
+		register(Fluids.CONSTRUCTION_FOAM_DUCRETE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_ducrete, 1)));
+		register(Fluids.CONSTRUCTION_FOAM_REINFORCED_DUCRETE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_reinforced_ducrete, 1)));
+		register(Fluids.CONSTRUCTION_FOAM_LIMESTONE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_limestone, 1)));
+		register(Fluids.CONSTRUCTION_FOAM_NETHERRACK, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_netherrack, 1)));
+		register(Fluids.CONSTRUCTION_FOAM_DEPTHROCK, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_depthrock, 1)));
+		register(Fluids.CONSTRUCTION_FOAM_NETHER_DEPTHROCK, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.COLLOID, 1000)).setStack2(new FluidStack(Fluids.WATER, 1000)).setSolid(new ComparableStack(ModItems.quikrete_nether_depthrock, 1)));
 		register(Fluids.MINSOL, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new OreDictStack(MIN.ore())));
 		register(Fluids.RADAWAY, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.BLOOD, 500)).setStack2(new FluidStack(Fluids.AMBROSIA, 100)).setSolid(new OreDictStack(COAL.dust())));
 		register(Fluids.RADX, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.WATER, 500)).setStack2(new FluidStack(Fluids.AMBROSIA, 100)).setSolid(new OreDictStack(F.dust())));

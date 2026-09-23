@@ -1,19 +1,30 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.contagion.DiseaseDefinition;
+import com.hbm.handler.contagion.DiseaseInstance;
+import com.hbm.handler.contagion.DiseaseRegistry;
+import com.hbm.handler.contagion.GenomeSample;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineMagneticSeparator;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineMagneticSeparator;
+import com.hbm.items.ItemVial;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMagneticDisc;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineMagneticSeparator;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
@@ -51,6 +62,7 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 	public int rotation = 0;
 	public boolean open = true;
 	public int idleTicks = 1000;
+	public AudioWrapper audio;
 
 	public ModuleMachineMagneticSeparator module;
 
@@ -95,11 +107,16 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 				if(outputTank.getFill() > 0) this.tryProvide(outputTank, worldObj, pos);
 			}
 
-			int parallels = getParallels();
-			this.module.parallels = parallels > 0 ? parallels : 1;
+			if(processGenomeSamples()) {
+				this.didProcess = true;
+			} else {
+				this.genomeProgress = 0;
+				int parallels = getParallels();
+				this.module.parallels = parallels > 0 ? parallels : 1;
 
-			this.module.update(1D, this.module.parallels / 2D, parallels > 0, null);
-			this.didProcess = this.module.didProcess;
+				this.module.update(1D, this.module.parallels / 2D, parallels > 0, null);
+				this.didProcess = this.module.didProcess;
+			}
 
 			if(this.didProcess) {
 				this.damageDisc();
@@ -123,6 +140,10 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 		if(this.animationTicks > 0) {
 			this.animationTicks--;
 			if(this.open) {
+				if (this.audio != null) {
+					this.audio.stopSound();
+					this.audio = null;
+				}
 				if(this.animAcceleration < OPENING_ANIMATION_TICKS[0]) this.animAcceleration++;
 				else if(this.animPause < OPENING_ANIMATION_TICKS[1]) this.animPause++;
 				else if(this.animRotation < OPENING_ANIMATION_TICKS[2]) this.animRotation++;
@@ -133,23 +154,49 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 				else this.rotation++;
 			}
 		} else {
-			if(!this.open) this.rotation++;
+			if(!this.open) {
+				this.rotation++;
+				if (this.audio == null) {
+					this.audio = this.createAudioLoop();
+					this.audio.startSound();
+				} else if (!this.audio.isPlaying()) {
+					this.audio = this.rebootAudio(this.audio);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if (this.audio != null) {
+			this.audio.stopSound();
+			this.audio = null;
 		}
 	}
 
 	public void setState(boolean state) {
 		if(this.open == state) return;
+		if (this.audio != null) {
+			this.audio.stopSound();
+			this.audio = null;
+		}
 		this.open = state;
 		this.animAcceleration = 0;
 		this.animPause = 0;
 		this.animRotation = 0;
 		if(state) {
-			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "machine.magnetic_open", 1.0F, 1.0F);
+			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "hbm:machine.magnetic_open", 1.0F, 1.0F);
 			this.animationTicks = 20 * 20;
 		} else {
-			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "machine.magnetic_close", 1.0F, 1.0F);
+			this.worldObj.playSoundEffect(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, "hbm:machine.magnetic_close", 1.0F, 1.0F);
 			this.animationTicks = 21 * 20;
 		}
+	}
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:machine.magnetic_loop", this.xCoord + 0.5F, this.yCoord + 0.5F, this.zCoord + 0.5F, 1.0F, 16.0F, 1.0F);
 	}
 
 	private void damageDisc() {
@@ -163,6 +210,54 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 		} else {
 			ItemMagneticDisc.setDurability(disc, dur);
 		}
+	}
+
+	public static final int HEPARIN_PER_SAMPLE = 100;
+	public static final int GENOME_DURATION = 100;
+	public int genomeProgress = 0;
+
+	private boolean processGenomeSamples() {
+
+		ItemStack vial = slots[1];
+		if(vial == null || vial.getItem() != ModItems.vial) return false;
+		String frame = ItemVial.readFrame(vial);
+		if(frame == null) return false;
+		if(inputTank.getTankType() != Fluids.HEPARIN || inputTank.getFill() < HEPARIN_PER_SAMPLE) return false;
+
+		boolean space = false;
+		for(int i = 3; i <= 8; i++) if(slots[i] == null) { space = true; break; }
+		if(!space) return false;
+
+		this.genomeProgress++;
+		if(this.genomeProgress < GENOME_DURATION) return true;
+		this.genomeProgress = 0;
+
+		String genome = null;
+		DiseaseDefinition def = null;
+		if(vial.hasTagCompound() && vial.stackTagCompound.hasKey("mut")) {
+			DiseaseInstance inst = DiseaseInstance.readFromNBT(vial.stackTagCompound.getCompoundTag("mut"));
+			genome = inst.genome;
+			def = DiseaseRegistry.resolve(frame, inst.frameDef);
+		}
+		if(def == null) def = DiseaseRegistry.get(frame);
+		if(def == null) return false;
+		if(genome == null) genome = def.getReferenceGenome();
+
+		vial.stackSize--;
+		if(vial.stackSize <= 0) slots[1] = null;
+		inputTank.setFill(inputTank.getFill() - HEPARIN_PER_SAMPLE);
+
+		List<String> keys = new ArrayList<String>(Arrays.asList(GenomeSample.KEYS));
+		Collections.shuffle(keys, worldObj.rand);
+		int count = 1 + worldObj.rand.nextInt(Math.min(6, keys.size()));
+		for(int i = 0; i < count; i++) {
+			String key = keys.get(i);
+			ItemStack sample = GenomeSample.make(key, GenomeSample.valueOf(key, genome, def));
+			for(int s = 3; s <= 8; s++) if(slots[s] == null) { slots[s] = sample; break; }
+		}
+
+		this.markDirty();
+		return true;
 	}
 
 	public DirPos[] getConPos() {

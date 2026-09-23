@@ -237,6 +237,7 @@ public class EntityMappings {
 		addMob(EntityBloatwisp.class, "entity_bloatwisp", 0xFFD800, 0x9C8A1F);
 		addMob(EntityDummy.class, "entity_ntm_test_dummy", 0xffffff, 0x000000);
 		addMob(EntityUndeadSoldier.class, "entity_ntm_undead_soldier", 0x749F30, 0x6C5B44);
+		addMob(EntityHusk.class, "entity_husk", 0x4A4A4A, 0xB0B0B0);
 
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperGold.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());

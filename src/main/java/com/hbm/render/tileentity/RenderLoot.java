@@ -50,6 +50,8 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 				renderTrenchmaster(stack);
 			} else if(stack.getItem() instanceof ArmorNCRPA) {
 				renderNCR(stack);
+			} else if(stack.getItem() == ModItems.human_part) {
+				renderFlatItem(stack);
 			} else {
 				renderStandardItem(item.getW());
 			}
@@ -185,10 +187,14 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}
 	
-	private void renderStandardItem(ItemStack stack) {
+	private void itemTransform() {
 		GL11.glTranslated(0.25, 0, 0.25);
 		GL11.glScaled(0.5, 0.5, 0.5);
 		GL11.glRotated(90, 1, 0, 0);
+	}
+
+	private void renderStandardItem(ItemStack stack) {
+		this.itemTransform();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		
 		bindTexture(TextureMap.locationItemsTexture);
@@ -209,5 +215,26 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 
 			ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 		}
+	}
+
+	private void renderFlatItem(ItemStack stack) {
+		this.itemTransform();
+
+		bindTexture(TextureMap.locationItemsTexture);
+
+		IIcon icon = stack.getItem().getIcon(stack, 0);
+		float minU = icon.getMinU();
+		float maxU = icon.getMaxU();
+		float minV = icon.getMinV();
+		float maxV = icon.getMaxV();
+
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		tess.setNormal(0F, 0F, 1F);
+		tess.addVertexWithUV(0D, 0D, 0D, minU, maxV);
+		tess.addVertexWithUV(1D, 0D, 0D, maxU, maxV);
+		tess.addVertexWithUV(1D, 1D, 0D, maxU, minV);
+		tess.addVertexWithUV(0D, 1D, 0D, minU, minV);
+		tess.draw();
 	}
 }

@@ -1138,6 +1138,8 @@ public class ModBlocks {
 	public static Block machine_assembly_factory;
 	public static Block machine_precass;
 	public static Block machine_arc_welder;
+	public static Block machine_incubator;
+	public static Block machine_cloner;
 	public static Block machine_soldering_station;
 	public static Block machine_arc_furnace;
 	public static Block machine_vacuum_circuit;
@@ -1801,6 +1803,15 @@ public class ModBlocks {
 		ducrete = new BlockNoSpawn(Material.rock).setBlockName("ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(500.0F).setBlockTextureName(RefStrings.MODID + ":ducrete_tile");
 		brick_ducrete = new BlockNoSpawn(Material.rock).setBlockName("brick_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(750.0F).setBlockTextureName(RefStrings.MODID + ":brick_ducrete");
 		reinforced_ducrete = new BlockNoSpawn(Material.rock).setBlockName("reinforced_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_ducrete");
+
+		BlockConstructionFoam.registerResult(1, concrete, 0);
+		BlockConstructionFoam.registerResult(2, concrete_rebar, 0);
+		BlockConstructionFoam.registerResult(3, ducrete, 0);
+		BlockConstructionFoam.registerResult(4, reinforced_ducrete, 0);
+		BlockConstructionFoam.registerResult(5, stone_resource, EnumStoneType.LIMESTONE.ordinal());
+		BlockConstructionFoam.registerResult(6, Blocks.netherrack, 0);
+		BlockConstructionFoam.registerResult(7, stone_depth, 0);
+		BlockConstructionFoam.registerResult(8, stone_depth_nether, 0);
 
 		lightstone = new BlockLightstone(Material.rock, LightstoneType.class, true, true).setBlockName("lightstone").setCreativeTab(MainRegistry.blockTab).setHardness(2F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":lightstone");
 		brick_forgotten = new BlockForgottenBrick().setBlockName("brick_forgotten").setBlockUnbreakable().setResistance(666_666F).setBlockTextureName(RefStrings.MODID + ":brick_forgotten");
@@ -2593,6 +2604,8 @@ public class ModBlocks {
 		block_blood_centrifuge = new BlockBloodCentrifuge().setBlockName("block_blood_centrifuge").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		block_sample_synthesizer = new BlockSampleSynthesizer().setBlockName("block_sample_synthesizer").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		block_genome_sequencer = new BlockGenomeSequencer().setBlockName("block_genome_sequencer").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_incubator = new BlockIncubator().setBlockName("machine_incubator").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_cloner = new BlockCloner().setBlockName("machine_cloner").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		block_medicine_synthesizer = new BlockMedicineSynthesizer().setBlockName("block_medicine_synthesizer").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_chemical_factory = new MachineChemicalFactory(Material.iron).setBlockName("machine_chemical_factory").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_purex = new MachinePUREX(Material.iron).setBlockName("machine_purex").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3871,6 +3884,8 @@ public class ModBlocks {
 		register(block_blood_centrifuge);
 		register(block_sample_synthesizer);
 		register(block_genome_sequencer);
+		register(machine_incubator);
+		register(machine_cloner);
 		register(block_medicine_synthesizer);
 		register(machine_chemical_factory);
 		register(machine_purex);

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.BlockBase;
 import com.hbm.blocks.ModBlocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
@@ -12,8 +13,26 @@ import net.minecraft.world.World;
 
 public class BlockConstructionFoam extends BlockBase {
 
+	public static final Block[] hardensTo = new Block[16];
+	public static final int[] hardensToMeta = new int[16];
+
 	public BlockConstructionFoam(Material material) {
 		super(material);
+	}
+
+	public static void registerResult(int foamMeta, Block block, int blockMeta) {
+		hardensTo[foamMeta] = block;
+		hardensToMeta[foamMeta] = blockMeta;
+	}
+
+	/// The block the foam meta turns itno :shaking_face:
+	public static Block getResult(int foamMeta) {
+		Block result = hardensTo[foamMeta & 15];
+		return result != null ? result : ModBlocks.hardened_construction_foam;
+	}
+
+	public static int getResultMeta(int foamMeta) {
+		return hardensTo[foamMeta & 15] != null ? hardensToMeta[foamMeta & 15] : 0;
 	}
 
 	@Override
@@ -43,7 +62,8 @@ public class BlockConstructionFoam extends BlockBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(!world.isRemote && world.getBlock(x, y, z) == this) {
-			world.setBlock(x, y, z, ModBlocks.hardened_construction_foam);
+			int meta = world.getBlockMetadata(x, y, z);
+			world.setBlock(x, y, z, getResult(meta), getResultMeta(meta), 3);
 		}
 	}
 }

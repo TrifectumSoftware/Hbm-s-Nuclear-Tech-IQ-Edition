@@ -132,6 +132,7 @@ public class NTMSounds {
 
 	/// MISC ///
 	public static final String TECH_BOOP = "hbm:item.techBoop"; // boop
+	public static final String GLITCH = "hbm:misc.glitch";
 	public static final String TECH_BLEEP = "hbm:item.techBleep"; // blee-boo-bee-boop
 	public static final String UPGRADE_PLUG = "hbm:item.upgradePlug"; // plok
 	public static final String UNPACK = "hbm:item.unpack";

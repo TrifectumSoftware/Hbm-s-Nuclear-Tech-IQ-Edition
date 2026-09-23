@@ -1030,6 +1030,8 @@ public class ModItems {
 	public static Item syringe;
 	public static Item combat_syringe;
 	public static Item medical_syringe;
+	public static Item medical_syringe_notch;
+	public static Item human_part;
 	public static Item syringe_taint;
 	public static Item vector_lab_kit;
 	public static Item iv_empty;
@@ -2255,6 +2257,8 @@ public class ModItems {
 	public static Item detonator_deadman;
 	public static Item detonator_de;
 	public static Item bomb_caller;
+	public static Item neuralyser;
+	public static Item deadmans_neuralyser;
 	public static Item meteor_remote;
 	public static Item anchor_remote;
 	public static Item remote;
@@ -3252,6 +3256,8 @@ public class ModItems {
 		syringe = new ItemFluidSyringe(10, "syringe_overlay", "syringe_empty").setUnlocalizedName("syringe").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_empty");
 		combat_syringe = new ItemFluidSyringe(100, "combat_syringe_overlay", "combat_syringe_empty").setUnlocalizedName("combat_syringe").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":combat_syringe_empty");
 		medical_syringe = new ItemMedicalSyringe().setCreativeTab(MainRegistry.consumableTab);
+		medical_syringe_notch = new ItemNotchSyringe().setCreativeTab(MainRegistry.consumableTab);
+		human_part = new ItemHumanPart().setUnlocalizedName("human_part").setCreativeTab(MainRegistry.partsTab);
 
 		med_bag = new ItemSyringe().setUnlocalizedName("med_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_bag");
 		siox = new ItemPill(0).setUnlocalizedName("siox").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":siox");
@@ -4404,6 +4410,8 @@ public class ModItems {
 		detonator_deadman = new ItemDrop().setUnlocalizedName("detonator_deadman").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_deadman");
 		detonator_de = new ItemDrop().setUnlocalizedName("detonator_de").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_de");
 		bomb_caller = new ItemBombCaller().setUnlocalizedName("bomb_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bomb_caller");
+		neuralyser = new ItemNeuralyser().setUnlocalizedName("neuralyser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":neuralyser_select");
+		deadmans_neuralyser = new ItemModDeadMansNeuralyser().setUnlocalizedName("deadmans_neuralyser").setTextureName(RefStrings.MODID + ":deadmans_neuralyser");
 		meteor_remote = new ItemMeteorRemote().setUnlocalizedName("meteor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":meteor_remote");
 		anchor_remote = new ItemAnchorRemote().setUnlocalizedName("anchor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":anchor_remote");
 		spawn_chopper = new ItemChopper().setUnlocalizedName("chopper").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chopper");
@@ -6761,6 +6769,8 @@ public class ModItems {
 		GameRegistry.registerItem(syringe, syringe.getUnlocalizedName());
 		GameRegistry.registerItem(combat_syringe, combat_syringe.getUnlocalizedName());
 		GameRegistry.registerItem(medical_syringe, medical_syringe.getUnlocalizedName());
+		GameRegistry.registerItem(medical_syringe_notch, medical_syringe_notch.getUnlocalizedName());
+		GameRegistry.registerItem(human_part, human_part.getUnlocalizedName());
 		GameRegistry.registerItem(med_bag, med_bag.getUnlocalizedName());
 		GameRegistry.registerItem(iv_empty, iv_empty.getUnlocalizedName());
 		GameRegistry.registerItem(iv_blood, iv_blood.getUnlocalizedName());
@@ -7134,6 +7144,8 @@ public class ModItems {
 		GameRegistry.registerItem(detonator_deadman, detonator_deadman.getUnlocalizedName());
 		GameRegistry.registerItem(detonator_de, detonator_de.getUnlocalizedName());
 		GameRegistry.registerItem(bomb_caller, bomb_caller.getUnlocalizedName());
+		GameRegistry.registerItem(neuralyser, neuralyser.getUnlocalizedName());
+		GameRegistry.registerItem(deadmans_neuralyser, deadmans_neuralyser.getUnlocalizedName());
 		GameRegistry.registerItem(meteor_remote, meteor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(anchor_remote, anchor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(defuser, defuser.getUnlocalizedName());

@@ -77,6 +77,10 @@ public class PacketDispatcher {
 		wrapper.registerMessage(ContainerNBTCommsPacket.Handler.class, ContainerNBTCommsPacket.class, i++, Side.SERVER);
 
 		wrapper.registerMessage(MagneticCrafterRecipePacket.Handler.class, MagneticCrafterRecipePacket.class, i++, Side.SERVER);
+		//Syncs the whole local player NBT after a Neuralyser transfer
+		wrapper.registerMessage(PlayerNBTNeuralyserPacket.Handler.class, PlayerNBTNeuralyserPacket.class, i++, Side.CLIENT);
+		//Starts the Neuralyser transition effect
+		wrapper.registerMessage(NeuralyserFadePacket.Handler.class, NeuralyserFadePacket.class, i++, Side.CLIENT);
 	}
 
 }
