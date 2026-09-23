@@ -2,7 +2,11 @@ package com.hbm.entity.mob;
 
 import java.util.UUID;
 
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemHumanPart;
+import com.hbm.items.special.ItemHumanPart.EnumBodyStat;
+import com.hbm.items.special.ItemHumanPart.EnumPartTrait;
 import com.hbm.items.tool.ItemNeuralyser;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.PacketDispatcher;
@@ -33,7 +37,6 @@ public class EntityHusk extends EntityLiving {
 	private static final int DW_LEGGINGS = 28;
 	private static final int DW_CHEST = 29;
 	private static final int DW_HELMET = 30;
-	private static final int DW_HUSK_ID = 31;
 
 	private NBTTagCompound playerData = new NBTTagCompound();
 	private String ownerName = "";
@@ -56,7 +59,6 @@ public class EntityHusk extends EntityLiving {
 		super.entityInit();
 		this.getDataWatcher().addObject(DW_OWNER_NAME, "");
 		this.getDataWatcher().addObject(DW_OWNER_UUID, "");
-		this.getDataWatcher().addObject(DW_HUSK_ID, "");
 		this.getDataWatcher().addObjectByDataType(DW_HELD, 5);
 		this.getDataWatcher().addObjectByDataType(DW_BOOTS, 5);
 		this.getDataWatcher().addObjectByDataType(DW_LEGGINGS, 5);
@@ -73,10 +75,6 @@ public class EntityHusk extends EntityLiving {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-
-		if(!this.worldObj.isRemote) {
-			this.syncHuskId();
-		}
 
 		if(!this.worldObj.isRemote && !this.adopted) {
 			EntityPlayer player = this.worldObj.getClosestPlayer(this.posX, this.posY, this.posZ, 16.0D);
@@ -136,18 +134,58 @@ public class EntityHusk extends EntityLiving {
 		this.adopted = true;
 	}
 
-	public void setupClone(String uuid, String name) {
+	public void setupClone(String uuid, String name, ItemStack[] parts, FluidType blood) {
 		this.ownerName = name == null ? "" : name;
 		this.ownerUUID = uuid == null ? "" : uuid;
 		this.getDataWatcher().updateObject(DW_OWNER_NAME, this.ownerName);
 		this.getDataWatcher().updateObject(DW_OWNER_UUID, this.ownerUUID);
-		this.getDataWatcher().updateObject(DW_HUSK_ID, this.ownerUUID);
+
+		int[] totals = new int[EnumBodyStat.values().length];
+		StringBuilder traits = new StringBuilder();
+
+		if(parts != null) for(ItemStack part : parts) {
+			for(EnumBodyStat stat : EnumBodyStat.values()) totals[stat.ordinal()] += ItemHumanPart.getStat(part, stat);
+
+			EnumPartTrait trait = ItemHumanPart.getTrait(part);
+			if(trait != null) {
+				if(traits.length() > 0) traits.append(",");
+				traits.append(trait.name());
+			}
+		}
+
+		ItemHumanPart.applyBlood(totals, blood);
 
 		NBTTagCompound data = new NBTTagCompound();
 		data.setTag("Inventory", new NBTTagList());
+		data.setTag("Attributes", bodyAttributes(totals));
+		data.setIntArray("huskStats", totals);
+		data.setString("huskTraits", traits.toString());
 		this.setPlayerData(data);
 
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(health(totals));
+		this.setHealth((float) this.getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue());
+
 		this.adopted = true;
+	}
+
+	private static NBTTagList bodyAttributes(int[] totals) {
+		NBTTagList list = new NBTTagList();
+		list.appendTag(attribute("generic.maxHealth", health(totals)));
+		list.appendTag(attribute("generic.attackDamage", totals[EnumBodyStat.STRENGTH.ordinal()] / 100D + 1D));
+		list.appendTag(attribute("generic.movementSpeed", totals[EnumBodyStat.AGILITY.ordinal()] / 20000D + 0.1D));
+		list.appendTag(attribute("generic.knockbackResistance", totals[EnumBodyStat.TOUGHNESS.ordinal()] / 1000D));
+		return list;
+	}
+
+	private static double health(int[] totals) {
+		return totals[EnumBodyStat.VITALITY.ordinal()] / 20D + 20D;
+	}
+
+	private static NBTTagCompound attribute(String name, double base) {
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setString("Name", name);
+		tag.setDouble("Base", base);
+		return tag;
 	}
 
 	public void setSkinOwner(String name, String uuid) {
@@ -174,6 +212,14 @@ public class EntityHusk extends EntityLiving {
 		return this.playerData;
 	}
 
+	public int[] getBodyStats() {
+		return this.playerData.getIntArray("huskStats");
+	}
+
+	public String getBodyTraits() {
+		return this.playerData.getString("huskTraits");
+	}
+
 	public boolean isAdopted() {
 		return this.adopted;
 	}
@@ -187,19 +233,8 @@ public class EntityHusk extends EntityLiving {
 	}
 
 	public String getHuskId() {
-		String id = this.getDataWatcher().getWatchableObjectString(DW_HUSK_ID);
-		if(id != null && !id.isEmpty()) return id;
 		UUID uuid = this.getUniqueID();
 		return uuid == null ? "" : uuid.toString();
-	}
-
-	private void syncHuskId() {
-		if(this.worldObj.isRemote) return;
-		String id = this.getDataWatcher().getWatchableObjectString(DW_HUSK_ID);
-		if(id == null || id.isEmpty()) {
-			UUID uuid = this.getUniqueID();
-			if(uuid != null) this.getDataWatcher().updateObject(DW_HUSK_ID, uuid.toString());
-		}
 	}
 
 	public String getHuskDisplayName() {
@@ -383,7 +418,6 @@ public class EntityHusk extends EntityLiving {
 		if(!this.worldObj.isRemote) {
 			this.getDataWatcher().updateObject(DW_OWNER_NAME, this.ownerName);
 			this.getDataWatcher().updateObject(DW_OWNER_UUID, this.ownerUUID);
-			this.syncHuskId();
 			this.setPlayerData(this.playerData);
 		}
 	}

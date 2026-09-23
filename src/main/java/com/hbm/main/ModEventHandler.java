@@ -53,6 +53,8 @@ import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.extprop.HbmBloodstreamProps;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.items.special.ItemHumanPart.EnumBodyStat;
+import com.hbm.items.special.ItemHumanPart.EnumPartTrait;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.handler.BossSpawnHandler;
@@ -163,6 +165,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.FoodStats;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
@@ -1311,6 +1314,94 @@ public class ModEventHandler {
 				}
 			}
 		}
+	}
+
+
+	private static int getBodyStat(EntityPlayer player, EnumBodyStat stat) {
+		int[] stats = HbmPlayerProps.getData(player).bodyStats;
+		return stats != null && stats.length > stat.ordinal() ? stats[stat.ordinal()] : 0;
+	}
+
+	private static boolean hasBodyTrait(EntityPlayer player, EnumPartTrait trait) {
+		if(player.worldObj.isRemote) return false;
+		return ("," + HbmPlayerProps.getData(player).bodyTraits + ",").contains("," + trait.name() + ",");
+	}
+
+	@SubscribeEvent
+	public void onHuskBodyTick(TickEvent.PlayerTickEvent event) {
+		EntityPlayer player = event.player;
+
+		if(player.worldObj.isRemote || !(player instanceof EntityPlayerMP)) return;
+		if(event.phase != TickEvent.Phase.END) return;
+
+		NBTTagCompound data = player.getEntityData();
+		float last = data.hasKey("hbmLastHealth") ? data.getFloat("hbmLastHealth") : player.getHealth();
+		float healed = player.getHealth() - last;
+		if(healed > 0F) {
+			int recovery = getBodyStat(player, EnumBodyStat.RECOVERY);
+			if(recovery > 0) player.heal(healed * recovery / 100F);
+		}
+		data.setFloat("hbmLastHealth", player.getHealth());
+
+		if(player.getHealth() < player.getMaxHealth() && hasBodyTrait(player, EnumPartTrait.CLOTTING)
+				&& player.ticksExisted % 40 == 0 && player.motionX * player.motionX + player.motionZ * player.motionZ < 0.001D) {
+			player.heal(1F);
+		}
+
+		if(hasBodyTrait(player, EnumPartTrait.HARDY) && player.ticksExisted % 100 == 0) {
+			FoodStats food = player.getFoodStats();
+			if(food.getSaturationLevel() < food.getFoodLevel())
+				food.setFoodSaturationLevel(Math.min(food.getSaturationLevel() + 0.5F, food.getFoodLevel()));
+		}
+
+		if(hasBodyTrait(player, EnumPartTrait.SECOND_WIND) && player.getHealth() < 4F && player.ticksExisted % 200 == 0) {
+			player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 100, 0));
+		}
+	}
+
+	@SubscribeEvent
+	public void onHuskBodyHurt(LivingHurtEvent event) {
+
+		if(event.entity.worldObj.isRemote) return;
+
+		if(event.entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entityLiving;
+
+			if(hasBodyTrait(player, EnumPartTrait.NUMB) && player.getRNG().nextFloat() < 0.25F) {
+				event.setCanceled(true);
+				return;
+			}
+
+			if(hasBodyTrait(player, EnumPartTrait.TWITCH)) player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60, 0));
+			if(hasBodyTrait(player, EnumPartTrait.GRISTLE)) event.ammount *= 0.75F;
+		}
+
+		Entity attacker = event.source.getEntity();
+
+		if(attacker instanceof EntityPlayer) {
+			EntityPlayer hitter = (EntityPlayer) attacker;
+
+			if(hasBodyTrait(hitter, EnumPartTrait.BLOODTHIRST)) hitter.heal(1F);
+
+			if(hasBodyTrait(hitter, EnumPartTrait.WHITE_KNUCKLES)) {
+				double dx = event.entityLiving.posX - hitter.posX;
+				double dz = event.entityLiving.posZ - hitter.posZ;
+				double d = Math.sqrt(dx * dx + dz * dz);
+				if(d > 0.01D) event.entityLiving.addVelocity(dx / d * 0.4D, 0.1D, dz / d * 0.4D);
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onHuskBodyFall(LivingFallEvent event) {
+		if(event.entity.worldObj.isRemote || !(event.entityLiving instanceof EntityPlayer)) return;
+		if(hasBodyTrait((EntityPlayer) event.entityLiving, EnumPartTrait.SURE_FOOTED)) event.setCanceled(true);
+	}
+
+	@SubscribeEvent
+	public void onHuskBodyJump(LivingJumpEvent event) {
+		if(event.entity.worldObj.isRemote || !(event.entityLiving instanceof EntityPlayer)) return;
+		if(hasBodyTrait((EntityPlayer) event.entityLiving, EnumPartTrait.SPRING_HEEL)) event.entityLiving.motionY += 0.2D;
 	}
 
 	@SubscribeEvent

@@ -104,13 +104,30 @@ public class ItemMedicalSyringe extends Item implements IFillableItem {
 			pathogenList.appendTag(tag);
 		}
 
-		IFillableItem.setFluidFill(stack, Fluids.HUMAN_BLOOD, (short) MAX_DOSE);
+		IFillableItem.setFluidFill(stack, getBloodType(target), (short) MAX_DOSE);
 		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
 		stack.stackTagCompound.setString(KEY_OWNER_UUID, target.getUniqueID().toString());
 		stack.stackTagCompound.setString(KEY_OWNER_NAME, target.getCommandSenderName());
 		stack.stackTagCompound.setTag(KEY_PATHOGENS, pathogenList);
 		target.attackEntityFrom(DamageSource.generic, 1.0F);
 		target.worldObj.playSoundAtEntity(target, "hbm:item.syringe", 1.0F, 1.0F);
+	}
+
+	private static FluidType getBloodType(EntityLivingBase target) {
+		float best = 0F;
+		FluidType type = Fluids.HUMAN_BLOOD;
+
+		for(BloodEntry entry : HbmBloodstreamProps.getData(target).getEntries()) {
+			if(entry.frameId != null || entry.amount <= best) continue;
+
+			FluidType found = Fluids.fromID(entry.fluidId);
+			if(found != null) {
+				best = entry.amount;
+				type = found;
+			}
+		}
+
+		return type;
 	}
 
 	@Override

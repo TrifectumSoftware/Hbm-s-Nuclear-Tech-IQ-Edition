@@ -60,9 +60,11 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 
 	public int symbol = -1; // item meta of the active symbol, so if it is -1 its none
 
-	/** Skin of the husk body this player is currently occupying */
 	public String huskName = "";
 	public String huskUUID = "";
+
+	public int[] bodyStats = new int[5];
+	public String bodyTraits = "";
 
 	/** Hack for allowing ladders on multiblocks */
 	public boolean isOnLadder = false;
@@ -294,6 +296,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		props.setInteger("symbol", symbol);
 		props.setString("huskName", huskName);
 		props.setString("huskUUID", huskUUID);
+		props.setIntArray("bodyStats", bodyStats);
+		props.setString("bodyTraits", bodyTraits);
 
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -319,6 +323,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			this.symbol = props.hasKey("symbol") ? props.getInteger("symbol") : -1;
 			this.huskName = props.getString("huskName");
 			this.huskUUID = props.getString("huskUUID");
+			this.bodyStats = props.getIntArray("bodyStats");
+			this.bodyTraits = props.getString("bodyTraits");
 		}
 	}
 }

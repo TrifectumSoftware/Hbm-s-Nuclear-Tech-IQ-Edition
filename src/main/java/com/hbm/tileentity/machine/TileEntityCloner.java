@@ -1,12 +1,17 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.entity.mob.EntityHusk;
 import com.hbm.inventory.container.ContainerCloner;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICloner;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemHumanPart;
 import com.hbm.items.tool.ItemMedicalSyringe;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -14,6 +19,8 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFillableItem;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -24,11 +31,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCloner extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IControlReceiver {
+public class TileEntityCloner extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IGUIProvider, IControlReceiver {
 
 	public static final int SLOT_SYRINGE = 0;
 	public static final int SLOT_MODDING = 1;
 	public static final int SLOT_BATTERY = 6;
+	public static final int ALL_PARTS = 5;
 	public static final int PROCESS_TIME = 100 * 20;
 
 	public long power;
@@ -39,6 +47,11 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 	public int progress;
 
 	public FluidTank tank;
+
+	public void setTankType(FluidType type) {
+		this.tank.setTankType(type);
+		this.markDirty();
+	}
 
 	public TileEntityCloner() {
 		super(7);
@@ -55,11 +68,13 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 
 		if(worldObj.isRemote) return;
 
-		this.power = Library.chargeTEFromItems(slots, SLOT_BATTERY, power, maxPower);
+		boolean wanted = this.active && this.getSampleUUID() != null && this.getLoadedParts() == ALL_PARTS;
+		if(wanted) this.power = Library.chargeTEFromItems(slots, SLOT_BATTERY, power, maxPower);
 
 		if(worldObj.getTotalWorldTime() % 20 == 0) {
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
 		}
 
@@ -75,14 +90,38 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 			this.progress = 0;
 		}
 
-		this.maxPower = Math.max(this.consumption * 20, this.power);
 		this.networkPackNT(25);
 	}
+
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] { tank }; }
+	@Override public FluidTank[] getSendingTanks() { return FluidTank.EMPTY_ARRAY; }
 
 	public boolean canProcess() {
 		if(!this.active) return false;
 		if(this.power < this.consumption) return false;
-		return this.getSampleUUID() != null;
+		if(this.getSampleUUID() == null) return false;
+		return this.getLoadedParts() == ALL_PARTS;
+	}
+
+	public List<ItemStack> getDistinctParts() {
+		List<ItemStack> parts = new ArrayList<ItemStack>();
+		boolean[] found = new boolean[ItemHumanPart.EnumHumanPart.values().length];
+
+		for(int i = SLOT_MODDING; i < SLOT_BATTERY; i++) {
+			ItemStack stack = slots[i];
+			if(stack == null || stack.getItem() != ModItems.human_part) continue;
+			int meta = stack.getItemDamage();
+			if(meta < 0 || meta >= found.length || found[meta]) continue;
+			found[meta] = true;
+			parts.add(stack);
+		}
+
+		return parts;
+	}
+
+	public int getLoadedParts() {
+		return this.getDistinctParts().size();
 	}
 
 	private String getSampleUUID() {
@@ -98,8 +137,17 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 		String uuid = this.getSampleUUID();
 		if(syringe == null || uuid == null) return;
 
+		ItemStack[] parts = new ItemStack[ALL_PARTS];
+		for(int i = 0; i < ALL_PARTS; i++) {
+			parts[i] = slots[SLOT_MODDING + i];
+			slots[SLOT_MODDING + i] = null;
+		}
+
+		FluidType blood = this.tank.getTankType();
+		if(blood == Fluids.NONE) blood = IFillableItem.getFluidType(syringe);
+
 		EntityHusk husk = new EntityHusk(worldObj);
-		husk.setupClone(uuid, syringe.stackTagCompound.getString(ItemMedicalSyringe.KEY_OWNER_NAME));
+		husk.setupClone(uuid, syringe.stackTagCompound.getString(ItemMedicalSyringe.KEY_OWNER_NAME), parts, blood);
 		husk.setLocationAndAngles(xCoord + 0.5D, yCoord + 1D, zCoord + 0.5D, 0F, 0F);
 		worldObj.spawnEntityInWorld(husk);
 
@@ -131,7 +179,7 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.power = nbt.getLong("power");
-		this.maxPower = nbt.getLong("maxPower");
+		this.maxPower = Math.max(1_000_000L, nbt.getLong("maxPower"));
 		this.active = nbt.getBoolean("active");
 		this.progress = nbt.getInteger("progress");
 		this.tank.readFromNBT(nbt, "tank");
@@ -184,11 +232,13 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 		return this.isUseableByPlayer(player);
 	}
 
+	public void toggle() {
+		this.active = !this.active;
+		this.markDirty();
+	}
+
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		if(data.getBoolean("toggle")) {
-			this.active = !this.active;
-			this.markDirty();
-		}
+		if(data.getBoolean("toggle")) this.toggle();
 	}
 }

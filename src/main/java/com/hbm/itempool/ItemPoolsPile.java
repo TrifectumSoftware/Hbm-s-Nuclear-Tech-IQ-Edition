@@ -9,6 +9,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemHumanPart;
+import com.hbm.items.special.ItemHumanPart.EnumHumanPart;
 import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
 import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
@@ -75,6 +77,11 @@ public class ItemPoolsPile {
 					weighted(filledSyringe(ModItems.combat_syringe, Fluids.SUPER_STIMPAK), 1, 1, 1),
 					weighted(filledSyringe(ModItems.syringe, Fluids.RADAWAY), 1, 1, 10),
 					weighted(Items.experience_bottle, 0, 1, 3, 5),
+					weighted(ItemHumanPart.make(EnumHumanPart.HEAD, 8, 45), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.TORSO, 8, 45), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.ARMS, 8, 45), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.LEGS, 8, 45), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.HEART, 8, 45), 1, 1, 1),
 			};
 		}};
 
@@ -122,6 +129,11 @@ public class ItemPoolsPile {
 
 					//Rare
 					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_BALEFIRE.ordinal(), 1, 1, 3),
+					weighted(ItemHumanPart.make(EnumHumanPart.HEAD, 45, 95), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.TORSO, 45, 95), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.ARMS, 45, 95), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.LEGS, 45, 95), 1, 1, 1),
+					weighted(ItemHumanPart.make(EnumHumanPart.HEART, 45, 95), 1, 1, 1),
 			};
 		}};
 

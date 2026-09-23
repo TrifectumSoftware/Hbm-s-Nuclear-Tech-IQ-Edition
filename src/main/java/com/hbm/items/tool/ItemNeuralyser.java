@@ -152,6 +152,10 @@ public class ItemNeuralyser extends Item {
 		NBTTagCompound outgoing = new NBTTagCompound();
 		player.writeToNBT(outgoing);
 
+		HbmPlayerProps body = HbmPlayerProps.getData(player);
+		outgoing.setIntArray("huskStats", body.bodyStats);
+		outgoing.setString("huskTraits", body.bodyTraits);
+
 		String targetName = husk.getOwnerName();
 		String targetUUID = husk.getOwnerUUID();
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
@@ -174,6 +178,7 @@ public class ItemNeuralyser extends Item {
 		player.fallDistance = 0F;
 		SymbolHandler.setActiveSymbol(player, symbol);
 		setHuskForm(player, targetName, targetUUID);
+		setHuskBody(player, husk);
 
 		husk.setPlayerData(outgoing);
 		husk.setSkinOwner(bodyName, bodyUUID);
@@ -202,6 +207,7 @@ public class ItemNeuralyser extends Item {
 		player.fallDistance = 0F;
 		SymbolHandler.setActiveSymbol(player, symbol);
 		setHuskForm(player, husk.getOwnerName(), husk.getOwnerUUID());
+		setHuskBody(player, husk);
 		husk.setDead();
 
 		player.worldObj.playSoundAtEntity(player, NTMSounds.UNPACK, 1.0F, 1.0F);
@@ -219,6 +225,12 @@ public class ItemNeuralyser extends Item {
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		props.huskName = name == null ? "" : name;
 		props.huskUUID = uuid == null ? "" : uuid;
+	}
+
+	private static void setHuskBody(EntityPlayer player, EntityHusk husk) {
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		props.bodyStats = husk.getBodyStats();
+		props.bodyTraits = husk.getBodyTraits();
 	}
 
 	private static void applyLocation(NBTTagCompound tag, double x, double y, double z, float yaw, float pitch) {

@@ -441,6 +441,7 @@ public class GUIElements {
 		int[] segColors = {0xFFFF5555, 0xFF55FFFF, 0xFF55FF55};
 		int strandColorDark = 0xFF00A000;
 		Tessellator tess = Tessellator.instance;
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_LINE_BIT | GL11.GL_CURRENT_BIT);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glLineWidth(3.5F);
@@ -472,9 +473,7 @@ public class GUIElements {
 			tess.draw();
 		}
 
-		GL11.glLineWidth(1.0F);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glPopAttrib();
 	}
 
 	private static double helixPhase(double x, double x0, double x1, double xDiv, double turns, int bits, double bitPhase) {
