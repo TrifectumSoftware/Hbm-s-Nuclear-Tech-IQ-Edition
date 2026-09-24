@@ -297,15 +297,6 @@ public class ItemBedrockOreNew extends Item {
 				T("concrete",	o(MAT_CONCRETE, 18),		o(MAT_REINFORCED_CONCRETE, 18),	o(MAT_DURCRETE, 18),	o(MAT_REINFORCED_DURCRETE, 18)),
 				T("rocks",		o(MAT_LIMESTONE, 18),		o(MAT_NETHERRACK, 18),		o(MAT_DEPTHROCK, 18),		o(MAT_NETHER_DEPTHROCK, 18))
 			);
-
-			register(
-				SolarSystem.Body.DROSS,
-				T("light",		o(MAT_IRON, 18),			o(MAT_COPPER, 9),			o(MAT_NICKEL, 6),			o(MAT_LITHIUM, 3)),
-				T("heavy",		o(MAT_LEAD, 18),			o(MAT_ZINC, 9),				o(MAT_GOLD, 6),				o(MAT_BISMUTH, 3)),
-				T("actinide",	o(MAT_URANIUM, 18),			o(MAT_THORIUM, 9),			o(MAT_PLUTONIUM, 6),		o(MAT_TECHNETIUM, 3)),
-				T("nonmetal",	o(MAT_COAL, 18),			o(MAT_LIGNITE, 9),			o(MAT_SULFUR, 6),			o(MAT_KNO, 3)),
-				T("plastic",	o(MAT_POLYMER, 18),			o(MAT_RUBBER, 9),			o(MAT_SEMTEX, 6),			o(MAT_PVC, 3))
-			);
 		}
 
 		public CelestialBedrockOreType[] types;

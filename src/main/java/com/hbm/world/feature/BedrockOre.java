@@ -51,13 +51,17 @@ public class BedrockOre {
 
 	public static void generateAuto(World world, int x, int z, Block targetBlock, FluidStack acidOverride) {
 		SolarSystem.Body body = CelestialBody.getEnum(world);
+		CelestialBedrockOre ore = CelestialBedrockOre.get(body);
+
+		// Planets without bedrock ores simply generate none
+		if(ore == null || ore.types.length == 0) return;
 
 		double totalLevel = 0;
-		for(CelestialBedrockOreType type : CelestialBedrockOre.get(body).types) {
+		for(CelestialBedrockOreType type : ore.types) {
 			totalLevel += ItemBedrockOreBase.getOreLevel(world, x, z, type);
 		}
 		
-		totalLevel /= CelestialBedrockOre.get(body).types.length;
+		totalLevel /= ore.types.length;
 		FluidStack acid = acidOverride != null ? acidOverride : getBoreFluid(totalLevel);
 		int tier = getTier(totalLevel);
 		

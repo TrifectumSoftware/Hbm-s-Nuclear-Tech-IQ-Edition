@@ -41,6 +41,8 @@ public class BedrockDrillHandler extends NEICelestialHandler {
 				outputs.add(new ItemStack(Blocks.packed_ice, 32));
 			}
 
+			if(outputs.isEmpty()) continue;
+
 			map.put(body, outputs.toArray(new ItemStack[outputs.size()]));
 		}
 
