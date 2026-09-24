@@ -55,6 +55,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.special.ItemHumanPart.EnumBodyStat;
 import com.hbm.handler.blood.BloodBehavior;
+import com.hbm.handler.husk.HuskAutomation;
 import com.hbm.items.special.ItemHumanPart.EnumPartTrait;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BobmazonOfferFactory;
@@ -1334,6 +1335,12 @@ public class ModEventHandler {
 
 		if(player.worldObj.isRemote || !(player instanceof EntityPlayerMP)) return;
 		if(event.phase != TickEvent.Phase.END) return;
+
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		if(!props.bodyRobot.isEmpty()) {
+			if(props.robot == null) props.robot = new HuskAutomation(player);
+			props.robot.update();
+		}
 
 		NBTTagCompound data = player.getEntityData();
 		float last = data.hasKey("hbmLastHealth") ? data.getFloat("hbmLastHealth") : player.getHealth();

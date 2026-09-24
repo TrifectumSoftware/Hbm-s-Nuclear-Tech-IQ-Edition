@@ -262,16 +262,10 @@ public class TileEntityMachineMagneticSeparator extends TileEntityMachineBase im
 
 	public DirPos[] getConPos() {
 		return new DirPos[] {
-				new DirPos(xCoord + 3, yCoord + 1, zCoord - 2, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord + 1, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord + 1, zCoord + 0, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord + 1, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord + 1, zCoord + 2, Library.POS_X),
-				new DirPos(xCoord - 3, yCoord + 1, zCoord - 2, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord + 1, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord + 1, zCoord + 0, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord + 1, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord + 1, zCoord + 2, Library.NEG_X),
+				new DirPos(xCoord + 3, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 3, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 3, Library.NEG_Z),
 		};
 	}
 

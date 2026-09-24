@@ -156,6 +156,8 @@ public class ItemNeuralyser extends Item {
 		HbmPlayerProps body = HbmPlayerProps.getData(player);
 		outgoing.setIntArray("huskStats", body.bodyStats);
 		outgoing.setString("huskTraits", body.bodyTraits);
+		outgoing.setString("robotChannel", body.bodyRobot);
+		outgoing.setString("robotOutput", body.bodyRobotOut);
 
 		String targetName = husk.getOwnerName();
 		String targetUUID = husk.getOwnerUUID();
@@ -234,6 +236,8 @@ public class ItemNeuralyser extends Item {
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		props.bodyStats = husk.getBodyStats();
 		props.bodyTraits = husk.getBodyTraits();
+		props.bodyRobot = husk.getRobotChannel();
+		props.bodyRobotOut = husk.getRobotOutputChannel();
 	}
 
 	private static void applyLocation(NBTTagCompound tag, double x, double y, double z, float yaw, float pitch) {

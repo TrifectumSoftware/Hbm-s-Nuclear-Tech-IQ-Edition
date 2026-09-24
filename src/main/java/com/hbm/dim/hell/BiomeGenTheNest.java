@@ -264,10 +264,11 @@ public class BiomeGenTheNest extends NetherBiomeBase {
 		if(WorldConfig.arterySpawn > 0 && rand.nextInt(WorldConfig.arterySpawn) == 0) {
 			int x = chunkX + rand.nextInt(16) + 8;
 			int z = chunkZ + rand.nextInt(16) + 8;
+
 			for(int bx = -5; bx <= 5; bx++)
 				for(int bz = -5; bz <= 5; bz++)
-					for(int y = 0; y < 5; y++)
-						if(Math.abs(bx) < 5 && Math.abs(bz) < 5 && Math.abs(bx) + Math.abs(y) + Math.abs(bz) <= 6)
+					for(int y = 0; y < 6; y++)
+						if(Math.abs(bx) < 5 && Math.abs(bz) < 5 && Math.abs(bx) + Math.abs(bz) <= 6)
 							if(world.getBlock(x + bx, y, z + bz) == Blocks.bedrock)
 								world.setBlock(x + bx, y, z + bz, ModBlocks.ore_bedrock_artery, 0, 2);
 		}

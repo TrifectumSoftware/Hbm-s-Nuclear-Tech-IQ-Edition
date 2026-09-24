@@ -1032,6 +1032,7 @@ public class ModItems {
 	public static Item medical_syringe;
 	public static Item medical_syringe_notch;
 	public static Item human_part;
+	public static Item robotic_head;
 	public static Item syringe_taint;
 	public static Item vector_lab_kit;
 	public static Item iv_empty;
@@ -3258,6 +3259,7 @@ public class ModItems {
 		medical_syringe = new ItemMedicalSyringe().setCreativeTab(MainRegistry.consumableTab);
 		medical_syringe_notch = new ItemNotchSyringe().setCreativeTab(MainRegistry.consumableTab);
 		human_part = new ItemHumanPart().setUnlocalizedName("human_part").setCreativeTab(MainRegistry.partsTab);
+		robotic_head = new ItemRoboticHead().setUnlocalizedName("robotic_head").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":robotic_head");
 
 		med_bag = new ItemSyringe().setUnlocalizedName("med_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_bag");
 		siox = new ItemPill(0).setUnlocalizedName("siox").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":siox");
@@ -6771,6 +6773,7 @@ public class ModItems {
 		GameRegistry.registerItem(medical_syringe, medical_syringe.getUnlocalizedName());
 		GameRegistry.registerItem(medical_syringe_notch, medical_syringe_notch.getUnlocalizedName());
 		GameRegistry.registerItem(human_part, human_part.getUnlocalizedName());
+		GameRegistry.registerItem(robotic_head, robotic_head.getUnlocalizedName());
 		GameRegistry.registerItem(med_bag, med_bag.getUnlocalizedName());
 		GameRegistry.registerItem(iv_empty, iv_empty.getUnlocalizedName());
 		GameRegistry.registerItem(iv_blood, iv_blood.getUnlocalizedName());

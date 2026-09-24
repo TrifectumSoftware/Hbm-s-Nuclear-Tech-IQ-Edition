@@ -270,8 +270,22 @@ public class ChunkProviderHbmHell implements IChunkProvider {
 	@Override
 	public Chunk loadChunk(int x, int z) { return provideChunk(x, z); }
 
+	
+	private static final int MAX_POPULATE_DEPTH = 3;
+	private int populateDepth = 0;
+
 	@Override
 	public void populate(IChunkProvider provider, int cx, int cz) {
+		if(this.populateDepth >= MAX_POPULATE_DEPTH) return;
+		this.populateDepth++;
+		try {
+			doPopulate(provider, cx, cz);
+		} finally {
+			this.populateDepth--;
+		}
+	}
+
+	private void doPopulate(IChunkProvider provider, int cx, int cz) {
 		BlockFalling.fallInstantly = true;
 		int x = cx * 16; int z = cz * 16;
 		BiomeGenBase biome = this.worldObj.getBiomeGenForCoords(x + 16, z + 16);

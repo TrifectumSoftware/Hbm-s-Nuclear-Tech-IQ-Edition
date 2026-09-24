@@ -4,11 +4,14 @@ import java.util.UUID;
 
 import com.hbm.extprop.HbmBloodstreamProps;
 import com.hbm.handler.blood.BloodBehavior;
+import com.hbm.handler.husk.HuskAutomation;
+import com.hbm.handler.husk.HuskInventory;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHumanPart;
 import com.hbm.items.special.ItemHumanPart.EnumBodyStat;
 import com.hbm.items.special.ItemHumanPart.EnumPartTrait;
+import com.hbm.items.special.ItemRoboticHead;
 import com.hbm.items.tool.ItemNeuralyser;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.PacketDispatcher;
@@ -42,9 +45,12 @@ public class EntityHusk extends EntityLiving {
 	private static final int DW_BLOOD = 31;
 
 	private NBTTagCompound playerData = new NBTTagCompound();
+	private HuskInventory inventory;
 	private String ownerName = "";
 	private String ownerUUID = "";
 	private boolean adopted = false;
+
+	private final HuskAutomation automation = new HuskAutomation(this);
 
 	private static final int TRANSFER_DELAY = 26;
 	private int transferDelay = 0;
@@ -84,6 +90,8 @@ public class EntityHusk extends EntityLiving {
 			int blood = HbmBloodstreamProps.getData(this).getBloodType().getID();
 			if(this.getDataWatcher().getWatchableObjectInt(DW_BLOOD) != blood) this.getDataWatcher().updateObject(DW_BLOOD, blood);
 		}
+
+		if(!this.worldObj.isRemote && !this.getRobotChannel().isEmpty()) this.automation.update();
 
 		if(!this.worldObj.isRemote && !this.adopted) {
 			EntityPlayer player = this.worldObj.getClosestPlayer(this.posX, this.posY, this.posZ, 16.0D);
@@ -152,6 +160,8 @@ public class EntityHusk extends EntityLiving {
 
 		int[] totals = new int[EnumBodyStat.values().length];
 		StringBuilder traits = new StringBuilder();
+		String robotChannel = "";
+		String robotOutput = "";
 
 		if(parts != null) for(ItemStack part : parts) {
 			for(EnumBodyStat stat : EnumBodyStat.values()) totals[stat.ordinal()] += ItemHumanPart.getStat(part, stat);
@@ -160,6 +170,11 @@ public class EntityHusk extends EntityLiving {
 			if(trait != null) {
 				if(traits.length() > 0) traits.append(",");
 				traits.append(trait.name());
+			}
+
+			if(part != null && part.getItem() == ModItems.robotic_head) {
+				robotChannel = ItemRoboticHead.getChannel(part);
+				robotOutput = ItemRoboticHead.getOutputChannel(part);
 			}
 		}
 
@@ -173,6 +188,8 @@ public class EntityHusk extends EntityLiving {
 		data.setTag("Attributes", bodyAttributes(totals));
 		data.setIntArray("huskStats", totals);
 		data.setString("huskTraits", traits.toString());
+		data.setString("robotChannel", robotChannel);
+		data.setString("robotOutput", robotOutput);
 		this.setPlayerData(data);
 
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(health(totals));
@@ -210,19 +227,38 @@ public class EntityHusk extends EntityLiving {
 
 	public void setPlayerData(NBTTagCompound tag) {
 		this.playerData = (tag == null ? new NBTTagCompound() : tag);
+		this.getInventory().read();
+		this.refreshEquipment();
+	}
 
-		if(!this.worldObj.isRemote) {
-			ItemStack[] eq = readEquipment(this.playerData);
-			this.getDataWatcher().updateObject(DW_HELD, eq[0]);
-			this.getDataWatcher().updateObject(DW_BOOTS, eq[1]);
-			this.getDataWatcher().updateObject(DW_LEGGINGS, eq[2]);
-			this.getDataWatcher().updateObject(DW_CHEST, eq[3]);
-			this.getDataWatcher().updateObject(DW_HELMET, eq[4]);
-		}
+	public void onInventoryChanged() {
+		this.refreshEquipment();
+	}
+
+	private void refreshEquipment() {
+		if(this.worldObj.isRemote) return;
+
+		HuskInventory inv = this.inventory;
+		ItemStack boots = inv == null ? null : inv.armorInventory[0];
+		ItemStack leggings = inv == null ? null : inv.armorInventory[1];
+		ItemStack chest = inv == null ? null : inv.armorInventory[2];
+		ItemStack helmet = inv == null ? null : inv.armorInventory[3];
+		ItemStack held = inv == null ? null : inv.getStackInSlot(this.getSelectedSlot());
+
+		this.getDataWatcher().updateObject(DW_HELD, held);
+		this.getDataWatcher().updateObject(DW_BOOTS, boots);
+		this.getDataWatcher().updateObject(DW_LEGGINGS, leggings);
+		this.getDataWatcher().updateObject(DW_CHEST, chest);
+		this.getDataWatcher().updateObject(DW_HELMET, helmet);
 	}
 
 	public NBTTagCompound getPlayerData() {
 		return this.playerData;
+	}
+
+	public HuskInventory getInventory() {
+		if(this.inventory == null) this.inventory = new HuskInventory(this);
+		return this.inventory;
 	}
 
 	public int[] getBodyStats() {
@@ -254,29 +290,24 @@ public class EntityHusk extends EntityLiving {
 		return this.getDataWatcher().getWatchableObjectInt(DW_BLOOD);
 	}
 
-	public String getHuskDisplayName() {
-		return this.hasCustomNameTag() ? this.getCustomNameTag() : I18nUtil.resolveKey("entity.hbm.entity_husk.name");
+	public String getRobotChannel() {
+		return this.playerData.getString("robotChannel");
 	}
 
-	public static ItemStack[] readEquipment(NBTTagCompound data) {
-		ItemStack[] eq = new ItemStack[5];
-		int held = data.getInteger("SelectedItemSlot");
-		NBTTagList inv = data.getTagList("Inventory", 10);
+	public int getSelectedSlot() {
+		return this.playerData.getInteger("SelectedItemSlot");
+	}
 
-		for(int i = 0; i < inv.tagCount(); i++) {
-			NBTTagCompound c = inv.getCompoundTagAt(i);
-			int slot = c.getByte("Slot") & 255;
-			ItemStack stack = ItemStack.loadItemStackFromNBT(c);
-			if(stack == null) continue;
+	public String getRobotOutputChannel() {
+		String output = this.playerData.getString("robotOutput");
+		if(!output.isEmpty()) return output;
 
-			if(slot == 100) eq[1] = stack;
-			else if(slot == 101) eq[2] = stack;
-			else if(slot == 102) eq[3] = stack;
-			else if(slot == 103) eq[4] = stack;
-			else if(slot == held) eq[0] = stack;
-		}
+		String channel = this.getRobotChannel();
+		return channel.isEmpty() ? "" : channel + HuskAutomation.OUTPUT_SUFFIX;
+	}
 
-		return eq;
+	public String getHuskDisplayName() {
+		return this.hasCustomNameTag() ? this.getCustomNameTag() : I18nUtil.resolveKey("entity.hbm.entity_husk.name");
 	}
 
 	@Override

@@ -36,8 +36,6 @@ public class RenderMagneticSeparator extends TileEntitySpecialRenderer implement
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-		GL11.glTranslated(0.5, 0, 0.5);
-
 		bindTexture(ResourceManager.magnetic_separator_tex);
 		renderAt(sep, interp);
 
@@ -47,63 +45,52 @@ public class RenderMagneticSeparator extends TileEntitySpecialRenderer implement
 	}
 
 	private void renderAt(TileEntityMachineMagneticSeparator sep, float pt) {
-		ResourceManager.magnetic_separator.renderPart("Base");
-		ResourceManager.magnetic_separator.renderPart("mesh");
-		ResourceManager.magnetic_separator.renderPart("mesh.001");
+		ResourceManager.magnetic_separator.renderPart("base");
+		ResourceManager.magnetic_separator.renderPart("innercover");
+
+		float sink = 0F;
+		float spin = 0F;
 
 		if(sep.open) {
 			if(sep.animationTicks == 0) {
-				GL11.glRotatef(180F, 1F, 0F, 0F);
-				ResourceManager.magnetic_separator.renderPart("InnerCover");
-				ResourceManager.magnetic_separator.renderPart("OuterCover");
+				sink = 180F;
 			} else if(sep.animRotation > 0) {
 				float a = sep.animRotation < OPEN[2] ? sep.animRotation + pt : sep.animRotation;
-				float rot = inExpo(a / OPEN[2]) * 180F;
-				GL11.glRotatef(rot, 1F, 0F, 0F);
-				if(sep.animRotation < OPEN[2]) {
-					GL11.glPushMatrix();
-					GL11.glRotatef(sep.rotation * MULT, 0F, 1F, 0F);
-					ResourceManager.magnetic_separator.renderPart("Hull");
-					GL11.glPopMatrix();
-				}
-				ResourceManager.magnetic_separator.renderPart("OuterCover");
-				GL11.glRotatef(-rot * 2F, 1F, 0F, 0F);
-				ResourceManager.magnetic_separator.renderPart("InnerCover");
+				sink = inExpo(a / OPEN[2]) * 180F;
+				spin = sep.rotation * MULT;
 			} else {
 				float a = sep.animAcceleration < OPEN[0] ? sep.animAcceleration + pt : sep.animAcceleration;
-				float rot = outQuart(a / OPEN[0]) * 360F + sep.rotation * MULT;
-				GL11.glRotatef(rot, 0F, 1F, 0F);
-				ResourceManager.magnetic_separator.renderPart("Hull");
+				spin = outQuart(a / OPEN[0]) * 360F + sep.rotation * MULT;
 			}
 		} else {
 			if(sep.animationTicks == 0) {
-				GL11.glRotatef((sep.rotation + pt) * MULT, 0F, 1F, 0F);
-				ResourceManager.magnetic_separator.renderPart("Hull");
+				spin = (sep.rotation + pt) * MULT;
 			} else if(sep.animAcceleration > 0) {
 				float a = sep.animAcceleration < CLOSE[2] ? sep.animAcceleration + pt : sep.animAcceleration;
 				float extra = sep.animAcceleration < CLOSE[2] ? sep.rotation : sep.rotation + pt;
-				float rot = inQuart(a / CLOSE[2]) * 360F + extra * MULT;
-				GL11.glRotatef(rot, 0F, 1F, 0F);
-				ResourceManager.magnetic_separator.renderPart("Hull");
+				spin = inQuart(a / CLOSE[2]) * 360F + extra * MULT;
 			} else if(sep.animRotation > 0) {
 				float a = sep.animRotation < CLOSE[1] ? sep.animRotation + pt : sep.animRotation;
-				float rot = 180F - inExpo(a / CLOSE[1]) * 180F;
-				GL11.glRotatef(rot, 1F, 0F, 0F);
-
-				GL11.glPushMatrix();
-				GL11.glRotatef(sep.rotation * MULT, 0F, 1F, 0F);
-				ResourceManager.magnetic_separator.renderPart("Hull");
-				GL11.glPopMatrix();
-
-				ResourceManager.magnetic_separator.renderPart("OuterCover");
-				GL11.glRotatef(-rot * 2F, 1F, 0F, 0F);
-				ResourceManager.magnetic_separator.renderPart("InnerCover");
+				sink = 180F - inExpo(a / CLOSE[1]) * 180F;
+				spin = sep.rotation * MULT;
 			} else {
-				GL11.glRotatef(180F, 1F, 0F, 0F);
-				ResourceManager.magnetic_separator.renderPart("InnerCover");
-				ResourceManager.magnetic_separator.renderPart("OuterCover");
+				sink = 180F;
 			}
 		}
+
+		GL11.glPushMatrix();
+		if(sink != 0F) GL11.glRotatef(sink, 1F, 0F, 0F);
+
+		if(sink > 0F) {
+			ResourceManager.magnetic_separator.renderPart("outer_cover");
+		}
+
+		if(sink < 180F) {
+			if(spin != 0F) GL11.glRotatef(spin, 0F, 1F, 0F);
+			ResourceManager.magnetic_separator.renderPart("hull");
+		}
+
+		GL11.glPopMatrix();
 	}
 
 	private static float inExpo(float x) { return x == 0 ? 0 : (float) Math.pow(2, 10 * x - 10); }
@@ -123,10 +110,11 @@ public class RenderMagneticSeparator extends TileEntitySpecialRenderer implement
 				GL11.glScaled(2.5, 2.5, 2.5);
 			}
 			public void renderCommon() {
-				GL11.glScaled(0.75, 0.75, 0.75);
+				GL11.glScaled(0.9, 0.9, 0.9);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.magnetic_separator_tex);
-				ResourceManager.magnetic_separator.renderPart("Hull");
+				ResourceManager.magnetic_separator.renderPart("base");
+				ResourceManager.magnetic_separator.renderPart("hull");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		};

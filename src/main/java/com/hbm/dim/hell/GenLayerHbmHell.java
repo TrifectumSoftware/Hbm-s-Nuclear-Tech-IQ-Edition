@@ -19,7 +19,7 @@ public abstract class GenLayerHbmHell extends GenLayer {
 	}
 
 	public static GenLayer[] makeLayers(long seed, WorldType worldType) {
-		int biomeSize = 8;
+		int biomeSize = 4;
 
 		GenLayerHbmHell layer = new HellCreate(1L);
 		layer = new HellFuzzyZoom(2000L, layer);

@@ -19,10 +19,8 @@ import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 import com.hbm.util.Compat;
 import com.hbm.util.LootGenerator;
-import com.hbm.util.WeightedRandomGeneric;
 import com.hbm.world.dungeon.*;
 import com.hbm.world.feature.*;
-import com.hbm.world.feature.BedrockOre.BedrockOreDefinition;
 import com.hbm.world.gen.MapGenChainloader;
 import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
@@ -32,7 +30,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
@@ -531,15 +528,6 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			if(GeneralConfig.enablePlutoniumOre)
 				DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPlutoniumSpawn, 4, 0, 127, ModBlocks.ore_nether_plutonium, Blocks.netherrack);
-
-			if(rand.nextInt(10) == 0) {
-				@SuppressWarnings("unchecked")
-				WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOresNether);
-				BedrockOreDefinition def = item.get();
-				int randPosX = i + rand.nextInt(2) + 8;
-				int randPosZ = j + rand.nextInt(2) + 8;
-				BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier, ModBlocks.stone_depth_nether, Blocks.netherrack);
-			}
 
 			DepthDeposit.generateConditionNether(world, i, 0, 3, j, 7, 0.6D, ModBlocks.ore_depth_nether_neodymium, rand, 16);
 			DepthDeposit.generateConditionNether(world, i, 125, 3, j, 7, 0.6D, ModBlocks.ore_depth_nether_neodymium, rand, 16);

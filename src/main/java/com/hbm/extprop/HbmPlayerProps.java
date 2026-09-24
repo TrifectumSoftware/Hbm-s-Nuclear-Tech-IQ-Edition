@@ -2,6 +2,7 @@ package com.hbm.extprop;
 
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.husk.HuskAutomation;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.armor.ItemModShield;
 import com.hbm.items.tool.ItemMagneticCrafter;
@@ -65,6 +66,9 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 
 	public int[] bodyStats = new int[5];
 	public String bodyTraits = "";
+	public String bodyRobot = "";
+	public String bodyRobotOut = "";
+	public HuskAutomation robot;
 
 	/** Hack for allowing ladders on multiblocks */
 	public boolean isOnLadder = false;
@@ -298,6 +302,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		props.setString("huskUUID", huskUUID);
 		props.setIntArray("bodyStats", bodyStats);
 		props.setString("bodyTraits", bodyTraits);
+		props.setString("bodyRobot", bodyRobot);
+		props.setString("bodyRobotOut", bodyRobotOut);
 
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -325,6 +331,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			this.huskUUID = props.getString("huskUUID");
 			this.bodyStats = props.getIntArray("bodyStats");
 			this.bodyTraits = props.getString("bodyTraits");
+			this.bodyRobot = props.getString("bodyRobot");
+			this.bodyRobotOut = props.getString("bodyRobotOut");
 		}
 	}
 }

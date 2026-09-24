@@ -118,8 +118,13 @@ public class TileEntityCloner extends TileEntityMachineBase implements IEnergyRe
 
 		for(int i = SLOT_MODDING; i < SLOT_BATTERY; i++) {
 			ItemStack stack = slots[i];
-			if(stack == null || stack.getItem() != ModItems.human_part) continue;
-			int meta = stack.getItemDamage();
+			if(stack == null) continue;
+
+			int meta;
+			if(stack.getItem() == ModItems.human_part) meta = stack.getItemDamage();
+			else if(stack.getItem() == ModItems.robotic_head) meta = ItemHumanPart.EnumHumanPart.HEAD.ordinal();
+			else continue;
+
 			if(meta < 0 || meta >= found.length || found[meta]) continue;
 			found[meta] = true;
 			parts.add(stack);
