@@ -341,6 +341,9 @@ public class Fluids {
 	public static FluidType DILUTED_BUURMIC_ACID;
 	public static FluidType LIGHT_BUURMIUM_SOLUTION;
 	public static FluidType STALEAIR;
+	public static FluidType COLOSTAMINE;
+	public static FluidType MALAISE;
+	public static FluidType PUTRYIN;
 
 	/* Legacy names for compatibility purposes */
 	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
@@ -717,6 +720,9 @@ public class Fluids {
 		CONSTRUCTION_FOAM_NETHERRACK = new FluidType("CONSTRUCTION_FOAM_NETHERRACK", 0x9E4E48, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(6));
 		CONSTRUCTION_FOAM_DEPTHROCK = new FluidType("CONSTRUCTION_FOAM_DEPTHROCK", 0x8A8A8A, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(7));
 		CONSTRUCTION_FOAM_NETHER_DEPTHROCK = new FluidType("CONSTRUCTION_FOAM_NETHER_DEPTHROCK", 0x9A6A66, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_ConstructionFoam(8));
+		COLOSTAMINE = new FluidType("COLOSTAMINE", 0xE6D9A8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		MALAISE = new FluidType("MALAISE", 0x8E5FB0, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		PUTRYIN = new FluidType("PUTRYIN", 0x7A8C3A, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 
 
 		File folder = MainRegistry.configHbmDir;
@@ -1055,6 +1061,9 @@ public class Fluids {
 		metaOrder.add(CONSTRUCTION_FOAM_NETHER_DEPTHROCK);
 		metaOrder.add(STALEAIR);
 		metaOrder.add(SOLDERING_ALLOY);
+		metaOrder.add(COLOSTAMINE);
+		metaOrder.add(MALAISE);
+		metaOrder.add(PUTRYIN);
 
 		//ANY INTERNAL RENAMING MUST BE REFLECTED HERE - DON'T FORGET TO CHANGE: LANG FILES + TYPE'S STRING ID + NAME OF TANK/GUI TEXTURE FILES!
 		// V
