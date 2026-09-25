@@ -31,8 +31,12 @@ public class ItemOreDensityScanner extends Item {
 		double totalLevel = 0D;
 
 		CelestialBody body = CelestialBody.getBody(world);
-		
-		for(CelestialBedrockOreType type : CelestialBedrockOre.get(body.getEnum()).types) {
+		CelestialBedrockOre ore = CelestialBedrockOre.get(body.getEnum());
+
+		// Planets without bedrock ores have nothing to scan
+		if(ore == null || ore.types.length == 0) return;
+
+		for(CelestialBedrockOreType type : ore.types) {
 			double level = ItemBedrockOreBase.getOreLevel(world, (int) Math.floor(player.posX), (int) Math.floor(player.posZ), type);
 			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(
 					ChatBuilder.startTranslation("item.bedrock_ore.type." + type.suffix + ".name")
@@ -42,7 +46,7 @@ public class ItemOreDensityScanner extends Item {
 			777 + type.index, 4000), player);
 			totalLevel += level;
 		}
-		totalLevel /= CelestialBedrockOre.get(body.getEnum()).types.length;
+		totalLevel /= ore.types.length;
 		
 		int tier = BedrockOre.getTier(totalLevel);
 		FluidStack boreFluid = BedrockOre.getBoreFluid(totalLevel);

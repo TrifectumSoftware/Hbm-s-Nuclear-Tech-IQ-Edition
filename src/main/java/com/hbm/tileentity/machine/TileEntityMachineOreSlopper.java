@@ -136,7 +136,8 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 
 					fromBody = ItemBedrockOreBase.getOreBody(slots[2]);
 
-					for(CelestialBedrockOreType type : CelestialBedrockOre.get(fromBody).types) {
+					CelestialBedrockOre ore = CelestialBedrockOre.get(fromBody);
+					if(ore != null) for(CelestialBedrockOreType type : ore.types) {
 						ores[type.index] += (ItemBedrockOreBase.getOreAmount(slots[2], type) * (1D + efficiency * 0.1));
 					}
 
@@ -338,8 +339,10 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 		if(tanks[0].getFill() < waterUsed) return false;
 		if(tanks[1].getFill() + waterUsed > tanks[1].getMaxFill()) return false;
 		if(power < consumption) return false;
+		if(slots[2] == null || slots[2].getItem() != ModItems.bedrock_ore_base) return false;
 
-		return slots[2] != null && slots[2].getItem() == ModItems.bedrock_ore_base;
+		// Nothing to extract if the item comes from a body without bedrock ores
+		return CelestialBedrockOre.get(ItemBedrockOreBase.getOreBody(slots[2])) != null;
 	}
 
 	public FluidType getFluidOutput(FluidType input) {

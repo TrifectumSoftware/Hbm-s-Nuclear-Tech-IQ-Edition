@@ -34,8 +34,11 @@ public class OreSlopperHandler extends NEIUniversalHandler {
 		for(SolarSystem.Body body : SolarSystem.Body.values()) {
 			if(body == SolarSystem.Body.ORBIT) continue;
 
+			CelestialBedrockOre ore = CelestialBedrockOre.get(body);
+			if(ore == null) continue;
+
 			List<ItemStack> outputs = new ArrayList<>();
-			for(CelestialBedrockOreType type : CelestialBedrockOre.get(body).types) outputs.add(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type));
+			for(CelestialBedrockOreType type : ore.types) outputs.add(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type));
 			outputs.add(ItemFluidIcon.make(Fluids.SLOP, 1000));
 
 			recipes.put(new ItemStack[] {ItemFluidIcon.make(Fluids.WATER, 1000), new ItemStack(ModItems.bedrock_ore_base, 1, body.ordinal())}, outputs.toArray(new ItemStack[0]));

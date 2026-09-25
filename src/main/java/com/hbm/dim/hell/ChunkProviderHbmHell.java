@@ -270,7 +270,7 @@ public class ChunkProviderHbmHell implements IChunkProvider {
 	@Override
 	public Chunk loadChunk(int x, int z) { return provideChunk(x, z); }
 
-	
+
 	private static final int MAX_POPULATE_DEPTH = 3;
 	private int populateDepth = 0;
 

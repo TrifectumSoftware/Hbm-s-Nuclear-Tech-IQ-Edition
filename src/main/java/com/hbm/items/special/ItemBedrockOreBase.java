@@ -50,7 +50,10 @@ public class ItemBedrockOreBase extends Item {
 
 		stack.setItemDamage(body.ordinal());
 
-		for(CelestialBedrockOreType type : CelestialBedrockOre.get(body).types) {
+		CelestialBedrockOre ore = CelestialBedrockOre.get(body);
+		if(ore == null) return;
+
+		for(CelestialBedrockOreType type : ore.types) {
 			data.setDouble(type.suffix, getOreLevel(world, x, z, type) * mult);
 		}
 	}
@@ -61,7 +64,10 @@ public class ItemBedrockOreBase extends Item {
 		SolarSystem.Body body = getOreBody(stack);
 		list.add("Mined on: " + I18nUtil.resolveKey("body." + body.name));
 
-		for(CelestialBedrockOreType type : CelestialBedrockOre.get(body).types) {
+		CelestialBedrockOre ore = CelestialBedrockOre.get(body);
+		if(ore == null) return;
+
+		for(CelestialBedrockOreType type : ore.types) {
 			double amount = getOreAmount(stack, type);
 			String typeName = StatCollector.translateToLocalFormatted("item.bedrock_ore.type." + type.suffix + ".name");
 			list.add(typeName + ": " + ((int) (amount * 100)) / 100D + " (" + ItemOreDensityScanner.getColor(amount) + StatCollector.translateToLocalFormatted(ItemOreDensityScanner.translateDensity(amount)) + EnumChatFormatting.GRAY + ")");
@@ -92,6 +98,7 @@ public class ItemBedrockOreBase extends Item {
 
 		for(SolarSystem.Body body : SolarSystem.Body.values()) {
 			if(body == SolarSystem.Body.ORBIT) continue;
+			if(CelestialBedrockOre.get(body) == null) continue;
 			list.add(new ItemStack(item, 1, body.ordinal()));
 		}
 	}
