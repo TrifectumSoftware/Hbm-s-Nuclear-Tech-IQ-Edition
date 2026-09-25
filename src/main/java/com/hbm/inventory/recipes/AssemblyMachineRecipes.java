@@ -1581,6 +1581,18 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 
 		/// UNBEND ///
 
+		/// IQ ///
+		// machina
+		this.register(new GenericRecipe("tile.machine_drive_rack").setup(400, 200).outputItems(new ItemStack(ModBlocks.machine_drive_rack, 1))
+			.inputItems(
+				new OreDictStack(AL.plateCast(), 6),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 4),
+				new OreDictStack(STAINLESS.plate(), 6),
+				new ComparableStack(ModItems.circuit, 8, EnumCircuitType.MOLYCHIP),
+				new ComparableStack(ModItems.circuit, 6, EnumCircuitType.AERO)
+			)
+		);
+
 		this.register(new GenericRecipe("ass.emptypackage").setup(40, 100).outputItems(new ItemStack(ModItems.fluid_pack_empty, 1))
 				.inputItems(new OreDictStack(TI.plate(), 4), new OreDictStack(ANY_PLASTIC.ingot(), 2)));
 

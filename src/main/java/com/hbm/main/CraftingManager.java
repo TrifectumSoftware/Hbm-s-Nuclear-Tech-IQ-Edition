@@ -122,6 +122,8 @@ public class CraftingManager {
 
 		addRecipeAuto(new ItemStack(Blocks.stonebrick, 4), new Object[] { "SS", "SS", 'S', KEY_STONE });
 
+		addRecipeAuto(new ItemStack(ModItems.euphemium_rod, 1), new Object[] { " I ", " I ", "NIN", 'I', ModItems.ingot_euphemium, 'N', ModItems.nugget_euphemium});
+
 		addRecipeAuto(new ItemStack(ModItems.redstone_sword, 1), new Object[] { "R", "R", "S", 'R', REDSTONE.block(), 'S', KEY_STICK });
 		addRecipeAuto(new ItemStack(ModItems.big_sword, 1), new Object[] { "QIQ", "QIQ", "GSG", 'G', Items.gold_ingot, 'S', KEY_STICK, 'I', Items.iron_ingot, 'Q', Items.quartz});
 

@@ -26,11 +26,11 @@ import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
 public class HFRWavefrontObject implements IModelCustomNamed {
-	
+
 	/** For resource reloading */
 	public static LinkedHashSet<HFRWavefrontObject> allModels = new LinkedHashSet();
 	public static LinkedHashMap<HFRWavefrontObjectVBO, HFRWavefrontObject> allVBOs = new LinkedHashMap();
-	
+
 	private static Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
 	private static Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
 	private static Pattern textureCoordinatePattern = Pattern.compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+(\\.\\d+)?){2,3} *$)");
@@ -61,12 +61,12 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	public HFRWavefrontObject(String name, boolean mixedMode) throws ModelFormatException {
 		this(new ResourceLocation(RefStrings.MODID, name), mixedMode);
 	}
-	
+
 	public HFRWavefrontObject noSmooth() {
 		this.smoothing = false;
 		return this;
 	}
-	
+
 	/** Provides a way for a model to have both tris and quads, however this means it can't be rendered directly.
 	 * Useful for ISBRHs which access vertices manually, allowing the quad to tri trick without forcing the entire model to be redundant tris. */
 	public void mixedMode() { this.allowMixedMode = true; }
@@ -77,7 +77,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 
 	public HFRWavefrontObject(ResourceLocation resource, boolean mixedMode) throws ModelFormatException {
 		if(mixedMode) this.mixedMode();
-		
+
 		this.resource = resource;
 		this.fileName = resource.toString();
 
@@ -87,7 +87,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 		} catch(IOException e) {
 			throw new ModelFormatException("IO Exception reading model format", e);
 		}
-		
+
 		this.allModels.add(this);
 	}
 
@@ -112,44 +112,50 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 				lineCount++;
 				currentLine = currentLine.replaceAll("\\s+", " ").trim();
 
-				if(currentLine.startsWith("#") || currentLine.length() == 0) {
-					continue;
-				} else if(currentLine.startsWith("v ")) {
-					Vertex vertex = parseVertex(currentLine, lineCount);
-					if(vertex != null) {
-						vertices.add(vertex);
-					}
-				} else if(currentLine.startsWith("vn ")) {
-					Vertex vertex = parseVertexNormal(currentLine, lineCount);
-					if(vertex != null) {
-						vertexNormals.add(vertex);
-					}
-				} else if(currentLine.startsWith("vt ")) {
-					TextureCoordinate textureCoordinate = parseTextureCoordinate(currentLine, lineCount);
-					if(textureCoordinate != null) {
-						textureCoordinates.add(textureCoordinate);
-					}
-				} else if(currentLine.startsWith("f ")) {
-
-					if(currentGroupObject == null) {
-						currentGroupObject = new S_GroupObject("Default");
-					}
-
-					S_Face face = parseFace(currentLine, lineCount);
-
-					if(face != null) {
-						currentGroupObject.faces.add(face);
-					}
-				} else if(currentLine.startsWith("g ") | currentLine.startsWith("o ")) {
-					S_GroupObject group = parseGroupObject(currentLine, lineCount);
-
-					if(group != null) {
-						if(currentGroupObject != null) {
-							groupObjects.add(currentGroupObject);
+				try {
+					if (currentLine.startsWith("#") || currentLine.length() == 0) {
+						continue;
+					} else if (currentLine.startsWith("v ")) {
+						Vertex vertex = parseVertex(currentLine, lineCount);
+						if (vertex != null) {
+							vertices.add(vertex);
 						}
-					}
+					} else if (currentLine.startsWith("vn ")) {
+						Vertex vertex = parseVertexNormal(currentLine, lineCount);
+						if (vertex != null) {
+							vertexNormals.add(vertex);
+						}
+					} else if (currentLine.startsWith("vt ")) {
+						TextureCoordinate textureCoordinate = parseTextureCoordinate(currentLine, lineCount);
+						if (textureCoordinate != null) {
+							textureCoordinates.add(textureCoordinate);
+						}
+					} else if (currentLine.startsWith("f ")) {
 
-					currentGroupObject = group;
+						if (currentGroupObject == null) {
+							currentGroupObject = new S_GroupObject("Default");
+						}
+
+						S_Face face = parseFace(currentLine, lineCount);
+
+						if (face != null) {
+							currentGroupObject.faces.add(face);
+						}
+					} else if (currentLine.startsWith("g ") | currentLine.startsWith("o ")) {
+						S_GroupObject group = parseGroupObject(currentLine, lineCount);
+
+						if (group != null) {
+							if (currentGroupObject != null) {
+								groupObjects.add(currentGroupObject);
+							}
+						}
+
+						currentGroupObject = group;
+					}
+				} catch (ModelFormatException e) {
+					throw e;
+				} catch (Exception e) {
+					throw new ModelFormatException("Uncaught exception at line " + lineCount, e);
 				}
 			}
 
@@ -175,7 +181,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderAll() {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		Tessellator tessellator = Tessellator.instance;
 
 		if(currentGroupObject != null) {
@@ -199,7 +205,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderOnly(String... groupNames) {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		for(S_GroupObject groupObject : groupObjects) {
 			for(String groupName : groupNames) {
 				if(groupName.equalsIgnoreCase(groupObject.name)) {
@@ -224,7 +230,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderPart(String partName) {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		for(S_GroupObject groupObject : groupObjects) {
 			if(partName.equalsIgnoreCase(groupObject.name)) {
 				groupObject.render();
@@ -245,7 +251,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderAllExcept(String... excludedGroupNames) {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		for(S_GroupObject groupObject : groupObjects) {
 			boolean skipPart = false;
 			for(String excludedGroupName : excludedGroupNames) {
@@ -293,7 +299,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 			}
 		}
 
-		
+
 		return vertex;
 	}
 
