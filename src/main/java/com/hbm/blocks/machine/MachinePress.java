@@ -25,7 +25,7 @@ public class MachinePress extends BlockDummyable implements IToolable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {2, 0, 0, 0, 0, 0};
+		return new int[] {4, 0, 0, 0, 1, 1};
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class MachinePress extends BlockDummyable implements IToolable {
 		TileEntity te = world.getTileEntity(x, y, z);
 		return te != null && te instanceof TileEntityMachinePress;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return this.standardOpenBehavior(world, x, y, z, player, 0);
@@ -47,18 +47,18 @@ public class MachinePress extends BlockDummyable implements IToolable {
 	// Un-multiblickable with a hand drill for schenanigans
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
-		
-		if (tool != ToolType.HAND_DRILL) 
+
+		if (tool != ToolType.HAND_DRILL)
 			return false;
-		
+
 		int meta = world.getBlockMetadata(x, y, z);
 		if (meta >= 12)
 			return false;
-		
+
 		safeRem = true;
 		world.setBlockToAir(x, y, z);
 		safeRem = false;
 		return true;
 	}
-	
+
 }
