@@ -7852,6 +7852,8 @@ item.powder_metastable_buurmium.name=Metastable Buurmium-2137
 item.powder_diffused_buurmium_tiny.name=Tiny Pile of Diffused Buurmium
 item.powder_pure_buurmium_tiny.name=Tiny Pile of Pure Buurmium
 item.powder_metastable_buurmium_tiny.name=Tiny Pile of Metastable Buurmium-2137
+item.buurmic_waste.name=Buurmic Waste
+item.buurmic_waste_tiny.name=Tiny Pile of Buurmic Waste
 
 item.rbmk_fuel_dbm.name=DBm RBMK Fuel Rod
 item.rbmk_fuel_pbm.name=Buurmium RBMK Fuel Rod

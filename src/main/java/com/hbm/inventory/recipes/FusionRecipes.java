@@ -127,7 +127,7 @@ public class FusionRecipes extends GenericRecipes<FusionRecipe> {
 			.setNamed().setIcon(new ItemStack(ModItems.powder_metastable_buurmium))
 			.setPower(solenoid).setDuration(400)
 			.inputFluids(new FluidStack(Fluids.LIGHT_BUURMIUM_SOLUTION, 10))
-			.outputItems(new ItemStack(ModItems.powder_metastable_buurmium)));
+			.outputItems(new ItemStack(ModItems.powder_metastable_buurmium_tiny)));
 	}
 
 	@Override

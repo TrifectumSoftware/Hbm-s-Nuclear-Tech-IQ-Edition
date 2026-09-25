@@ -586,6 +586,15 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 			.inputFluids(new FluidStack(Fluids.PISS_DEPLETED, 1000))
 			.outputFluids(new FluidStack(Fluids.WATER, 800), new FluidStack(Fluids.AMMONIA, 100), new FluidStack(Fluids.PISS, 100)));
 
+		this.register(new GenericRecipe("chem.buurmium_extraction").setup(200, 1000).setIcon(ModItems.buurmic_waste)
+			.inputFluids(new FluidStack(Fluids.BUURCRETE, 8000), new FluidStack(Fluids.RADIOSOLVENT, 500))
+			.outputItems(new ItemStack(ModItems.buurmic_waste_tiny, 3))
+		);
+		this.register(new GenericRecipe("chem.buurmic_waste_processing").setup(300, 2000).setIcon(ModItems.powder_diffused_buurmium)
+			.inputItems(new ComparableStack(ModItems.buurmic_waste, 4))
+			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
+			.outputItems(new ItemStack(ModItems.powder_diffused_buurmium))
+		);
 		this.register(new GenericRecipe("chem.buurmic_acid").setup(200, 1000).setIcon(ModItems.fluid_icon, Fluids.BUURMIC_ACID.getID())
 			.inputItems(new ComparableStack(ModItems.powder_pure_buurmium))
 			.inputFluids(new FluidStack(Fluids.NITRIC_ACID, 1000, 1), new FluidStack(Fluids.AIR, 1000))

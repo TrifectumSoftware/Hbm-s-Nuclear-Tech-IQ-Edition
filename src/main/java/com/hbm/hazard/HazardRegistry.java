@@ -371,9 +371,11 @@ public class HazardRegistry {
 		HazardSystem.register(powder_diffused_buurmium, makeData(RADIATION, 2.137F));
 		HazardSystem.register(powder_pure_buurmium, makeData(RADIATION, 213.7F));
 		HazardSystem.register(powder_metastable_buurmium, makeData(RADIATION, 2137.0F));
+		HazardSystem.register(buurmic_waste, makeData(RADIATION, 21.37F));
 		HazardSystem.register(powder_diffused_buurmium_tiny, makeData(RADIATION, 2.137F * nugget));
 		HazardSystem.register(powder_pure_buurmium_tiny, makeData(RADIATION, 213.7F * nugget));
 		HazardSystem.register(powder_metastable_buurmium_tiny, makeData(RADIATION, 2137.0F * nugget));
+		HazardSystem.register(buurmic_waste_tiny, makeData(RADIATION, 21.37F * nugget));
 
 		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 3F);
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
