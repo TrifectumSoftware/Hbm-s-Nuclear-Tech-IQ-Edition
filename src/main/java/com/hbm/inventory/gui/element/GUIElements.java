@@ -280,6 +280,7 @@ public class GUIElements {
 	public static final int RECIPE_COLOR_LINE1 = 0xFFFFFF00;
 	public static final int STANDARD_HEADER_OFFSET = 2;
 	public static final int STANDARD_LINE_DIST = 10;
+	public static final int TEXT_BAR_THRESHOLD = 128;
 	public static void drawHoveringText(List lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight) {
 		drawHoveringText(lines, x, y, font, itemRender, guiWidth, guiHeight, STANDARD_HEADER_OFFSET, STANDARD_LINE_DIST, STANDARD_COLOR_BACKGROUND, STANDARD_COLOR_BACKGROUND, STANDARD_COLOR_LINE0, STANDARD_COLOR_LINE1);
 	}
@@ -288,7 +289,7 @@ public class GUIElements {
 	}
 
 	public static void drawHoveringTextFluid(List lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight, FluidType type) {
-		drawHoveringTextFluids(lines, x, y, font, itemRender, guiWidth, guiHeight, type);
+		drawHoveringTextFluids(lines, x, y, font, itemRender, guiWidth, guiHeight, true, type);
 
 		if(GuiScreen.isShiftKeyDown() && type != null && !lines.isEmpty()) {
 			drawDangerDiamond(lines, x, y, font, guiWidth, guiHeight, type);
@@ -296,6 +297,10 @@ public class GUIElements {
 	}
      // i am hungry and desire lunch
 	public static void drawHoveringTextFluids(List<String> lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight, FluidType... types) {
+		drawHoveringTextFluids(lines, x, y, font, itemRender, guiWidth, guiHeight, false, types);
+	}
+
+	private static void drawHoveringTextFluids(List<String> lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight, boolean bar, FluidType... types) {
 		if(lines.isEmpty()) return;
 
 		int[] colors = fluidBorderColors(types);
@@ -312,6 +317,8 @@ public class GUIElements {
 		drawHoveringBackground(boundX, boundY, width, height, STANDARD_COLOR_BACKGROUND, STANDARD_COLOR_BACKGROUND);
 		drawFluidBorder(boundX - 3, boundY - 3, boundX + width + 3, boundY + height + 3, colors);
 
+		float frameSide = (width + 6F) / (2F * (width + height + 12F));
+
 		int lineY = boundY;
 		for(int i = 0; i < lines.size(); i++) {
 			String line = lines.get(i);
@@ -321,8 +328,12 @@ public class GUIElements {
 				if(type == null) continue;
 				String name = type.getLocalizedName();
 				if(line.startsWith(name)) {
-					font.drawStringWithShadow(name, boundX, lineY, 0xff000000 | type.getColor());
-					font.drawStringWithShadow(line.substring(name.length()), boundX + font.getStringWidth(name), lineY, 0xffffffff);
+					if(bar) {
+						drawStringOnBar(font, line, boundX, width, lineY, 0xff000000 | type.getColor(), colors, frameSide);
+					} else {
+						font.drawStringWithShadow(name, boundX, lineY, 0xff000000 | type.getColor());
+						font.drawStringWithShadow(line.substring(name.length()), boundX + font.getStringWidth(name), lineY, 0xffffffff);
+					}
 					drawn = true;
 					break;
 				}
@@ -437,7 +448,7 @@ public class GUIElements {
 
 		float size = 26F;
 		GL11.glPushMatrix();
-		GL11.glTranslatef(boundX + width + 3, boundY - 4, 300F);
+		GL11.glTranslatef(boundX + width + 3, boundY - 3, 300F);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(90F, 0F, 1F, 0F);
 		GL11.glScalef(size, size, size);
@@ -551,6 +562,44 @@ public class GUIElements {
 		font.drawStringWithShadow(text, -w / 2, -font.FONT_HEIGHT / 2, color);
 		GL11.glPopMatrix();
 		GL11.glColor4f(1F, 1F, 1F, 1F);
+	}
+
+	private static void drawStringOnBar(FontRenderer font, String text, int boxLeft, int boxWidth, int y, int color, int[] gradient, float tMax) {
+		drawGradientBar(boxLeft - 2, y - 2, boxLeft + boxWidth + 2, y + font.FONT_HEIGHT, gradient, tMax);
+		int textX = boxLeft + (boxWidth - font.getStringWidth(text)) / 2;
+		font.drawString(text, textX, y, luminance(color) < TEXT_BAR_THRESHOLD ? 0xFFFFFFFF : 0xFF101010, false);
+	}
+
+	private static void drawGradientBar(int x0, int y0, int x1, int y1, int[] colors, float tMax) {
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		int steps = Math.max(1, (x1 - x0) / 8);
+		for(int i = 0; i < steps; i++) {
+			double xa = x0 + (double) (x1 - x0) * i / steps;
+			double xb = x0 + (double) (x1 - x0) * (i + 1) / steps;
+			tess.setColorOpaque_I(sampleColor(colors, tMax * i / steps));
+			tess.addVertex(xa, y0, 300D);
+			tess.addVertex(xa, y1, 300D);
+			tess.setColorOpaque_I(sampleColor(colors, tMax * (i + 1) / steps));
+			tess.addVertex(xb, y1, 300D);
+			tess.addVertex(xb, y0, 300D);
+		}
+		tess.draw();
+
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
+
+	private static int luminance(int color) {
+		return (((color >> 16) & 255) * 299 + ((color >> 8) & 255) * 587 + (color & 255) * 114) / 1000;
 	}
 
 	public static List<String> wrapText(List<String> lines, int max) {

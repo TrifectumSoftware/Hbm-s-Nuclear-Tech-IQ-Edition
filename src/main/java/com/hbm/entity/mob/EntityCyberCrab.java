@@ -64,6 +64,9 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob, IRad
 		return super.attackEntityFrom(source, amount);
 	}
 
+	@Override
+	protected void fall(float distance) { }
+
 	/**
 	 * Returns true if the newer Entity AI code should be run
 	 */
