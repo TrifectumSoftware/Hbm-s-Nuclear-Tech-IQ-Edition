@@ -420,6 +420,27 @@ public class GUIElements {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
+	public static void drawScaledText(FontRenderer font, String text, float x, float y, float scale, int color) {
+		GL11.glPushMatrix();
+		GL11.glScaled(scale, scale, 1D);
+		font.drawStringWithShadow(text, Math.round(x / scale), Math.round(y / scale), color);
+		GL11.glPopMatrix();
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+	}
+
+
+	public static void drawCenteredText(FontRenderer font, String text, int boxLeft, int boxTop, int boxWidth, int boxHeight, float maxScale, int color) {
+		int w = font.getStringWidth(text);
+		float scale = Math.min(maxScale, boxWidth / (float) Math.max(w, 1));
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(boxLeft + boxWidth / 2D, boxTop + boxHeight / 2D, 0D);
+		GL11.glScaled(scale, scale, 1D);
+		font.drawStringWithShadow(text, -w / 2, -font.FONT_HEIGHT / 2, color);
+		GL11.glPopMatrix();
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+	}
+
 	public static List<String> wrapText(List<String> lines, int max) {
 		List<String> out = new ArrayList<String>();
 		for(String line : lines) {

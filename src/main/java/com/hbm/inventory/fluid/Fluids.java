@@ -344,6 +344,8 @@ public class Fluids {
 	public static FluidType COLOSTAMINE;
 	public static FluidType MALAISE;
 	public static FluidType PUTRYIN;
+	public static FluidType GRAY_GOO;
+	public static FluidType DORMANT_GRAY_GOO;
 
 	/* Legacy names for compatibility purposes */
 	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
@@ -723,6 +725,8 @@ public class Fluids {
 		COLOSTAMINE = new FluidType("COLOSTAMINE", 0xE6D9A8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		MALAISE = new FluidType("MALAISE", 0x8E5FB0, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		PUTRYIN = new FluidType("PUTRYIN", 0x7A8C3A, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		GRAY_GOO = new FluidType("GRAY_GOO", 0x8C8F94, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		DORMANT_GRAY_GOO = new FluidType("DORMANT_GRAY_GOO", 0x4E5054, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 
 
 		File folder = MainRegistry.configHbmDir;
@@ -1064,6 +1068,8 @@ public class Fluids {
 		metaOrder.add(COLOSTAMINE);
 		metaOrder.add(MALAISE);
 		metaOrder.add(PUTRYIN);
+		metaOrder.add(GRAY_GOO);
+		metaOrder.add(DORMANT_GRAY_GOO);
 
 		//ANY INTERNAL RENAMING MUST BE REFLECTED HERE - DON'T FORGET TO CHANGE: LANG FILES + TYPE'S STRING ID + NAME OF TANK/GUI TEXTURE FILES!
 		// V

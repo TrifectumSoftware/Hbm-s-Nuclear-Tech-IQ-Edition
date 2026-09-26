@@ -199,6 +199,7 @@ public class TileMappings {
 		put(TileEntityMachineCrystallizer.class, "tileentity_acidomatic");
 		put(TileEntitySoyuzStruct.class, "tileentity_soyuz_struct");
 		put(TileEntityMachineMiningLaser.class, "tileentity_mining_laser");
+		put(TileEntityMachineNanoprobe.class, "tileentity_nanoprobe");
 		put(TileEntityNukeBalefire.class, "tileentity_nuke_fstbmb");
 		put(TileEntityAntimatter.class, "tileentity_nuke_Antimatter");
 		put(TileEntityMicrowave.class, "tileentity_microwave");

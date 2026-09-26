@@ -54,6 +54,7 @@ public class SludgeProcessorRecipes extends GenericRecipes<SludgeProcessorRecipe
 			.setIconToFirstIngredient()
 		);
 
+		/* // This needs a little more complexity
 		this.register((SludgeProcessorRecipe) new SludgeProcessorRecipe("sludge.buurmium")
 			.setup(100, 20_000)
 			.inputFluids(new FluidStack(Fluids.BUURCRETE, 4000))
@@ -64,6 +65,7 @@ public class SludgeProcessorRecipes extends GenericRecipes<SludgeProcessorRecipe
 				new FluidStack(Fluids.CONCRETE, 4000)
 			)
 		);
+		*/
 
 		this.register((SludgeProcessorRecipe) new SludgeProcessorRecipe("sludge.concrete_recycling")
 			.setup(40, 5_000).setNameWrapper("sludge.concrete_recycling")

@@ -1132,6 +1132,7 @@ public class ModBlocks {
 	public static Block machine_thresher;
 
 	public static Block machine_mining_laser;
+	public static Block machine_nanoprobe;
 	public static Block barricade; // a sand bag that drops nothing, for automated walling purposes
 
 	public static Block machine_assembly_machine;
@@ -2592,6 +2593,7 @@ public class ModBlocks {
 		machine_ore_slopper = new MachineOreSlopper().setBlockName("machine_ore_slopper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_annihilator = new MachineAnnihilator().setBlockName("machine_annihilator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_mining_laser = new MachineMiningLaser(Material.iron).setBlockName("machine_mining_laser").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_mining_laser");
+		machine_nanoprobe = new MachineNanoprobe(Material.iron).setBlockName("machine_nanoprobe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		barricade = new BlockNoDrop(Material.sand).setBlockName("barricade").setHardness(1.0F).setResistance(2.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":barricade");
 		machine_assembly_machine = new MachineAssemblyMachine(Material.iron).setBlockName("machine_assembly_machine").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_assembly_factory = new MachineAssemblyFactory(Material.iron).setBlockName("machine_assembly_factory").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3948,6 +3950,7 @@ public class ModBlocks {
 		register(machine_ore_slopper);
 		register(machine_annihilator);
 		register(machine_mining_laser);
+		register(machine_nanoprobe);
 		register(barricade);
 		register(machine_turbofan);
 		register(machine_turbinegas);
