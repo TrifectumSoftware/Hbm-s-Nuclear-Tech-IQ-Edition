@@ -36,6 +36,27 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		return biome.heightVariation <= 0.2F && !isWaterBiome(biome) && BiomeDictionary.isBiomeOfType(biome, Type.SPARSE);
 	}
 
+	/** dry and flat */
+	public static boolean isValidExcavatorBiome(BiomeGenBase biome) {
+		if(isWaterBiome(biome) || BiomeDictionary.isBiomeOfType(biome, Type.BEACH)) return false;
+		if(!BiomeDictionary.isBiomeOfType(biome, Type.SANDY) && !BiomeDictionary.isBiomeOfType(biome, Type.SNOWY)) return false;
+		return biome.heightVariation <= 0.15F;
+	}
+
+
+	public static boolean isExcavatorSpawnArea(WorldCoordinate coords) {
+		int cx = coords.coords.chunkXPos * 16 + 8;
+		int cz = coords.coords.chunkZPos * 16 + 8;
+
+		for(int dx = -24; dx <= 24; dx += 48) {
+			for(int dz = -24; dz <= 24; dz += 48) {
+				if(!isValidExcavatorBiome(coords.world.getWorldChunkManager().getBiomeGenAt(cx + dx, cz + dz))) return false;
+			}
+		}
+
+		return true;
+	}
+
 	public NTMWorldGenerator() {
 
 		/// SPIRE ///
@@ -265,9 +286,42 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition("excavator") {{
-			canSpawn = biome -> (BiomeDictionary.isBiomeOfType(biome, Type.SANDY) || BiomeDictionary.isBiomeOfType(biome, Type.SNOWY)) && biome.heightVariation <= 0.15F;
+			canSpawn = biome -> isValidExcavatorBiome(biome);
+			canSpawnAt = coords -> isExcavatorSpawnArea(coords);
 			structure = new JigsawPiece("excavator", StructureManager.excavator, -5);
 			spawnWeight = StructureConfig.excavatorSpawnWeight;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("endothermic_lab") {{
+			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.SNOWY) || BiomeDictionary.isBiomeOfType(biome, Type.COLD);
+			structure = new JigsawPiece("endothermic_lab", StructureManager.endothermic_lab, -18);
+			spawnWeight = StructureConfig.endothermicLabSpawnWeight;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("repeater_tower") {{
+			canSpawn = biome -> biome.heightVariation <= 0.3F && !isWaterBiome(biome)
+				&& !BiomeDictionary.isBiomeOfType(biome, Type.SAVANNA)
+				&& !BiomeDictionary.isBiomeOfType(biome, Type.HILLS);
+			structure = new JigsawPiece("repeater_tower", StructureManager.repeater_tower, -13);
+			spawnWeight = StructureConfig.repeaterTowerSpawnWeight;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("earth_lance") {{
+			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.OCEAN);
+			structure = new JigsawPiece("earth_lance", StructureManager.earth_lance, -60);
+			spawnWeight = StructureConfig.enableOceanStructures ? StructureConfig.earthLanceSpawnWeight : 0;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("behemoth_bot_forest") {{
+			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.FOREST) || BiomeDictionary.isBiomeOfType(biome, Type.PLAINS);
+			structure = new JigsawPiece("behemoth_bot_forest", StructureManager.behemoth_bot_forest, -11);
+			spawnWeight = StructureConfig.behemothBotForestSpawnWeight;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("digger_bot_forest") {{
+			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.FOREST);
+			structure = new JigsawPiece("digger_bot_forest", StructureManager.digger_bot_forest, -6);
+			spawnWeight = StructureConfig.diggerBotForestSpawnWeight;
 		}});
 
 		NBTStructure.registerNullWeight(0, StructureConfig.plainsNullWeight, biome -> biome == BiomeGenBase.plains);

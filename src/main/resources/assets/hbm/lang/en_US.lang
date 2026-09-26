@@ -963,6 +963,7 @@ crucible.hematite=Iron Production from Hematite
 crucible.cassiterite=Cassiterite Refining
 magsep.genomeSample=Genome Sampling
 incubator.duplicate=Incubation
+incubator.syringe=Sample Duplication
 crucible.hss=High-Speed Steel Production
 crucible.hsss=Boosted High-Speed Steel Production
 crucible.stainless=Stainless Steel Production

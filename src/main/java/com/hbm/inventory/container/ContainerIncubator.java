@@ -72,7 +72,7 @@ public class ContainerIncubator extends Container {
 					if(!this.mergeItemStack(stack, 5, 6, false)) return null;
 				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
 					if(!this.mergeItemStack(stack, 6, 8, false)) return null;
-				} else if(rStack.getItem() == ModItems.vial) {
+				} else if(rStack.getItem() == ModItems.vial || rStack.getItem() == ModItems.medical_syringe) {
 					if(!this.mergeItemStack(stack, 0, 3, false)) return null;
 				} else {
 					return null;

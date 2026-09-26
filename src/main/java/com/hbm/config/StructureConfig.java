@@ -62,6 +62,12 @@ public class StructureConfig {
 	public static int dishSpawnWeight = 20;
 	public static int featuresSpawnWeight = 50;
 
+	public static int endothermicLabSpawnWeight = 15;
+	public static int repeaterTowerSpawnWeight = 20;
+	public static int earthLanceSpawnWeight = 8;
+	public static int behemothBotForestSpawnWeight = 12;
+	public static int diggerBotForestSpawnWeight = 12;
+
 	public static int aircraftCarrierSpawnWeight = 3;
 
 	// --- Null weights
@@ -125,6 +131,12 @@ public class StructureConfig {
 		waterPumpSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.42_waterPumpSpawnWeight", "Spawn weight for water pump structure.", 15);
 		deadDishSmallSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.43_deadDishSmallSpawnWeight", "Spawn weight for dead dish small structure.", 15);
 		excavatorSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.44_excavatorSpawnWeight", "Spawn weight for excavator structure.", 15);
+
+		endothermicLabSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.45_endothermicLabSpawnWeight", "Spawn weight for endothermic laboratory structure.", 15);
+		repeaterTowerSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.46_repeaterTowerSpawnWeight", "Spawn weight for repeater tower structure.", 20);
+		earthLanceSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.47_earthLanceSpawnWeight", "Spawn weight for earth lance structure.", 8);
+		behemothBotForestSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.48_behemothBotForestSpawnWeight", "Spawn weight for behemoth bot forest structure.", 12);
+		diggerBotForestSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.49_diggerBotForestSpawnWeight", "Spawn weight for digger bot forest structure.", 12);
 
 
 		structureMinChunks = CommonConfig.setDef(structureMinChunks, 4);

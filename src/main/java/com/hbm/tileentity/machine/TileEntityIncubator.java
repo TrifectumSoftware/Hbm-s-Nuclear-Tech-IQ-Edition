@@ -19,6 +19,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.items.tool.ItemMedicalSyringe;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
@@ -54,6 +55,8 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 
 	public static final int COOLANT_PER_RUN = 100;
 	public static final float CROSSBREED_CHANCE = 0.5F;
+	public static final int SYRINGE_TIME = 12_000;
+	public static final float SYRINGE_CONSUME_CHANCE = 0.5F;
 
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
@@ -110,7 +113,7 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 						this.pendingOutput = null;
 					}
 				}
-			} else if(getVials().isEmpty()) {
+			} else if(getVials().isEmpty() && getSyringe() == null) {
 				this.progress = 0;
 				this.pendingOutput = null;
 			}
@@ -121,6 +124,7 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 	}
 
 	private int getIncubationTime() {
+		if(getSyringe() != null) return SYRINGE_TIME;
 		for(ItemStack vial : getVials()) {
 			DiseaseDefinition def = getDef(vial);
 			if(def != null && def.incubationTicks > 0) return def.incubationTicks;
@@ -134,6 +138,18 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 			if(slots[i] != null && slots[i].getItem() == ModItems.vial && ItemVial.readFrame(slots[i]) != null) vials.add(slots[i]);
 		}
 		return vials;
+	}
+
+	private ItemStack getSyringe() {
+		for(int i = 0; i <= 2; i++) {
+			if(isSyringe(slots[i])) return slots[i];
+		}
+		return null;
+	}
+
+	private static boolean isSyringe(ItemStack stack) {
+		if(stack == null || stack.getItem() != ModItems.medical_syringe) return false;
+		return stack.hasTagCompound() && stack.stackTagCompound.hasKey(ItemMedicalSyringe.KEY_OWNER_UUID);
 	}
 
 	private DiseaseDefinition getDef(ItemStack vial) {
@@ -170,7 +186,11 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 		if(!isCoolant(this.inputTank.getTankType()) || this.inputTank.getFill() < COOLANT_PER_RUN) return false;
 		if(this.outputTank.getTankType() != Fluids.PERFLUOROMETHYL) return false;
 		if(this.outputTank.getFill() + COOLANT_PER_RUN > this.outputTank.getMaxFill()) return false;
-		if(getVials().isEmpty()) return false;
+
+		boolean syringe = getSyringe() != null;
+		if(getVials().isEmpty() && !syringe) return false;
+
+		if(syringe) return slots[3] == null;
 
 		if(slots[3] != null) {
 			if(slots[3].getItem() != ModItems.vial) return false;
@@ -181,6 +201,9 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 	}
 
 	private ItemStack rollOutput() {
+
+		ItemStack syringe = getSyringe();
+		if(syringe != null) return syringe.copy();
 
 		List<ItemStack> vials = getVials();
 		if(vials.isEmpty()) return null;
@@ -213,7 +236,7 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 	private boolean canAccept(ItemStack output) {
 		if(output == null) return false;
 		if(slots[3] == null) return true;
-		if(slots[3].getItem() != ModItems.vial) return false;
+		if(slots[3].getItem() != output.getItem()) return false;
 		if(!ItemStack.areItemStackTagsEqual(slots[3], output)) return false;
 		return slots[3].stackSize + output.stackSize <= slots[3].getMaxStackSize();
 	}
@@ -227,6 +250,16 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 
 		this.inputTank.setFill(this.inputTank.getFill() - COOLANT_PER_RUN);
 		this.outputTank.setFill(this.outputTank.getFill() + COOLANT_PER_RUN);
+
+		if(isSyringe(output) && worldObj.rand.nextFloat() < SYRINGE_CONSUME_CHANCE) {
+			for(int i = 0; i <= 2; i++) {
+				if(isSyringe(slots[i])) {
+					slots[i] = null;
+					break;
+				}
+			}
+		}
+
 		this.markDirty();
 	}
 
@@ -307,7 +340,7 @@ public class TileEntityIncubator extends TileEntityMachineBase implements IEnerg
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if(slot <= 2) return stack.getItem() == ModItems.vial;
+		if(slot <= 2) return stack.getItem() == ModItems.vial || stack.getItem() == ModItems.medical_syringe;
 		if(slot == 5) return stack.getItem() instanceof IItemFluidIdentifier;
 		if(slot >= 6) return stack.getItem() instanceof ItemMachineUpgrade;
 		return false;

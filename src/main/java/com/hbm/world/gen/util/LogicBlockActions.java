@@ -12,6 +12,11 @@ import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityCreeperPhosgene;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.entity.mob.ai.EntityAIFireGun;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBlaster;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBombardier;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBrawler;
+import com.hbm.entity.mob.glyphid.EntityGlyphidDigger;
 import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityDoorGeneric;
@@ -276,6 +281,43 @@ public class LogicBlockActions {
 				mob.setPositionAndRotation(x, y, z, 0, 0);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdv, new Random());
 				if(world.rand.nextInt(4) == 0) mob.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
+				world.spawnEntityInWorld(mob);
+				world.setBlock(x, y, z, Blocks.air);
+			}
+		}
+	};
+
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> GLYPHIDS_TIER_1 = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		if (tile.phase == 1) {
+			for (int i = 0; i < 3; i++) {
+				EntityGlyphid mob = new EntityGlyphid(world);
+				mob.setPositionAndRotation(x, y, z, 0, 0);
+				world.spawnEntityInWorld(mob);
+				world.setBlock(x, y, z, Blocks.air);
+			}
+		}
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> GLYPHIDS_TIER_2 = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		if (tile.phase == 1) {
+			for (int i = 0; i < 3; i++) {
+				EntityGlyphid mob;
+				switch(world.rand.nextInt(4)) {
+				case 0: mob = new EntityGlyphidBrawler(world); break;
+				case 1: mob = new EntityGlyphidBombardier(world); break;
+				case 2: mob = new EntityGlyphidBlaster(world); break;
+				default: mob = new EntityGlyphidDigger(world); break;
+				}
+				mob.setPositionAndRotation(x, y, z, 0, 0);
 				world.spawnEntityInWorld(mob);
 				world.setBlock(x, y, z, Blocks.air);
 			}
@@ -616,6 +658,9 @@ public class LogicBlockActions {
 
 		actions.put("ZOMBIE_TIER_1", ZOMBIES_TIER_1);
 		actions.put("ZOMBIE_TIER_2", ZOMBIES_TIER_2);
+
+		actions.put("GLYPHID_TIER_1", GLYPHIDS_TIER_1);
+		actions.put("GLYPHID_TIER_2", GLYPHIDS_TIER_2);
 
 		actions.put("CYBERCRAB_WAVE", CYBERCRAB_WAVE);
 		actions.put("TESLACRAB_WAVE", TESLACRAB_WAVE);

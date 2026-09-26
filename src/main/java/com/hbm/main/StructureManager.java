@@ -166,6 +166,12 @@ public class StructureManager {
 	public static final NBTStructure excavator = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/excavator.nbt"));
 	public static final NBTStructure repeater_radio = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/repeater_radio.nbt"));
 
+	public static final NBTStructure endothermic_lab = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/endothermic_lab.nbt"));
+	public static final NBTStructure repeater_tower = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/repeater_tower.nbt"));
+	public static final NBTStructure earth_lance = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/earth_lance.nbt"));
+	public static final NBTStructure behemoth_bot_forest = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/behemoth_bot_forest.nbt"));
+	public static final NBTStructure digger_bot_forest = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/digger_bot_forest.nbt"));
+
 	public static final NBTStructure spire = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/spire.nbt"));
 
 	// public static final NBTStructure test_rot = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-rot.nbt"));
