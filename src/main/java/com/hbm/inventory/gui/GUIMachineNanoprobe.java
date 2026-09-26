@@ -83,7 +83,7 @@ public class GUIMachineNanoprobe extends GuiInfoContainer {
 				for(int i = 0; i < probe.outputCount(); i++) lines.add(outputs[i].getLocalizedName() + ": " + (int) probe.harvest[i] + "mB");
 			}
 
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 70, 55, 53, mouseX, mouseY, lines);
+			GUIElements.drawHoveringTextFluids(lines, mouseX, mouseY, this.fontRendererObj, this.getItemRenderer(), this.width, this.height, outputs == null ? new FluidType[0] : outputs);
 		}
 	}
 

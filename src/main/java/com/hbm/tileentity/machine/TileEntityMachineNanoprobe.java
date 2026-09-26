@@ -166,12 +166,12 @@ public class TileEntityMachineNanoprobe extends TileEntityMachineBase implements
 			break;
 
 		case DEPLOYING:
-			this.missionTicks++;
 			if(recallSignal) {
 				this.recall();
 				break;
 			}
 			if(!consumePower()) {
+				this.missionTicks++;
 				if(++this.stateTicks >= this.deployTime) {
 					this.state = ProbeState.EXTRACTING;
 					this.elapsedTicks = 0;
@@ -180,12 +180,12 @@ public class TileEntityMachineNanoprobe extends TileEntityMachineBase implements
 			break;
 
 		case EXTRACTING:
-			this.missionTicks++;
 			if(recallSignal) {
 				this.recall();
 				break;
 			}
 			if(!consumePower()) {
+				this.missionTicks++;
 				this.elapsedTicks++;
 				this.lossFraction = (float) getLoss(this.elapsedTicks);
 				this.accumulateOutputs();
@@ -218,6 +218,7 @@ public class TileEntityMachineNanoprobe extends TileEntityMachineBase implements
 
 		int amount = this.gooTank.getFill();
 		if(amount < MIN_DEPLOY) return;
+		if(this.power < POWER_BASE + (long) (amount * POWER_PER_MB)) return;
 
 		this.deployed = amount;
 		this.deployTime = DEPLOY_BASE + this.deployed / DEPLOY_RATE;
