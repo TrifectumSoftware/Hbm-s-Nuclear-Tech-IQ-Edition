@@ -1593,6 +1593,38 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 			)
 		);
 
+		// vanadium drillbits
+		this.register(new GenericRecipe("item.drillbit_steel_vanadium").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.STEEL_VANADIUM.ordinal()))
+			.inputItems(
+				new ComparableStack(ModItems.powder_vanadium, 4),
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL.ordinal())
+			)
+		);
+		this.register(new GenericRecipe("item.drillbit_hss_vanadium").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.HSS_VANADIUM.ordinal()))
+			.inputItems(
+				new ComparableStack(ModItems.powder_vanadium, 8),
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS.ordinal())
+			)
+		);
+		this.register(new GenericRecipe("item.drillbit_desh_vanadium").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.DESH_VANADIUM.ordinal()))
+			.inputItems(
+				new ComparableStack(ModItems.powder_vanadium, 16),
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS.ordinal())
+			)
+		);
+		this.register(new GenericRecipe("item.drillbit_tcalloy_vanadium").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.TCALLOY_VANADIUM.ordinal()))
+			.inputItems(
+				new ComparableStack(ModItems.powder_vanadium, 24),
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.TCALLOY.ordinal())
+			)
+		);
+		this.register(new GenericRecipe("item.drillbit_ferro_vanadium").setup(100, 100).outputItems(new ItemStack(ModItems.drillbit, 1, EnumDrillType.FERRO_VANADIUM.ordinal()))
+			.inputItems(
+				new ComparableStack(ModItems.powder_vanadium, 32),
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.FERRO.ordinal())
+			)
+		);
+
 		this.register(new GenericRecipe("ass.emptypackage").setup(40, 100).outputItems(new ItemStack(ModItems.fluid_pack_empty, 1))
 				.inputItems(new OreDictStack(TI.plate(), 4), new OreDictStack(ANY_PLASTIC.ingot(), 2)));
 
