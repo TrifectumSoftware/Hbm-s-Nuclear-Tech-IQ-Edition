@@ -568,8 +568,6 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
-		TileEntityWaffleIron.init();
-
 		// to make sure that foreign registered fluids are accounted for,
 		// even when the reload listener is registered too late due to load order
 		// IMPORTANT: fluids have to load before recipes. weird shit happens if not.

@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import com.hbm.inventory.RecipesCommon;
+import com.hbm.inventory.recipes.WaffleIronRecipe;
+import com.hbm.inventory.recipes.WaffleIronRecipes;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BufferUtil;
 import io.netty.buffer.ByteBuf;
@@ -15,22 +17,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TileEntityWaffleIron extends TileEntityMachineBase implements IEnergyReceiverMK2 {
 	public static final int[] LOWERING_ANIMATION_TICKS = {(4746)/50,(6493-4746)/50,(9809-6493)/50};
 	public static final int[] RAISING_UNFIRED_ANIMATION_TICKS = {(3962)/50, (7106-3962)/50, (11541-7106)/50};
 	public static final int[] RAISING_ANIMATION_TICKS = {(1952)/50, (5344-1952)/50};
-
-	private static Map<RecipesCommon.AStack, ItemStack> createRecipeMap() {
-		HashMap<RecipesCommon.AStack, ItemStack> map = new HashMap<>();
-		map.put(new RecipesCommon.ComparableStack(Items.wheat), new ItemStack(Items.bread));
-		return map;
-	}
-	public static Map<RecipesCommon.AStack, ItemStack> recipes;
-	public static void init() {
-		recipes = Collections.unmodifiableMap(createRecipeMap());
-	}
 
 	public boolean lowered = false;
 	public int animationTicks = 0;
@@ -226,17 +219,20 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 		);
 	}
 
+	private List<WaffleIronRecipe> getRecipes() {
+		return WaffleIronRecipes.INSTANCE.recipeOrderedList;
+	}
 	private boolean mayFire() {
 		ItemStack stack = this.slots[0];
-		for (RecipesCommon.AStack comp : recipes.keySet()) {
-			if (comp.matchesRecipe(stack, true)) return true;
+		for (WaffleIronRecipe recipe : this.getRecipes()) {
+			if (recipe.inputItem[0].matchesRecipe(stack, true)) return true;
 		}
 		return false;
 	}
 	private ItemStack getResult() {
 		ItemStack stack = this.slots[0];
-		for (Map.Entry<RecipesCommon.AStack, ItemStack> entry : recipes.entrySet()) {
-			if (entry.getKey().matchesRecipe(stack, true)) return entry.getValue();
+		for (WaffleIronRecipe recipe : this.getRecipes()) {
+			if (recipe.inputItem[0].matchesRecipe(stack, true)) return recipe.outputItem[0].collapse();
 		}
 		return null;
 	}

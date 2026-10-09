@@ -99,6 +99,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(MagneticSeparatorRecipes.INSTANCE);
 		recipeHandlers.add(IncubatorRecipes.INSTANCE);
 		recipeHandlers.add(SludgeProcessorRecipes.INSTANCE);
+		recipeHandlers.add(WaffleIronRecipes.INSTANCE);
 		recipeHandlers.add(FusionRecipes.INSTANCE);
 		recipeHandlers.add(PrecAssRecipes.INSTANCE);
 		recipeHandlers.add(PlasmaForgeRecipes.INSTANCE);
