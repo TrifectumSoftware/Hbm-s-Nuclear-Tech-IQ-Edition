@@ -16,6 +16,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class FreeCursorHandler {
 
 	private boolean cursorFree = false;
+	private boolean requireRelease = false;
 	private int cursorX, cursorY;
 
 	@SubscribeEvent
@@ -25,11 +26,16 @@ public class FreeCursorHandler {
 
 		if(!Display.isActive()) {
 			cursorFree = false;
-			HbmKeybinds.freeCursorKey.pressed = false;
+			requireRelease = true;
 			return;
 		}
 
-		boolean held = HbmKeybinds.freeCursorKey.getIsKeyPressed() && !Keyboard.isKeyDown(Keyboard.KEY_TAB);
+		boolean held = (Keyboard.isKeyDown(HbmKeybinds.freeCursorKey.getKeyCode()) || HbmKeybinds.freeCursorKey.getIsKeyPressed()) && !Keyboard.isKeyDown(Keyboard.KEY_TAB);
+
+		if(requireRelease) {
+			if(held) return;
+			requireRelease = false;
+		}
 
 		if(held && mc.currentScreen == null && mc.thePlayer != null && mc.inGameHasFocus) {
 			cursorFree = true;
