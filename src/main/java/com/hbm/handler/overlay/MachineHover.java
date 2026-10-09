@@ -11,6 +11,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
@@ -62,7 +63,7 @@ public class MachineHover {
 		inspect(mc, te, mop.blockX, mop.blockY, mop.blockZ);
 	}
 
-	private static boolean isMachine(TileEntity te) {
+	public static boolean isMachine(TileEntity te) {
 		return te instanceof TileEntityMachineBase || te instanceof IEnergyHandlerMK2 || te instanceof IFluidUserMK2;
 	}
 
@@ -70,21 +71,29 @@ public class MachineHover {
 
 		machineTitle = I18nUtil.resolveKey(mc.theWorld.getBlock(x, y, z).getUnlocalizedName() + ".name");
 		machineLines.clear();
+		machineLines.addAll(info(te));
+	}
+
+	public static List<String> info(TileEntity te) {
+		return info(te, false);
+	}
+
+	public static List<String> info(TileEntity te, boolean compact) {
+
+		List<String> lines = new ArrayList<>();
 
 		Integer progress = intField(te, "progress");
 		Integer processTime = intField(te, "processTime");
 		if(processTime == null) processTime = intField(te, "processTimeBase");
 
 		if(progress != null && processTime != null && processTime > 0) {
-			machineLines.add("Progress: " + (progress * 100 / processTime) + "% (" + progress + " / " + processTime + " t)");
+			int percent = progress * 100 / processTime;
+			lines.add(compact ? "Progress: " + percent + "%" : "Progress: " + percent + "% (" + progress + " / " + processTime + " t)");
 		}
-
-		Integer heat = intField(te, "heat");
-		if(heat != null) machineLines.add("Heat: " + amount(heat) + "°C");
 
 		if(te instanceof IEnergyHandlerMK2) {
 			IEnergyHandlerMK2 energy = (IEnergyHandlerMK2) te;
-			machineLines.add("Energy: " + amount(energy.getPower()) + " / " + amount(energy.getMaxPower()) + " HE");
+			lines.add(compact ? BobMathUtil.getShortNumber(energy.getPower()) + "/" + BobMathUtil.getShortNumber(energy.getMaxPower()) + " HE" : "Energy: " + amount(energy.getPower()) + " / " + amount(energy.getMaxPower()) + " HE");
 		}
 
 		if(te instanceof IFluidUserMK2) {
@@ -94,9 +103,23 @@ public class MachineHover {
 				FluidType type = tank.getTankType();
 				if(type == null || type == Fluids.NONE) continue;
 
-				machineLines.add("&[" + type.getColor() + "&]" + type.getLocalizedName() + ": " + amount(tank.getFill()) + " / " + amount(tank.getMaxFill()) + " mB");
+				String color = "&[" + type.getColor() + "&]";
+				lines.add(compact ? color + BobMathUtil.getShortNumber(tank.getFill()) + "/" + BobMathUtil.getShortNumber(tank.getMaxFill()) + " mB" : color + type.getLocalizedName() + ": " + amount(tank.getFill()) + " / " + amount(tank.getMaxFill()) + " mB");
 			}
 		}
+
+		Integer heat = intField(te, "heat");
+		Integer maxHeat = intField(te, "maxHeat");
+
+		if(heat != null) {
+			if(compact) {
+				lines.add(BobMathUtil.getShortNumber(heat) + (maxHeat != null && maxHeat > 0 ? "/" + BobMathUtil.getShortNumber(maxHeat) : "") + " TU");
+			} else {
+				lines.add("Heat: " + amount(heat) + (maxHeat != null && maxHeat > 0 ? " / " + amount(maxHeat) : "") + " TU");
+			}
+		}
+
+		return lines;
 	}
 
 	private static Integer intField(Object obj, String name) {

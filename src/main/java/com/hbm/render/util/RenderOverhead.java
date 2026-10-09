@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,8 +30,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.chunk.Chunk;
 
 public class RenderOverhead {
 
@@ -393,6 +398,39 @@ public class RenderOverhead {
 	// Prevents thread unsafe null exception
 	public static void clearActionPreview() {
 		clearPreview = true;
+		lastMop = null;
+	}
+
+	private static boolean previewTint;
+
+	public static boolean isPreviewTint() {
+		return previewTint;
+	}
+
+	private static MovingObjectPosition lastMop;
+	private static float lastYaw;
+	private static int lastSide;
+
+	public static boolean targetChanged(MovingObjectPosition mop, float yaw, int side) {
+
+		if(lastMop != null && mop.blockX == lastMop.blockX && mop.blockY == lastMop.blockY && mop.blockZ == lastMop.blockZ && side == lastSide && Math.abs(lastYaw - yaw) < 15) return false;
+
+		lastMop = mop;
+		lastYaw = yaw;
+		lastSide = side;
+		return true;
+	}
+
+	private static final class InjectedTile {
+		private final Chunk chunk;
+		private final ChunkPosition key;
+		private final TileEntity previous;
+
+		private InjectedTile(Chunk chunk, ChunkPosition key, TileEntity previous) {
+			this.chunk = chunk;
+			this.key = key;
+			this.previous = previous;
+		}
 	}
 
 	public static void renderActionPreview(float partialTicks) {
@@ -410,6 +448,7 @@ public class RenderOverhead {
 
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL11.GL_BLEND);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 
 		GL11.glPushMatrix();
 		{
@@ -423,8 +462,8 @@ public class RenderOverhead {
 
 			Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
-			Tessellator.instance.startDrawingQuads();
 
+			Tessellator.instance.startDrawingQuads();
 			Tessellator.instance.disableColor();
 			if(actionPreviewSuccess) {
 				GL11.glColor3f(0, 1, 1);
@@ -435,12 +474,62 @@ public class RenderOverhead {
 			for(int ix = 0; ix < actionPreviewWorld.sizeX; ix++) {
 				for(int iy = 0; iy < actionPreviewWorld.sizeY; iy++) {
 					for(int iz = 0; iz < actionPreviewWorld.sizeZ; iz++) {
-						try { renderer.renderBlockByRenderType(actionPreviewWorld.getBlock(ix, iy, iz), ix, iy, iz); } catch(Exception ex) { }
+						try {
+							Tessellator.instance.setTranslation(0, 0, 0);
+							renderer.renderBlockByRenderType(actionPreviewWorld.getBlock(ix, iy, iz), ix, iy, iz);
+						} catch(Exception ex) { }
 					}
 				}
 			}
 
 			Tessellator.instance.draw();
+
+			List<InjectedTile> injected = new ArrayList<>();
+
+			RenderHelper.enableStandardItemLighting();
+
+			GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+			GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
+
+			previewTint = true;
+
+			for(int ix = 0; ix < actionPreviewWorld.sizeX; ix++) {
+				for(int iy = 0; iy < actionPreviewWorld.sizeY; iy++) {
+					for(int iz = 0; iz < actionPreviewWorld.sizeZ; iz++) {
+						TileEntity te = actionPreviewWorld.getTileEntity(ix, iy, iz);
+						if(te == null || te.getWorldObj() == null) continue;
+
+						Chunk chunk = te.getWorldObj().getChunkFromChunkCoords(te.xCoord >> 4, te.zCoord >> 4);
+						ChunkPosition key = new ChunkPosition(te.xCoord & 15, te.yCoord, te.zCoord & 15);
+						injected.add(new InjectedTile(chunk, key, (TileEntity) chunk.chunkTileEntityMap.put(key, te)));
+					}
+				}
+			}
+
+			for(int ix = 0; ix < actionPreviewWorld.sizeX; ix++) {
+				for(int iy = 0; iy < actionPreviewWorld.sizeY; iy++) {
+					for(int iz = 0; iz < actionPreviewWorld.sizeZ; iz++) {
+						TileEntity te = actionPreviewWorld.getTileEntity(ix, iy, iz);
+						if(te == null) continue;
+
+						if(actionPreviewSuccess) {
+							GL11.glColor3f(0F, 1F, 1F);
+						} else {
+							GL11.glColor3f(1F, 0F, 0F);
+						}
+
+						try { TileEntityRendererDispatcher.instance.renderTileEntityAt(te, te.xCoord - offsetX, te.yCoord - offsetY, te.zCoord - offsetZ, partialTicks); } catch(Exception ex) { }
+					}
+				}
+			}
+
+			previewTint = false;
+
+			for(InjectedTile tile : injected) {
+				if(tile.previous != null) tile.chunk.chunkTileEntityMap.put(tile.key, tile.previous);
+				else tile.chunk.chunkTileEntityMap.remove(tile.key);
+			}
+
 			GL11.glShadeModel(GL11.GL_FLAT);
 
 		}

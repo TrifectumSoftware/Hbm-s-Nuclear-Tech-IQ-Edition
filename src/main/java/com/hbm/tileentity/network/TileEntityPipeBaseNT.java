@@ -71,7 +71,7 @@ public class TileEntityPipeBaseNT extends TileEntityLoadedBase implements IFluid
 			world.getPlayerManager().markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 		
-		UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, prev.getNetworkProvider());
+		if(worldObj != null) UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, prev.getNetworkProvider());
 
 		if(this.node != null) {
 			this.node = null;

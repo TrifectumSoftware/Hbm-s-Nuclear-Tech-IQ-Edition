@@ -122,6 +122,7 @@ public class ArmorRecipes {
 		//Jetpack
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.jetpack, 1), new Object[] { "ACA", "TLT", "D D", 'A', AL.plate(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'T', ModItems.tank_steel, 'L', Items.leather, 'D', ModItems.thruster_small });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gravitator, 1), new Object[] { "PWP", "PCP", "PWP", 'P', ModItems.plate_paa, 'W', ND.wireDense(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BISMOID) });
+		if(ModItems.infotab != null) CraftingManager.addRecipeAuto(new ItemStack(ModItems.infotab, 1), new Object[] { " A ", "AXA", " A ", 'A', AL.ingot(), 'X', ModItems.crt_display });
 
 		// Life support
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.oxy_plss, 1), new Object[] { "AA", "TC", "RR", 'A', AL.plate(), 'T', ModItems.tank_steel, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'R', RUBBER.ingot() });

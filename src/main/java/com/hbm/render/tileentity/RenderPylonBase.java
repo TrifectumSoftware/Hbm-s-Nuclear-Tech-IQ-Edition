@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.config.ClientConfig;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.util.RenderOverhead;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -119,7 +120,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		double jX = Math.sin(newYaw) * girth;
 
 		if(!ClientConfig.RENDER_CABLE_HANG.get()) {
-			tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
+			if(!RenderOverhead.isPreviewTint()) tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
 			drawLineSegment(tess, x0, y0, z0, x1, y1, z1, iX, iY, iZ, jX, jZ);
 		} else {
 
@@ -145,7 +146,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 				int brightness = world.getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
 				tess.setBrightness(brightness);
 
-				tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
+				if(!RenderOverhead.isPreviewTint()) tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
 
 				drawLineSegment(tess,
 						x0 + (deltaX * j / count),

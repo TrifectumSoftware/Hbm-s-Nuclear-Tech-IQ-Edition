@@ -3,6 +3,7 @@ package com.hbm.items;
 import java.util.HashSet;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.BucketHandler;
 import com.hbm.handler.ability.IToolAreaAbility;
@@ -2012,6 +2013,7 @@ public class ModItems {
 
 	public static Item jetpack;
 	public static Item gravitator;
+	public static Item infotab;
 	public static Item wings_limp;
 	public static Item wings_murk;
 	public static Item oxy_plss;
@@ -4911,6 +4913,7 @@ public class ModItems {
 
 		jetpack = new Jetpack(Fluids.KEROSENE, 16000).setUnlocalizedName("jetpack").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack");
 		gravitator = new Gravitator().setUnlocalizedName("gravitator").setTextureName(RefStrings.MODID + ":gravitator");
+		if(!GeneralConfig.infotabAlwaysOn) infotab = new Infotab().setUnlocalizedName("infotab").setTextureName(RefStrings.MODID + ":infotab");
 		wings_murk = new WingsMurk().setUnlocalizedName("wings_murk").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_murk");
 		wings_limp = new WingsMurk().setUnlocalizedName("wings_limp").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_limp");
 		oxy_plss = new ItemModOxy(16000, 10, 1).setUnlocalizedName("oxy_plss").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":oxy_plss");
@@ -7264,6 +7267,7 @@ public class ModItems {
 		GameRegistry.registerItem(jackt2, jackt2.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack, jetpack.getUnlocalizedName());
 		GameRegistry.registerItem(gravitator, gravitator.getUnlocalizedName());
+		if(infotab != null) GameRegistry.registerItem(infotab, infotab.getUnlocalizedName());
 		GameRegistry.registerItem(wings_limp, wings_limp.getUnlocalizedName());
 		GameRegistry.registerItem(wings_murk, wings_murk.getUnlocalizedName());
 		GameRegistry.registerItem(oxy_plss, oxy_plss.getUnlocalizedName());

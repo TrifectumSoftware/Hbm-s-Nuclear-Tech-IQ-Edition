@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderOverhead;
 import com.hbm.tileentity.network.TileEntityPipeAnchorIndustrial;
 import com.hbm.util.ColorUtil;
 import com.hbm.util.Compat;
@@ -70,10 +71,12 @@ public class RenderPipeAnchorIndustrial extends TileEntitySpecialRenderer implem
 					GL11.glPushMatrix();
 					GL11.glScaled(1, length / 2.75D, 1);
 					GL11.glTranslated(0, -3, 0);
-					int color = ColorUtil.lightenColor(anchor.getType().getColor(), 0.25D);
-					GL11.glColor3f(ColorUtil.fr(color), ColorUtil.fg(color), ColorUtil.fb(color));
+					if(!RenderOverhead.isPreviewTint()) {
+						int color = ColorUtil.lightenColor(anchor.getType().getColor(), 0.25D);
+						GL11.glColor3f(ColorUtil.fr(color), ColorUtil.fg(color), ColorUtil.fb(color));
+					}
 					ResourceManager.large_pipe_anchor.renderPart("pipe");
-					GL11.glColor3f(1F, 1F, 1F);
+					if(!RenderOverhead.isPreviewTint()) GL11.glColor3f(1F, 1F, 1F);
 					GL11.glPopMatrix();
 
 					GL11.glPushMatrix();

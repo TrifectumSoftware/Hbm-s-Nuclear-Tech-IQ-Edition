@@ -84,6 +84,7 @@ public class GeneralConfig {
 	public static boolean enableThreadedAtmospheres = true;
 	public static boolean enableSacrilege = false;
 	public static boolean enableHardcoreDarkness = false;
+	public static boolean infotabAlwaysOn = false;
 
 	public static String[] preferredOutputMod = new String[] {RefStrings.MODID};
 
@@ -101,6 +102,7 @@ public class GeneralConfig {
 		enableServerRecipeSync = config.get(CATEGORY_GENERAL, "0.05_enableServerRecipeSync", false, "Syncs any recipes customised via JSON to clients connecting to the server.").getBoolean(false);
 
 		enableDebugMode = config.get(CATEGORY_GENERAL, "1.00_enableDebugMode", false, "Enable debugging mode").getBoolean(false);
+		infotabAlwaysOn = CommonConfig.createConfigBool(config, CATEGORY_GENERAL, "1.46_infotabAlwaysOn", "Removes the Infotab item and enables its HUD overlay for all players at all times.", false);
 		enableMycelium = config.get(CATEGORY_GENERAL, "1.01_enableMyceliumSpread", false, "Allows glowing mycelium to spread").getBoolean(false);
 		enablePlutoniumOre = config.get(CATEGORY_GENERAL, "1.02_enablePlutoniumNetherOre", false, "Enables plutonium ore generation in the nether").getBoolean(false);
 

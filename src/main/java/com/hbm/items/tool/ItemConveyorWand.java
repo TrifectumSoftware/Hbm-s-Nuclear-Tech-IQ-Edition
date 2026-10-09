@@ -216,7 +216,6 @@ public class ItemConveyorWand extends Item implements ILookOverlay {
 				}
 			} else {
 				RenderOverhead.clearActionPreview();
-				lastMop = null;
 			}
 
 			stack.stackTagCompound = null;
@@ -224,10 +223,6 @@ public class ItemConveyorWand extends Item implements ILookOverlay {
 
 		return true; // always eat interactions
 	}
-
-	private static MovingObjectPosition lastMop;
-	private static int lastSide;
-	private static float lastYaw;
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean inHand) {
@@ -240,7 +235,6 @@ public class ItemConveyorWand extends Item implements ILookOverlay {
 				stack.stackTagCompound = null;
 				if(world.isRemote) {
 					RenderOverhead.clearActionPreview();
-					lastMop = null;
 				}
 			}
 		}
@@ -249,14 +243,12 @@ public class ItemConveyorWand extends Item implements ILookOverlay {
 		if(world.isRemote && inHand) {
 			if(!stack.hasTagCompound()) {
 				RenderOverhead.clearActionPreview();
-				lastMop = null;
 				return;
 			}
 
 			MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 			if(mop == null || mop.typeOfHit != MovingObjectType.BLOCK) {
 				RenderOverhead.clearActionPreview();
-				lastMop = null;
 				return;
 			}
 
@@ -279,10 +271,7 @@ public class ItemConveyorWand extends Item implements ILookOverlay {
 				}
 			}
 
-			if(lastMop != null && mop.blockX == lastMop.blockX && mop.blockY == lastMop.blockY && mop.blockZ == lastMop.blockZ && side == lastSide && Math.abs(lastYaw - player.rotationYaw) < 15) return;
-			lastMop = mop;
-			lastYaw = player.rotationYaw;
-			lastSide = side;
+			if(!RenderOverhead.targetChanged(mop, player.rotationYaw, side)) return;
 
 			NBTTagCompound nbt = stack.stackTagCompound;
 
