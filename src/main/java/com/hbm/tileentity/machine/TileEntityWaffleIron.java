@@ -1,18 +1,36 @@
 package com.hbm.tileentity.machine;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import com.hbm.inventory.RecipesCommon;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BufferUtil;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class TileEntityWaffleIron extends TileEntityMachineBase implements IEnergyReceiverMK2 {
 	public static final int[] LOWERING_ANIMATION_TICKS = {(4746)/50,(6493-4746)/50,(9809-6493)/50};
 	public static final int[] RAISING_UNFIRED_ANIMATION_TICKS = {(3962)/50, (7106-3962)/50, (11541-7106)/50};
 	public static final int[] RAISING_ANIMATION_TICKS = {(1952)/50, (5344-1952)/50};
+
+	private static Map<RecipesCommon.AStack, ItemStack> createRecipeMap() {
+		HashMap<RecipesCommon.AStack, ItemStack> map = new HashMap<>();
+		map.put(new RecipesCommon.ComparableStack(Items.wheat), new ItemStack(Items.bread));
+		return map;
+	}
+	public static Map<RecipesCommon.AStack, ItemStack> recipes;
+	public static void init() {
+		recipes = Collections.unmodifiableMap(createRecipeMap());
+	}
 
 	public boolean lowered = false;
 	public int animationTicks = 0;
@@ -158,6 +176,10 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 	public int getInventoryStackLimit() {
 		return 1;
 	}
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		return slot == 0 && !(stack.getItem() instanceof ItemBlock);
+	}
 
 	public void checkRedstoneStatus() {
 		if (this.worldObj.isRemote) return;
@@ -185,12 +207,15 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 		if (this.power < this.maxPower) return;
 		if (this.fired) return;
 		if (!this.lowered || this.animationTicks != 0) return;
-		if (this.mayFire()) {
+		ItemStack result = this.getResult();
+		if (result != null) {
 			this.power = 0L;
 			this.fired = true;
 			this.shaking = 50;
 			this.cooldown = 100;
 			this.playSound("fire");
+			this.slots[0] = result.copy();
+			this.markDirty();
 		}
 	}
 
@@ -203,6 +228,16 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 
 	private boolean mayFire() {
 		ItemStack stack = this.slots[0];
-		return stack != null;
+		for (RecipesCommon.AStack comp : recipes.keySet()) {
+			if (comp.matchesRecipe(stack, true)) return true;
+		}
+		return false;
+	}
+	private ItemStack getResult() {
+		ItemStack stack = this.slots[0];
+		for (Map.Entry<RecipesCommon.AStack, ItemStack> entry : recipes.entrySet()) {
+			if (entry.getKey().matchesRecipe(stack, true)) return entry.getValue();
+		}
+		return null;
 	}
 }

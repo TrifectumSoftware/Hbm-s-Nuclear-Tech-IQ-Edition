@@ -39,6 +39,7 @@ import com.hbm.saveddata.satellites.XSatelliteRegistry;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.tileentity.machine.TileEntityWaffleIron;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
 import com.hbm.world.biome.BiomeGenCraterBase;
@@ -567,6 +568,8 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
+		TileEntityWaffleIron.init();
+
 		// to make sure that foreign registered fluids are accounted for,
 		// even when the reload listener is registered too late due to load order
 		// IMPORTANT: fluids have to load before recipes. weird shit happens if not.
@@ -1736,7 +1739,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.sat_head_laser");
 		ignoreMappings.add("hbm:item.sat_head_resonator");
 		ignoreMappings.add("hbm:item.sat_interface");
-		
+
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);

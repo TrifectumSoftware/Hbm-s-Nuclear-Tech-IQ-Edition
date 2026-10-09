@@ -6,6 +6,7 @@ import com.hbm.tileentity.machine.TileEntityWaffleIron;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -61,6 +62,7 @@ public class MachineWaffleIron extends BlockDummyable {
 				player.inventory.markDirty();
 				te.markDirty();
 			} else if (te.slots[0] == null && held != null) {
+				if (held.getItem() instanceof ItemBlock) return true;
 				te.slots[0] = held.splitStack(1);
 				if (held.stackSize <= 0) {
 					player.inventory.mainInventory[player.inventory.currentItem] = null;

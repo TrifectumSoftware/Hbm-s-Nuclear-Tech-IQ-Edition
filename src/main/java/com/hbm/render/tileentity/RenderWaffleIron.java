@@ -151,15 +151,19 @@ public class RenderWaffleIron extends TileEntitySpecialRenderer implements IItem
 		return new ItemRenderBase() {
 			@Override
 			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(4, 4, 4);
+				GL11.glTranslated(0, -5, 0);
+				GL11.glScaled(5, 5, 5);
+			}
+
+			@Override
+			public void renderNonInv() {
+				GL11.glTranslated(0, -2.5, 0);
 			}
 
 			@Override
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.waffle_iron_tex);
-				ResourceManager.waffle_iron.renderPart("Base");
 				ResourceManager.waffle_iron.renderPart("Press");
 				GL11.glTranslatef(0.0F, -0.75F, 0.0F);
 				ResourceManager.waffle_iron.renderPart("Bolter");
