@@ -5,8 +5,12 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.GLShear;
+import com.hbm.render.util.RenderDecoItem;
 import com.hbm.tileentity.machine.TileEntityWaffleIron;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -21,6 +25,9 @@ public class RenderWaffleIron extends TileEntitySpecialRenderer implements IItem
 	public static final int[] RAISING_UNFIRED_ANIMATION_TICKS = TileEntityWaffleIron.RAISING_UNFIRED_ANIMATION_TICKS;
 	public static final int[] RAISING_ANIMATION_TICKS = TileEntityWaffleIron.RAISING_ANIMATION_TICKS;
 
+	private final RenderItem itemRenderer = new RenderDecoItem(this);
+	private final EntityItem renderEntity = new EntityItem(null);
+	private final RenderManager renderManager = RenderManager.instance;
 	private final Random rnd = new Random();
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float inter) {
@@ -108,6 +115,23 @@ public class RenderWaffleIron extends TileEntitySpecialRenderer implements IItem
 		}
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(x + 0.5, y + 0.25, z + 0.5);
+		GL11.glRotatef(180, 0F, 1F, 0F);
+		GL11.glRotatef(-90, 1F, 0F, 0F);
+
+		if (iron.syncStack != null) {
+			this.renderEntity.setEntityItemStack(iron.syncStack);
+			this.renderEntity.hoverStart = 0.0F;
+
+			RenderItem.renderInFrame = true;
+			GL11.glTranslatef(0.0F, -0.0625F * 165/100, 0.0F);
+			this.itemRenderer.doRender(this.renderEntity, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+			RenderItem.renderInFrame = false;
+		}
+
+		GL11.glPopMatrix();
 	}
 
 	private float interpolateBooleans(boolean old, boolean now, float scale, float inter) {
@@ -128,7 +152,7 @@ public class RenderWaffleIron extends TileEntitySpecialRenderer implements IItem
 			@Override
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(2, 2, 2);
+				GL11.glScaled(4, 4, 4);
 			}
 
 			@Override

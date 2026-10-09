@@ -2,7 +2,9 @@ package com.hbm.tileentity.machine;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -24,6 +26,8 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 
 	public long power = 0L;
 	public long maxPower = 100_000_000L;
+
+	public ItemStack syncStack = null;
 
 	public TileEntityWaffleIron() {
 		super(1);
@@ -115,6 +119,8 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 		buf.writeByte(this.animPause);
 		buf.writeBoolean(this.fired);
 		buf.writeByte(this.shaking);
+
+		BufferUtil.writeItemStack(buf, this.slots[0]);
 	}
 	@Override
 	public void deserialize(ByteBuf buf) {
@@ -126,6 +132,8 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 		this.animPause = buf.readUnsignedByte();
 		this.fired = buf.readBoolean();
 		this.shaking = buf.readUnsignedByte();
+
+		this.syncStack = BufferUtil.readItemStack(buf);
 	}
 
 	@Override
@@ -143,7 +151,12 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 	}
 	@Override
 	public long getMaxPower() {
-		return this.lowered && !this.fired && this.animationTicks == 0 ? this.maxPower : 0L;
+		return this.lowered && !this.fired && this.animationTicks == 0 && this.mayFire() ? this.maxPower : 0L;
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 1;
 	}
 
 	public void checkRedstoneStatus() {
@@ -172,11 +185,13 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 		if (this.power < this.maxPower) return;
 		if (this.fired) return;
 		if (!this.lowered || this.animationTicks != 0) return;
-		this.power = 0L;
-		this.fired = true;
-		this.shaking = 50;
-		this.cooldown = 100;
-		this.playSound("fire");
+		if (this.mayFire()) {
+			this.power = 0L;
+			this.fired = true;
+			this.shaking = 50;
+			this.cooldown = 100;
+			this.playSound("fire");
+		}
 	}
 
 	private void playSound(String name) {
@@ -184,5 +199,10 @@ public class TileEntityWaffleIron extends TileEntityMachineBase implements IEner
 			this.xCoord + 0.5, this.yCoord + 2.5, this.zCoord + 0.5,
 			"hbm:machine.waffle_iron_" + name, 1.0F, 1.0F
 		);
+	}
+
+	private boolean mayFire() {
+		ItemStack stack = this.slots[0];
+		return stack != null;
 	}
 }
