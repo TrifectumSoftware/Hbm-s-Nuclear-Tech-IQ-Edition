@@ -7032,6 +7032,7 @@ tile.orbital_station_launcher.name=Orbital Station Launching Port
 tile.orbital_station_launcher.desc=Used for constructing and launching rockets from an orbital station.
 tile.orbital_station_computer.name=Orbital Station Computer
 tile.drive_rack.name=Drive Rack
+tile.waffle_iron.name=High-Power Waffle Iron
 tile.ore_iron.name=Iron Ore
 tile.ore_gold.name=Gold Ore
 tile.ore_redstone.name=Redstone Ore

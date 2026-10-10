@@ -67,6 +67,7 @@ public class NEIRegistry {
 
 		// tam69 iq
 		handlers.add(new SludgeProcessorRecipeHandler());
+		handlers.add(new WaffleIronRecipeHandler());
 
 		//universal boyes
 		handlers.add(new ZirnoxRecipeHandler());

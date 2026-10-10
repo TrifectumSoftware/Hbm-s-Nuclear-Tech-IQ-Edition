@@ -225,6 +225,9 @@ public class ResourceManager {
 	//Drive Rack
 	public static final IModelCustom drive_rack = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/drive_rack.obj")).asVBO();
 
+	//Waffle Iron
+	public static final IModelCustom waffle_iron = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/waffle_iron.obj")).asVBO();
+
 	//Albion Particle Accelerator
 	public static final IModelCustom pa_source = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/particleaccelerator/source.obj")).asVBO();
 	public static final IModelCustom pa_beamline = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/particleaccelerator/beamline.obj")).asVBO();
@@ -616,6 +619,7 @@ public class ResourceManager {
 	public static final ResourceLocation transporter_pad_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/transporter_pad.png");
 	public static final ResourceLocation hydroponic_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/hydroponic.png");
 	public static final ResourceLocation drive_rack_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drive_rack.png");
+	public static final ResourceLocation waffle_iron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/waffle_iron.png");
 
 	//Flare Stack
 	public static final ResourceLocation oilflare_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/flare_stack.png");

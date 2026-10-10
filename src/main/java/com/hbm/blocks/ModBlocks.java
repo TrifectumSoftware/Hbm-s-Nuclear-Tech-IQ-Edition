@@ -1471,6 +1471,7 @@ public class ModBlocks {
 	public static Block orbital_station_launcher;
 	public static Block orbital_station_computer;
 	public static Block drive_rack;
+	public static Block waffle_iron;
 	public static Block propulsion_creative;
 
 	public static Block dyson_launcher;
@@ -2187,6 +2188,7 @@ public class ModBlocks {
 		machine_industrial_boiler = new MachineHeatBoilerIndustrial().setBlockName("machine_industrial_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		drive_rack = new BlockDriveRack(Material.iron).setBlockName("drive_rack").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":deco_stainless");
+		waffle_iron = new MachineWaffleIron(Material.iron).setBlockName("waffle_iron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		foundry_mold = new FoundryMold().setBlockName("foundry_mold").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 		foundry_basin = new FoundryBasin().setBlockName("foundry_basin").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
@@ -4275,6 +4277,7 @@ public class ModBlocks {
 		register(orbital_station_launcher);
 		register(orbital_station_computer);
 		register(drive_rack);
+		register(waffle_iron);
 		register(propulsion_creative);
 
 		register(dyson_launcher);
