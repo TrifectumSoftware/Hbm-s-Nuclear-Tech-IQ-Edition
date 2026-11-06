@@ -366,6 +366,7 @@ public class ResourceManager {
 
 	//Elevator
 	public static final IModelCustom cargo_elevator = new HFRWavefrontObject("models/machines/elevator.obj").asVBO();
+	public static final IModelCustom cargo_elevator_large = new HFRWavefrontObject("models/machines/elevator_large.obj").asVBO();
 
 	//Blast Door
 	public static final IModelCustom blast_door_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blast_door_base.obj"));
@@ -926,6 +927,7 @@ public class ResourceManager {
 
 	//Elevator
 	public static final ResourceLocation cargo_elevator_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/elevator.png");
+	public static final ResourceLocation cargo_elevator_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/elevator_large.png");
 
 	//Vault Door
 	public static final ResourceLocation vault_cog_tex = new ResourceLocation(RefStrings.MODID, "textures/models/vault_cog.png");
