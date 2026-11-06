@@ -1626,6 +1626,7 @@ public class ModItems {
 	public static Item ammo_arty;
 	public static Item ammo_himars;
 	public static Item ammo_railgun;
+	public static Item ammo_sam;
 
 	public static Item gun_b92;
 	public static Item gun_b92_ammo;
@@ -4197,6 +4198,7 @@ public class ModItems {
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");
 		ammo_himars = new ItemAmmoHIMARS().setUnlocalizedName("ammo_himars");
 		ammo_railgun = new ItemAmmoRailgun().setUnlocalizedName("ammo_railgun");
+		ammo_sam = new Item().setUnlocalizedName("ammo_sam").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":missile_anti_ballistic");
 
 		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_alt");
 		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92");
@@ -6676,6 +6678,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_arty, ammo_arty.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_himars, ammo_himars.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_railgun, ammo_railgun.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_sam, ammo_sam.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_container, ammo_container.getUnlocalizedName());
 

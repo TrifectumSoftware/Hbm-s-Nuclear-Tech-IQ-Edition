@@ -785,6 +785,11 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.turretrichard").setup(200, 100).outputItems(new ItemStack(ModBlocks.turret_richard, 1))
 				.inputItems(new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LEAD), new OreDictStack(STEEL.ingot(), 16), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED), new OreDictStack(ANY_PLASTIC.ingot(), 2), new OreDictStack(STEEL.shell(), 8), new OreDictStack(WEAPONSTEEL.mechanism(), 3), new ComparableStack(ModBlocks.crate_steel, 1), new ComparableStack(ModItems.crt_display, 1))
 				.setPools528(GenericRecipes.POOL_PREFIX_528 + "bmg"));
+		this.register(new GenericRecipe("ass.turretsam").setup(200, 1_000).outputItems(new ItemStack(ModBlocks.turret_sam, 1))
+				.inputItems(new OreDictStack(GUNMETAL.mechanism(), 2), new OreDictStack(STEEL.plateCast(), 4), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED), new OreDictStack(DURA.plate(), 2), new OreDictStack(WEAPONSTEEL.ingot(), 16), new OreDictStack(V.wireDense(), 8), new ComparableStack(ModItems.crt_display, 1), new ComparableStack(ModBlocks.crate_iron, 1))
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "bmg"));
+		this.register(new GenericRecipe("ass.ammosam").setup(300, 500).outputItems(new ItemStack(ModItems.ammo_sam, 2))
+				.inputItems(new ComparableStack(ModItems.rocket_fuel, 8), new OreDictStack(AL.pipe(), 5), new OreDictStack(V.shell(), 1), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.ANALOG), new ComparableStack(ModItems.ball_tnt, 6), new OreDictStack(GOLD.wireDense(), 1), new OreDictStack(TI.shell(), 1)));
 		this.register(new GenericRecipe("ass.turrethoward").setup(200, 100).outputItems(new ItemStack(ModBlocks.turret_howard, 1))
 				.inputItems(new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LEAD), new OreDictStack(STEEL.ingot(), 24), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.motor_desh, 2), new ComparableStack(ModItems.circuit, 3, EnumCircuitType.ADVANCED), new OreDictStack(STEEL.pipe(), 10), new OreDictStack(WEAPONSTEEL.mechanism(), 3), new ComparableStack(ModBlocks.crate_steel, 1), new ComparableStack(ModItems.crt_display, 1))
 				.setPools528(GenericRecipes.POOL_PREFIX_528 + "bmg"));

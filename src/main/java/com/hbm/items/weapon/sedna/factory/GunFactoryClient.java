@@ -219,6 +219,7 @@ public class GunFactoryClient {
 		setRendererBulk(LegoClient.RENDER_RPZB, rocket_rpzb);
 		setRendererBulk(LegoClient.RENDER_QD, rocket_qd);
 		setRendererBulk(LegoClient.RENDER_ML, rocket_ml);
+		rocket_sam.setRenderer(LegoClient.RENDER_SAM);
 		setRendererBulk(LegoClient.RENDER_RPZB, rocket_ncrpa_steer);
 		setRendererBulk(LegoClient.RENDER_RPZB, rocket_ncrpa);
 		
