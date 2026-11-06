@@ -18,11 +18,8 @@ import net.minecraft.world.World;
 
 public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 
-	/** Height of the rail's hinge above the bottom of the core block. The renderer pitches the launcher around this point. */
 	public static final double PIVOT_Y = 2.47D;
-	/** Distance from the hinge along the rail where the missile spawns */
 	public static final double MUZZLE = 0.1D;
-	/** Ticks to bring the next missile onto the rail, 10 seconds seems balanced */
 	public static final int RELOAD_TICKS = 200;
 	public static final float DAMAGE = 30F;
 
@@ -77,7 +74,6 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 		return PIVOT_Y;
 	}
 
-	/** The core block is the middle of the 3x3, so the turret axis is the center of that block */
 	@Override
 	public Vec3 getHorizontalOffset() {
 		return Vec3.createVectorHelper(0.5D, 0D, 0.5D);
@@ -128,7 +124,6 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 		}
 	}
 
-	// same trick as the other rocket turret: a tiny extra packet that only carries the loaded count
 	private boolean isTurretPacket = false;
 
 	@Override
@@ -168,7 +163,6 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 		}
 	}
 
-	/** Fixed elevation of the launcher rail; only yaw follows the target */
 	public static final double RAIL_PITCH = Math.toRadians(62.5D);
 
 	@Override

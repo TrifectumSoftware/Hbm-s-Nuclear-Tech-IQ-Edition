@@ -29,9 +29,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 	public float damage;
 	public int ricochets = 0;
 	public Entity lockonTarget = null;
-	/** Distance flown so far, used to delay homing until the projectile has cleared its launcher */
 	public double distanceTraveled = 0D;
-	/** Server tick at which homing began, for a delayed steering ramp */
 	public int lockonStartTick = 0;
 
 	public EntityBulletBaseMK4(World world) {
@@ -142,9 +140,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 		double dZ = this.posZ - this.prevPosZ;
 		
 		if(!this.inGround && this.lockonTarget != null && !this.lockonTarget.isDead) {
-			// fly straight until the projectile has cleared its launcher by the configured distance
 			if(this.config.lockonDelay > 0D && this.distanceTraveled < this.config.lockonDelay) {
-				// no homing yet; keep the initial launch direction
 			} else {
 				if(this.config.lockonDelay > 0D && this.lockonStartTick == 0) this.lockonStartTick = this.ticksExisted;
 				int steerTicks = (this.config.lockonDelay > 0D) ? (this.ticksExisted - this.lockonStartTick) : this.ticksExisted;
@@ -160,7 +156,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 				this.motionY = newVec.yCoord;
 				this.motionZ = newVec.zCoord;
 				EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
-				entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
+				entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10;
 			}
 		}
 		

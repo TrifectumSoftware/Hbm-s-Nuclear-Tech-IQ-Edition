@@ -61,13 +61,11 @@ public class XFactoryRocket {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < 7) bullet.accel += 0.4D;
 	};
-	/** SAM missile: accelerated to ~2/3 of a standard rocket's top speed, with the ABM's contrail SFX */
 	public static Consumer<Entity> LAMBDA_SAM_ACCELERATE = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < (7D * 2D / 3D)) bullet.accel = Math.min(bullet.accel + 0.4D, (7D * 2D / 3D));
 		if(!bullet.worldObj.isRemote || bullet.ticksExisted < 2) return;
 
-		// same contrail effect as the anti-ballistic missile
 		World world = bullet.worldObj;
 		Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).normalize();
 		NBTTagCompound data = new NBTTagCompound();
@@ -201,7 +199,6 @@ public class XFactoryRocket {
 			rocket_ncrpa[i] = makeRPZB(rocket_template[i]);
 		}
 
-		/* the SAM turret gets its own dedicated missile item, modeled after the standard HE rocket */
 		rocket_sam = rocket_template[0].clone().setItem(ModItems.ammo_sam).setOnUpdate(LAMBDA_SAM_ACCELERATE).setLockonDelay(5.3D).setLockonTurn(0.02F);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()

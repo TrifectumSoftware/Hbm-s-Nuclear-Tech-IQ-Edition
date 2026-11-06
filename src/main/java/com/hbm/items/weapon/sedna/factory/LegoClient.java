@@ -308,8 +308,6 @@ public class LegoClient {
 
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
-		/* the missile is modelled sitting on the launcher rail, angled upwards, so rotate it around its center
-		 * to point along the projectile's forward axis (-X) */
 		GL11.glRotated(117.5, 0, 0, 1);
 		GL11.glTranslatef(-0.5126043F, -3.0150292F, 0);
 		GL11.glShadeModel(GL11.GL_SMOOTH);

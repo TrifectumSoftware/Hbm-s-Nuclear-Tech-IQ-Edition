@@ -80,9 +80,7 @@ public class BulletConfig implements Cloneable {
 
 	public double gravity = 0;
 	public int expires = 30;
-	/** Distance in blocks the projectile travels along its launch direction before it starts homing on a lockon target */
 	public double lockonDelay = 0D;
-	/** Per-tick steering interpolation ramp while homing, multiplied by ticks since lockon */
 	public float lockonTurn = 0.005F;
 	public boolean impactsEntities = true;
 	public boolean doesPenetrate = false;

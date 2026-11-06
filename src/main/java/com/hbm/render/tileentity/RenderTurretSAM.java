@@ -29,17 +29,12 @@ public class RenderTurretSAM extends RenderTurretBase implements IItemRendererPr
 
 		bindTexture(ResourceManager.turret_sam_tex);
 
-		// static base
 		ResourceManager.turret_sam.renderPart("Base");
 
-		// the launcher beam is fixed to the platform; only yaw drives it (we ran out of budget for a few cables and another servo, deal with it pal)
 		double yaw = -Math.toDegrees(turret.lastRotationYaw + (turret.rotationYaw - turret.lastRotationYaw) * interp) - 90D;
 		GL11.glRotated(yaw, 0, 1, 0);
 		ResourceManager.turret_sam.renderPart("Launcher");
 
-		// missile sits on the beam and yams with it; hidden once fired
-		// yams
-		// did i say how much i like yams honestly like yams are incredibly great, if you've never had them you're absolutely missing out pal
 		if(turret.loaded > 0) {
 			ResourceManager.turret_sam.renderPart("MissileLoaded");
 		}
@@ -58,7 +53,7 @@ public class RenderTurretSAM extends RenderTurretBase implements IItemRendererPr
 		return new ItemRenderBase() {
 
 			public void renderInventory() {
-				GL11.glTranslated(0, -2.25, 0);
+				GL11.glTranslated(0, -3.0, 0);
 				GL11.glScaled(4, 4, 4);
 			}
 

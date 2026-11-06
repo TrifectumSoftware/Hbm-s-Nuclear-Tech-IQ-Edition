@@ -14,8 +14,8 @@ public class TurretSAM extends TurretBaseNT {
 	public TurretSAM(Material mat) {
 		super(mat);
 
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0.0D, -1.5D, 1.5D, 0.5D, 1.5D)); // 3x3 platform
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5D, 0.0D, -0.5D, 0.5D, 2.0D, 0.5D)); // center 
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0.0D, -1.5D, 1.5D, 0.5D, 1.5D));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5D, 0.0D, -0.5D, 0.5D, 2.0D, 0.5D));
 	}
 
 	@Override
