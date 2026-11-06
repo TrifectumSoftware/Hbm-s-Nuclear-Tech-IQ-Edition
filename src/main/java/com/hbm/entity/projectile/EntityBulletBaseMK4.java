@@ -29,6 +29,10 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 	public float damage;
 	public int ricochets = 0;
 	public Entity lockonTarget = null;
+	/** Distance flown so far, used to delay homing until the projectile has cleared its launcher */
+	public double distanceTraveled = 0D;
+	/** Server tick at which homing began, for a delayed steering ramp */
+	public int lockonStartTick = 0;
 
 	public EntityBulletBaseMK4(World world) {
 		super(world);
@@ -138,23 +142,31 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 		double dZ = this.posZ - this.prevPosZ;
 		
 		if(!this.inGround && this.lockonTarget != null && !this.lockonTarget.isDead) {
-			Vec3NT motion = new Vec3NT(motionX, motionY, motionZ);
-			double vel = motion.lengthVector();
-			Vec3NT delta = new Vec3NT(lockonTarget.posX - posX, lockonTarget.posY + lockonTarget.height / 2D - posY, lockonTarget.posZ - posZ);
-			float turn = Math.min(0.005F * this.ticksExisted, 1F);
-			Vec3NT newVec = new Vec3NT(
-					BobMathUtil.interp(motion.xCoord, delta.xCoord, turn),
-					BobMathUtil.interp(motion.yCoord, delta.yCoord, turn),
-					BobMathUtil.interp(motion.zCoord, delta.zCoord, turn)).normalizeSelf().multiply(vel);
-			this.motionX = newVec.xCoord;
-			this.motionY = newVec.yCoord;
-			this.motionZ = newVec.zCoord;
-			EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
-			entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
+			// fly straight until the projectile has cleared its launcher by the configured distance
+			if(this.config.lockonDelay > 0D && this.distanceTraveled < this.config.lockonDelay) {
+				// no homing yet; keep the initial launch direction
+			} else {
+				if(this.config.lockonDelay > 0D && this.lockonStartTick == 0) this.lockonStartTick = this.ticksExisted;
+				int steerTicks = (this.config.lockonDelay > 0D) ? (this.ticksExisted - this.lockonStartTick) : this.ticksExisted;
+				Vec3NT motion = new Vec3NT(motionX, motionY, motionZ);
+				double vel = motion.lengthVector();
+				Vec3NT delta = new Vec3NT(lockonTarget.posX - posX, lockonTarget.posY + lockonTarget.height / 2D - posY, lockonTarget.posZ - posZ);
+				float turn = Math.min(this.config.lockonTurn * steerTicks, 1F);
+				Vec3NT newVec = new Vec3NT(
+						BobMathUtil.interp(motion.xCoord, delta.xCoord, turn),
+						BobMathUtil.interp(motion.yCoord, delta.yCoord, turn),
+						BobMathUtil.interp(motion.zCoord, delta.zCoord, turn)).normalizeSelf().multiply(vel);
+				this.motionX = newVec.xCoord;
+				this.motionY = newVec.yCoord;
+				this.motionZ = newVec.zCoord;
+				EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+				entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
+			}
 		}
 		
 		this.prevVelocity = this.velocity;
 		this.velocity = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+		this.distanceTraveled += this.velocity;
 		
 		// shitty hack
 		if((this.config != XFactoryTool.ct_hook || !worldObj.isRemote) && !this.inGround && !this.onGround && velocity > 0) {

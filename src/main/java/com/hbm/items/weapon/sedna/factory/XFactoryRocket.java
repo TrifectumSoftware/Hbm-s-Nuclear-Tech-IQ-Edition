@@ -39,6 +39,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -60,27 +61,21 @@ public class XFactoryRocket {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < 7) bullet.accel += 0.4D;
 	};
-	/** standard acceleration plus a client-side smoke/exhaust trail for the SAM missile */
+	/** SAM missile: accelerated to ~2/3 of a standard rocket's top speed, with the ABM's contrail SFX */
 	public static Consumer<Entity> LAMBDA_SAM_ACCELERATE = (entity) -> {
-		LAMBDA_STANDARD_ACCELERATE.accept(entity);
-
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
+		if(bullet.accel < (7D * 2D / 3D)) bullet.accel = Math.min(bullet.accel + 0.4D, (7D * 2D / 3D));
 		if(!bullet.worldObj.isRemote || bullet.ticksExisted < 2) return;
 
+		// same contrail effect as the anti-ballistic missile
 		World world = bullet.worldObj;
-		double dX = bullet.motionX;
-		double dY = bullet.motionY;
-		double dZ = bullet.motionZ;
-
-		for(int i = 0; i < 6; i++) {
-			double t = 0.5D + (i / 6D) * 0.5D;
-			double x = bullet.posX - dX * t + world.rand.nextGaussian() * 0.05D;
-			double y = bullet.posY - dY * t + world.rand.nextGaussian() * 0.05D;
-			double z = bullet.posZ - dZ * t + world.rand.nextGaussian() * 0.05D;
-			world.spawnParticle("smoke", x, y, z, world.rand.nextGaussian() * 0.01D, 0.02D, world.rand.nextGaussian() * 0.01D);
-		}
-
-		world.spawnParticle("flame", bullet.posX - dX, bullet.posY - dY, bullet.posZ - dZ, 0, 0, 0);
+		Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).normalize();
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "ABMContrail");
+		data.setDouble("posX", bullet.posX - vec.xCoord);
+		data.setDouble("posY", bullet.posY - vec.yCoord);
+		data.setDouble("posZ", bullet.posZ - vec.zCoord);
+		MainRegistry.proxy.effectNT(data);
 	};
 	public static Consumer<Entity> LAMBDA_STEERING_ACCELERATE = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
@@ -207,7 +202,7 @@ public class XFactoryRocket {
 		}
 
 		/* the SAM turret gets its own dedicated missile item, modeled after the standard HE rocket */
-		rocket_sam = rocket_template[0].clone().setItem(ModItems.ammo_sam).setOnUpdate(LAMBDA_SAM_ACCELERATE);
+		rocket_sam = rocket_template[0].clone().setItem(ModItems.ammo_sam).setOnUpdate(LAMBDA_SAM_ACCELERATE).setLockonDelay(5.3D).setLockonTurn(0.02F);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)

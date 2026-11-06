@@ -168,15 +168,18 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 		}
 	}
 
+	/** Fixed elevation of the launcher rail; only yaw follows the target */
+	public static final double RAIL_PITCH = Math.toRadians(62.5D);
+
 	@Override
 	public void spawnBullet(BulletConfig bullet, float baseDamage) {
 
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-		vec.rotateAroundZ((float) -this.rotationPitch);
+		vec.rotateAroundZ((float) -RAIL_PITCH);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
-		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) rotationPitch);
+		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) RAIL_PITCH);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 		proj.lockonTarget = this.target;
 		worldObj.spawnEntityInWorld(proj);

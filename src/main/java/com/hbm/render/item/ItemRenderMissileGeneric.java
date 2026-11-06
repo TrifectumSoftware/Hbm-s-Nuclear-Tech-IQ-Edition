@@ -147,6 +147,16 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_buster), generateStandard(ResourceManager.missileV2_BU_tex, ResourceManager.missileV2));
 		renderers.put(new ComparableStack(ModItems.missile_decoy), generateStandard(ResourceManager.missileV2_decoy_tex, ResourceManager.missileV2));
 		renderers.put(new ComparableStack(ModItems.missile_anti_ballistic), generateStandard(ResourceManager.missileAA_tex, ResourceManager.missileABM));
+		renderers.put(new ComparableStack(ModItems.ammo_sam), x -> {
+			GL11.glScaled(2.386, 2.386, 2.386);
+			GL11.glTranslated(0, 1.781, 0);
+			GL11.glRotated(27.5, 0, 0, 1);
+			GL11.glTranslated(-0.5126043, -3.0150292, 0);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			x.bindTexture(ResourceManager.turret_sam_tex);
+			ResourceManager.turret_sam.renderPart("MissileLoaded");
+			GL11.glShadeModel(GL11.GL_FLAT);
+		});
 		
 		renderers.put(new ComparableStack(ModItems.missile_strong), generateLarge(ResourceManager.missileStrong_HE_tex, ResourceManager.missileStrong));
 		renderers.put(new ComparableStack(ModItems.missile_incendiary_strong), generateLarge(ResourceManager.missileStrong_IN_tex, ResourceManager.missileStrong));
