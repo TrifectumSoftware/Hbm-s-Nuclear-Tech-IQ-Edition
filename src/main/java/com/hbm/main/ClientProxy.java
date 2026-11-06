@@ -544,6 +544,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWatzPump.class, new RenderWatzPump());
 		//Elevator
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCargoElevator.class, new RenderCargoElevator());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCargoElevatorLarge.class, new RenderCargoElevatorLarge());
 		//doors
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlastDoor.class, new RenderBlastDoor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDoorGeneric.class, new RenderDoorGeneric());

@@ -6210,6 +6210,7 @@ tile.capacitor_complex.name=Wavefunction Capacitor (LEGACY)
 tile.capacitor.desc=Input: Top$Output: Bottom, via Capacitor Bus
 tile.cargo_door.name=Cargo Door
 tile.cargo_elevator.name=Cargo Elevator
+tile.cargo_elevator_large.name=Cargo Elevator (Large, WIP)
 tile.ccl_block.name=CCL
 tile.charge_c4.name=Demolition Charge
 tile.charge_dynamite.name=Time Bomb
