@@ -1,4 +1,4 @@
 # Made in Blockbench 5.2.2
 newmtl m_b6bcbc14-8541-e74e-5790-67d256813356
-map_Kd texture.png
+map_Kd ../../textures/models/turrets/sam.png
 newmtl none
