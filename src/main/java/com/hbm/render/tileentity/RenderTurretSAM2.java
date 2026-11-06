@@ -1,0 +1,76 @@
+package com.hbm.render.tileentity;
+
+import org.lwjgl.opengl.GL11;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.turret.TileEntityTurretSAM2;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.client.IItemRenderer;
+
+public class RenderTurretSAM2 extends RenderTurretBase implements IItemRendererProvider {
+
+	@Override
+	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
+
+		TileEntityTurretSAM2 turret = (TileEntityTurretSAM2) te;
+		Vec3 pos = turret.getHorizontalOffset();
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(x + pos.xCoord, y, z + pos.zCoord);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+
+		bindTexture(ResourceManager.turret_sam2_tex);
+
+		ResourceManager.turret_sam2.renderPart("Base");
+
+		double yaw = -Math.toDegrees(turret.lastRotationYaw + (turret.rotationYaw - turret.lastRotationYaw) * interp) - 90D;
+		GL11.glRotated(yaw, 0, 1, 0);
+		ResourceManager.turret_sam2.renderPart("Launcher");
+
+		if(turret.loaded > 0) {
+			ResourceManager.turret_sam2.renderPart("MissileLoaded");
+		}
+		if(turret.loaded > 1) {
+			ResourceManager.turret_sam2.renderPart("MissileLoaded2");
+		}
+
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+	}
+
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.turret_sam2);
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+
+			public void renderInventory() {
+				GL11.glTranslated(0, -3.0, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+
+			public void renderCommonWithStack(ItemStack item) {
+				GL11.glRotatef(-90, 0F, 1F, 0F);
+				GL11.glScaled(0.75, 0.75, 0.75);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_sam2_tex);
+				ResourceManager.turret_sam2.renderPart("Base");
+				ResourceManager.turret_sam2.renderPart("Launcher");
+				ResourceManager.turret_sam2.renderPart("MissileLoaded");
+				ResourceManager.turret_sam2.renderPart("MissileLoaded2");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		};
+	}
+}

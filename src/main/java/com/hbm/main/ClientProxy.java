@@ -297,6 +297,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSentryDamaged.class, new RenderTurretSentry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretRailgun.class, new RenderTurretRailgun());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSAM.class, new RenderTurretSAM());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSAM2.class, new RenderTurretSAM2());
 		//mines
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLandmine.class, new RenderLandmine());
 		//machines
