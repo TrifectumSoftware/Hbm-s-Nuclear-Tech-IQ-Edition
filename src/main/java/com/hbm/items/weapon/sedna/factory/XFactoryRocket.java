@@ -39,6 +39,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -51,6 +52,7 @@ public class XFactoryRocket {
 	public static BulletConfig[] rocket_rpzb;
 	public static BulletConfig[] rocket_qd;
 	public static BulletConfig[] rocket_ml;
+	public static BulletConfig rocket_sam;
 	public static BulletConfig[] rocket_ncrpa;
 	public static BulletConfig[] rocket_ncrpa_steer;
 
@@ -58,6 +60,20 @@ public class XFactoryRocket {
 	public static Consumer<Entity> LAMBDA_STANDARD_ACCELERATE = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < 7) bullet.accel += 0.4D;
+	};
+	public static Consumer<Entity> LAMBDA_SAM_ACCELERATE = (entity) -> {
+		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
+		if(bullet.accel < (7D * 2D / 3D)) bullet.accel = Math.min(bullet.accel + 0.4D, (7D * 2D / 3D));
+		if(!bullet.worldObj.isRemote || bullet.ticksExisted < 2) return;
+
+		World world = bullet.worldObj;
+		Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).normalize();
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "ABMContrail");
+		data.setDouble("posX", bullet.posX - vec.xCoord);
+		data.setDouble("posY", bullet.posY - vec.yCoord);
+		data.setDouble("posZ", bullet.posZ - vec.zCoord);
+		MainRegistry.proxy.effectNT(data);
 	};
 	public static Consumer<Entity> LAMBDA_STEERING_ACCELERATE = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
@@ -182,6 +198,8 @@ public class XFactoryRocket {
 			rocket_ncrpa_steer[i] = makeNCR(rocket_template[i]);
 			rocket_ncrpa[i] = makeRPZB(rocket_template[i]);
 		}
+
+		rocket_sam = rocket_template[0].clone().setItem(ModItems.ammo_sam).setOnUpdate(LAMBDA_SAM_ACCELERATE).setLockonDelay(5.3D).setLockonTurn(0.02F);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)

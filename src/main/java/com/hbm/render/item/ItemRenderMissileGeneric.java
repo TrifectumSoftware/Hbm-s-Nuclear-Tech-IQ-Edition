@@ -72,7 +72,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		case TYPE_TIER2: guiScale = 2D; guiOffset = 6.5D; break;
 		case TYPE_TIER3: guiScale = 1.25D; guiOffset = 1D; break;
 		case TYPE_STEALTH: guiScale = 1.75D; guiOffset = 4.75D; break;
-		case TYPE_ABM: guiScale = 2.25D; guiOffset = 7D; break;
+		case TYPE_ABM: guiScale = 2.25D; guiOffset = 8D; break;
 		case TYPE_NUCLEAR: guiScale = 1.375D; guiOffset = 1.5D; break;
 		case TYPE_ROBIN: guiScale = 1.25D; guiOffset = 2D; break;
 		}
@@ -147,6 +147,16 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_buster), generateStandard(ResourceManager.missileV2_BU_tex, ResourceManager.missileV2));
 		renderers.put(new ComparableStack(ModItems.missile_decoy), generateStandard(ResourceManager.missileV2_decoy_tex, ResourceManager.missileV2));
 		renderers.put(new ComparableStack(ModItems.missile_anti_ballistic), generateStandard(ResourceManager.missileAA_tex, ResourceManager.missileABM));
+		renderers.put(new ComparableStack(ModItems.ammo_sam), x -> {
+			GL11.glScaled(2.386, 2.386, 2.386);
+			GL11.glTranslated(0, 1.781, 0);
+			GL11.glRotated(27.5, 0, 0, 1);
+			GL11.glTranslated(-0.5126043, -3.0150292, 0);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			x.bindTexture(ResourceManager.turret_sam_tex);
+			ResourceManager.turret_sam.renderPart("MissileLoaded");
+			GL11.glShadeModel(GL11.GL_FLAT);
+		});
 		
 		renderers.put(new ComparableStack(ModItems.missile_strong), generateLarge(ResourceManager.missileStrong_HE_tex, ResourceManager.missileStrong));
 		renderers.put(new ComparableStack(ModItems.missile_incendiary_strong), generateLarge(ResourceManager.missileStrong_IN_tex, ResourceManager.missileStrong));
