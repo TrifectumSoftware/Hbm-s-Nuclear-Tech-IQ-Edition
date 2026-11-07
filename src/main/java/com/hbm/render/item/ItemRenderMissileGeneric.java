@@ -98,6 +98,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 			break;
 		case INVENTORY:
 			RenderHelper.enableGUIStandardItemLighting();
+			GL11.glTranslated(6, 4, 0);
 			GL11.glScaled(guiScale, guiScale, guiScale);
 			GL11.glRotated(135, 0, 0, 1);
 			GL11.glRotatef(System.currentTimeMillis() / 15 % 360, 0, 1, 0);
@@ -150,11 +151,21 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.ammo_sam), x -> {
 			GL11.glScaled(2.386, 2.386, 2.386);
 			GL11.glTranslated(0, 1.781, 0);
-			GL11.glRotated(27.5, 0, 0, 1);
-			GL11.glTranslated(-0.5126043, -3.0150292, 0);
+			GL11.glRotated(27.5, 1, 0, 0);
+			GL11.glTranslated(0, -2.473, 0.305);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			x.bindTexture(ResourceManager.turret_sam_tex);
 			ResourceManager.turret_sam.renderPart("MissileLoaded");
+			GL11.glShadeModel(GL11.GL_FLAT);
+		});
+		renderers.put(new ComparableStack(ModItems.ammo_sam_advanced), x -> {
+			GL11.glScaled(2.4, 2.4, 2.4);
+			GL11.glTranslated(0, 1.781, 0);
+			GL11.glRotated(90, 0, 0, 1);
+			GL11.glTranslated(-0.062, -2.607, -0.596);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			x.bindTexture(ResourceManager.turret_sam2_tex);
+			ResourceManager.turret_sam2.renderPart("Missile1");
 			GL11.glShadeModel(GL11.GL_FLAT);
 		});
 		
