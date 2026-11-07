@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.particle.ParticleContrail;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
@@ -39,8 +40,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -53,6 +55,7 @@ public class XFactoryRocket {
 	public static BulletConfig[] rocket_qd;
 	public static BulletConfig[] rocket_ml;
 	public static BulletConfig rocket_sam;
+	public static BulletConfig rocket_sam_advanced;
 	public static BulletConfig[] rocket_ncrpa;
 	public static BulletConfig[] rocket_ncrpa_steer;
 
@@ -68,12 +71,9 @@ public class XFactoryRocket {
 
 		World world = bullet.worldObj;
 		Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).normalize();
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "ABMContrail");
-		data.setDouble("posX", bullet.posX - vec.xCoord);
-		data.setDouble("posY", bullet.posY - vec.yCoord);
-		data.setDouble("posZ", bullet.posZ - vec.zCoord);
-		MainRegistry.proxy.effectNT(data);
+		TextureManager man = Minecraft.getMinecraft().renderEngine;
+		ParticleContrail contrail = new ParticleContrail(man, world, bullet.posX - vec.xCoord, bullet.posY - vec.yCoord, bullet.posZ - vec.zCoord, 0.5F, 0.5F, 0.5F, 0.25F);
+		Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 	};
 	public static Consumer<Entity> LAMBDA_STEERING_ACCELERATE = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
@@ -200,6 +200,7 @@ public class XFactoryRocket {
 		}
 
 		rocket_sam = rocket_template[0].clone().setItem(ModItems.ammo_sam).setOnUpdate(LAMBDA_SAM_ACCELERATE).setLockonDelay(5.3D).setLockonTurn(0.02F);
+		rocket_sam_advanced = rocket_template[0].clone().setItem(ModItems.ammo_sam_advanced).setOnUpdate(LAMBDA_SAM_ACCELERATE).setLockonDelay(5.3D).setLockonTurn(0.02F);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)

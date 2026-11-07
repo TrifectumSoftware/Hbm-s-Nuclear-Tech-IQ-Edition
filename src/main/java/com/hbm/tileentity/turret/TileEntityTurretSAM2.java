@@ -18,18 +18,17 @@ import net.minecraft.world.World;
 
 public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
-	public static final double PIVOT_Y = 2.47D;
+	public static final double PIVOT_Y = 1.3125D;
 	public static final double MUZZLE = 0.1D;
 	public static final int RELOAD_TICKS = 200;
 	public static final float DAMAGE = 30F;
-	public static final int MAX_LOADED = 2;
-
-	public static final double RAIL_PITCH = Math.toRadians(25.0D);
+	public static final int MAX_LOADED = 6;
+	public static final int FIRE_DELAY = 10; // 0.5s cap-pop -> missile-fire
 
 	static List<Integer> configs = new ArrayList();
 
 	static {
-		configs.add(XFactoryRocket.rocket_sam.id);
+		configs.add(XFactoryRocket.rocket_sam_advanced.id);
 	}
 
 	@Override
@@ -99,6 +98,10 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
 	public int loaded;
 	int reload;
+	int firingTube = -1; // -1 = none, 0..5 = tube index firing
+	int fireTimer = 0;
+	int cooldown = 0; // ticks until next missile can fire
+	public int[] tubeFireTick = new int[] { -1, -1, -1, -1, -1, -1 };
 
 	@Override
 	public void updateEntity() {
@@ -106,14 +109,35 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
 		if(!worldObj.isRemote) {
 
+			if(cooldown > 0) cooldown--;
+
+			// handle firing delay
+			if(firingTube >= 0) {
+				fireTimer--;
+				if(fireTimer <= 0) {
+					BulletConfig conf = this.getFirstConfigLoaded();
+					if(conf != null) {
+						this.spawnBullet(conf, DAMAGE);
+						this.conusmeAmmo(conf.ammo);
+						this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 2.0F, 0.8F);
+						this.loaded--;
+					} else {
+						this.loaded = 0;
+					}
+					firingTube = -1;
+					fireTimer = 0;
+					cooldown = 80; // 4s before next missile can fire
+				}
+			}
+
 			if(reload > 0) {
 				reload--;
 
 				if(reload == 0 && loaded < MAX_LOADED)
-					this.loaded++;
+					this.loaded = MAX_LOADED;
 			}
 
-			if(loaded < MAX_LOADED && reload <= 0 && this.getFirstConfigLoaded() != null) {
+			if(loaded < MAX_LOADED && reload <= 0 && firingTube < 0 && this.getFirstConfigLoaded() != null) {
 				reload = RELOAD_TICKS;
 			}
 
@@ -134,6 +158,9 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 		if(this.isTurretPacket) {
 			buf.writeBoolean(true);
 			buf.writeInt(this.loaded);
+			buf.writeInt(this.firingTube);
+			buf.writeInt(this.fireTimer);
+			for(int i = 0; i < 6; i++) buf.writeInt(this.tubeFireTick[i]);
 		} else {
 			buf.writeBoolean(false);
 			super.serialize(buf);
@@ -144,6 +171,9 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 	public void deserialize(ByteBuf buf) {
 		if(buf.readBoolean()) {
 			this.loaded = buf.readInt();
+			this.firingTube = buf.readInt();
+			this.fireTimer = buf.readInt();
+			for(int i = 0; i < 6; i++) this.tubeFireTick[i] = buf.readInt();
 		} else
 			super.deserialize(buf);
 	}
@@ -151,16 +181,17 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 	@Override
 	public void updateFiringTick() {
 
-		if(reload > 0 || loaded <= 0)
+		if(firingTube >= 0 || cooldown > 0 || loaded <= 0)
 			return;
 
 		BulletConfig conf = this.getFirstConfigLoaded();
 
 		if(conf != null) {
-			this.spawnBullet(conf, DAMAGE);
-			this.conusmeAmmo(conf.ammo);
-			this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 2.0F, 0.8F);
-			this.loaded--;
+			// start firing sequence: caps pop now, missile fires after FIRE_DELAY
+			int tube = MAX_LOADED - loaded; // 0..5
+			firingTube = tube;
+			fireTimer = FIRE_DELAY;
+			tubeFireTick[tube] = (int) worldObj.getTotalWorldTime();
 		} else {
 			this.loaded = 0;
 		}
@@ -171,10 +202,10 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-		vec.rotateAroundZ((float) -RAIL_PITCH);
+		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
-		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) RAIL_PITCH);
+		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) rotationPitch);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 		proj.lockonTarget = this.target;
 		worldObj.spawnEntityInWorld(proj);
@@ -184,12 +215,20 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.loaded = nbt.getInteger("loaded");
+		this.firingTube = nbt.getInteger("firingTube");
+		this.fireTimer = nbt.getInteger("fireTimer");
+		this.cooldown = nbt.getInteger("cooldown");
+		for(int i = 0; i < 6; i++) this.tubeFireTick[i] = nbt.getInteger("tubeFireTick" + i);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("loaded", loaded);
+		nbt.setInteger("firingTube", firingTube);
+		nbt.setInteger("fireTimer", fireTimer);
+		nbt.setInteger("cooldown", cooldown);
+		for(int i = 0; i < 6; i++) nbt.setInteger("tubeFireTick" + i, tubeFireTick[i]);
 	}
 
 	@Override

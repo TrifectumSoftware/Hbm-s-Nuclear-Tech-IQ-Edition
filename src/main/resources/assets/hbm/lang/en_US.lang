@@ -2151,6 +2151,7 @@ item.ammo_railgun_desh.name=Desh APFSDS
 item.ammo_railgun_starmetal.name=Starmetal APFSDS
 item.ammo_railgun_fluid.name=Fluid APFSDS
 item.ammo_sam.name=SAM Missile
+item.ammo_sam_advanced.name=Advanced SAM Missile
 item.ammo_bag.name=Ammo Bag
 item.ammo_bag_infinite.name=Infinite Ammo Bag
 item.ammo_container.name=Ammo Container

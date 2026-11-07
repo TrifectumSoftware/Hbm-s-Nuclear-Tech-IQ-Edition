@@ -169,9 +169,9 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 	public void spawnBullet(BulletConfig bullet, float baseDamage) {
 
 		Vec3 pos = this.getTurretPos();
-		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-		vec.rotateAroundZ((float) -RAIL_PITCH);
-		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+		Vec3 vec = Vec3.createVectorHelper(0, 0, -this.getBarrelLength());
+		vec.rotateAroundX((float) RAIL_PITCH);
+		vec.rotateAroundY((float) (Math.PI - this.rotationYaw));
 
 		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) RAIL_PITCH);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
