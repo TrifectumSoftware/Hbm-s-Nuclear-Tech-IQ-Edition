@@ -20,7 +20,7 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 
 	public static final double PIVOT_Y = 2.47D;
 	public static final double MUZZLE = 0.1D;
-	public static final int RELOAD_TICKS = 200;
+	public static final int RELOAD_TICKS = 160;
 	public static final float DAMAGE = 30F;
 
 	static List<Integer> configs = new ArrayList();
@@ -61,7 +61,7 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getAcceptableInaccuracy() {
-		return 10D;
+		return 0D;
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getDecetorRange() {
-		return 96D;
+		return 140D;
 	}
 
 	public int loaded;

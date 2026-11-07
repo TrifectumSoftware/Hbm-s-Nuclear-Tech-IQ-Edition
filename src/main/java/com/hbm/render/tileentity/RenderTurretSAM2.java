@@ -17,6 +17,7 @@ import net.minecraftforge.client.IItemRenderer;
 public class RenderTurretSAM2 extends RenderTurretBase implements IItemRendererProvider {
 
 	private static final double PIVOT_Y = 1.3125D;
+	private static final int MAX_LOADED = 6;
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
@@ -54,7 +55,8 @@ public class RenderTurretSAM2 extends RenderTurretBase implements IItemRendererP
 			ResourceManager.turret_sam2.renderPart("Tube" + i);
 		}
 		for(int i = 1; i <= 6; i++) {
-			if(turret.loaded >= i) {
+			// missile i renders only if it hasn't been fired yet
+			if(!turret.missileFired[i - 1]) {
 				ResourceManager.turret_sam2.renderPart("Missile" + i);
 			}
 		}
@@ -63,33 +65,31 @@ public class RenderTurretSAM2 extends RenderTurretBase implements IItemRendererP
 		long now = turret.getWorldObj() != null ? turret.getWorldObj().getTotalWorldTime() : 0;
 		for(int i = 1; i <= 6; i++) {
 			int age = (turret.tubeFireTick[i - 1] >= 0) ? (int)(now - turret.tubeFireTick[i - 1]) : -1;
-			boolean inFlight = age >= 0 && age < 50;
-			boolean attached = (turret.loaded >= i) && !inFlight;
+			// caps pop at fire trigger and disappear when (or just before) the missile fires at 10 ticks
+			boolean inFlight = (turret.tubeFireTick[i - 1] >= 0) && age >= 0 && age < 50;
+			boolean attached = !turret.missileFired[i - 1] && !inFlight;
 			if(attached) {
 				ResourceManager.turret_sam2.renderPart("Cap" + i + "Front");
 				ResourceManager.turret_sam2.renderPart("Cap" + i + "Back");
 			} else if(inFlight) {
 				float t = age;
-				float grav = 0.008F;
 				java.util.Random rndFront = new java.util.Random(i * 31 + 1);
 				java.util.Random rndBack = new java.util.Random(i * 31 + 2);
 				for(int side = 0; side < 2; side++) {
 					boolean front = (side == 0);
 					java.util.Random rnd = front ? rndFront : rndBack;
-					float vx = 0.2F + rnd.nextFloat() * 0.15F;
-					float vy = 0.18F + rnd.nextFloat() * 0.12F;
-					float vz = (front ? -1 : 1) * (0.05F + rnd.nextFloat() * 0.1F) * ((i <= 3) ? -1F : 1F);
+					// weak fling off the tube, then fall
+					float vx = (rnd.nextFloat() - 0.5F) * 0.06F;
+					float vy = 0.08F + rnd.nextFloat() * 0.06F;
+					float vz = (front ? -1 : 1) * (0.04F + rnd.nextFloat() * 0.04F) * ((i <= 3) ? -1F : 1F);
+					float grav = 0.02F;
 					float dx = vx * t;
 					float dy = vy * t - 0.5F * grav * t * t;
 					float dz = vz * t;
-					float spinX = (rnd.nextFloat() - 0.5F) * 12.0F * t;
-					float spinY = (rnd.nextFloat() - 0.5F) * 12.0F * t;
-					float spinZ = (rnd.nextFloat() - 0.5F) * 12.0F * t;
+					float spin = (rnd.nextFloat() - 0.5F) * 4.0F * t;
 					GL11.glPushMatrix();
 					GL11.glTranslated(dx, dy, dz);
-					GL11.glRotated(spinX, 1, 0, 0);
-					GL11.glRotated(spinY, 0, 1, 0);
-					GL11.glRotated(spinZ, 0, 0, 1);
+					GL11.glRotated(spin, 1, 0, 0);
 					ResourceManager.turret_sam2.renderPart(front ? ("Cap" + i + "Front") : ("Cap" + i + "Back"));
 					GL11.glPopMatrix();
 				}

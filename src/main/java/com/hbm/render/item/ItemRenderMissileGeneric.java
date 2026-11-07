@@ -98,6 +98,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 			break;
 		case INVENTORY:
 			RenderHelper.enableGUIStandardItemLighting();
+			GL11.glTranslated(6, 4, 0);
 			GL11.glScaled(guiScale, guiScale, guiScale);
 			GL11.glRotated(135, 0, 0, 1);
 			GL11.glRotatef(System.currentTimeMillis() / 15 % 360, 0, 1, 0);

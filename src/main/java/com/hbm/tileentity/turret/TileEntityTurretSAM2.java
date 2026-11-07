@@ -43,17 +43,17 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getTurretDepression() {
-		return 5D;
+		return 10D;
 	}
 
 	@Override
 	public double getTurretElevation() {
-		return 85D;
+		return 35D;
 	}
 
 	@Override
 	public double getTurretYawSpeed() {
-		return 2D;
+		return 15D;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getAcceptableInaccuracy() {
-		return 10D;
+		return 0D;
 	}
 
 	@Override
@@ -88,20 +88,22 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getDecetorGrace() {
-		return 10D;
+		return 25D;
 	}
 
 	@Override
 	public double getDecetorRange() {
-		return 96D;
+		return 460D;
 	}
 
 	public int loaded;
 	int reload;
-	int firingTube = -1; // -1 = none, 0..5 = tube index firing
+	public int firingTube = -1; // -1 = none, 0..5 = tube index firing
 	int fireTimer = 0;
 	int cooldown = 0; // ticks until next missile can fire
+	int nextTube = 0; // next tube to fire
 	public int[] tubeFireTick = new int[] { -1, -1, -1, -1, -1, -1 };
+	public boolean[] missileFired = new boolean[] { false, false, false, false, false, false };
 
 	@Override
 	public void updateEntity() {
@@ -124,20 +126,25 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 					} else {
 						this.loaded = 0;
 					}
+					missileFired[firingTube] = true;
 					firingTube = -1;
 					fireTimer = 0;
 					cooldown = 80; // 4s before next missile can fire
+					nextTube = (nextTube + 1) % MAX_LOADED;
 				}
 			}
 
 			if(reload > 0) {
 				reload--;
 
-				if(reload == 0 && loaded < MAX_LOADED)
+				if(reload == 0 && loaded == 0) {
 					this.loaded = MAX_LOADED;
+					this.nextTube = 0;
+					for(int i = 0; i < 6; i++) this.missileFired[i] = false;
+				}
 			}
 
-			if(loaded < MAX_LOADED && reload <= 0 && firingTube < 0 && this.getFirstConfigLoaded() != null) {
+			if(loaded == 0 && reload <= 0 && firingTube < 0 && this.getFirstConfigLoaded() != null) {
 				reload = RELOAD_TICKS;
 			}
 
@@ -161,6 +168,7 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 			buf.writeInt(this.firingTube);
 			buf.writeInt(this.fireTimer);
 			for(int i = 0; i < 6; i++) buf.writeInt(this.tubeFireTick[i]);
+			for(int i = 0; i < 6; i++) buf.writeBoolean(this.missileFired[i]);
 		} else {
 			buf.writeBoolean(false);
 			super.serialize(buf);
@@ -174,6 +182,7 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 			this.firingTube = buf.readInt();
 			this.fireTimer = buf.readInt();
 			for(int i = 0; i < 6; i++) this.tubeFireTick[i] = buf.readInt();
+			for(int i = 0; i < 6; i++) this.missileFired[i] = buf.readBoolean();
 		} else
 			super.deserialize(buf);
 	}
@@ -188,7 +197,7 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 
 		if(conf != null) {
 			// start firing sequence: caps pop now, missile fires after FIRE_DELAY
-			int tube = MAX_LOADED - loaded; // 0..5
+			int tube = nextTube;
 			firingTube = tube;
 			fireTimer = FIRE_DELAY;
 			tubeFireTick[tube] = (int) worldObj.getTotalWorldTime();
@@ -218,7 +227,9 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 		this.firingTube = nbt.getInteger("firingTube");
 		this.fireTimer = nbt.getInteger("fireTimer");
 		this.cooldown = nbt.getInteger("cooldown");
+		this.nextTube = nbt.getInteger("nextTube");
 		for(int i = 0; i < 6; i++) this.tubeFireTick[i] = nbt.getInteger("tubeFireTick" + i);
+		for(int i = 0; i < 6; i++) this.missileFired[i] = nbt.getBoolean("missileFired" + i);
 	}
 
 	@Override
@@ -228,7 +239,9 @@ public class TileEntityTurretSAM2 extends TileEntityTurretBaseNT {
 		nbt.setInteger("firingTube", firingTube);
 		nbt.setInteger("fireTimer", fireTimer);
 		nbt.setInteger("cooldown", cooldown);
+		nbt.setInteger("nextTube", nextTube);
 		for(int i = 0; i < 6; i++) nbt.setInteger("tubeFireTick" + i, tubeFireTick[i]);
+		for(int i = 0; i < 6; i++) nbt.setBoolean("missileFired" + i, missileFired[i]);
 	}
 
 	@Override
