@@ -20,7 +20,7 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 
 	public static final double PIVOT_Y = 2.47D;
 	public static final double MUZZLE = 0.1D;
-	public static final int RELOAD_TICKS = 200;
+	public static final int RELOAD_TICKS = 160;
 	public static final float DAMAGE = 30F;
 
 	static List<Integer> configs = new ArrayList();
@@ -61,7 +61,7 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getAcceptableInaccuracy() {
-		return 10D;
+		return 0D;
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getDecetorRange() {
-		return 96D;
+		return 140D;
 	}
 
 	public int loaded;
@@ -169,9 +169,9 @@ public class TileEntityTurretSAM extends TileEntityTurretBaseNT {
 	public void spawnBullet(BulletConfig bullet, float baseDamage) {
 
 		Vec3 pos = this.getTurretPos();
-		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-		vec.rotateAroundZ((float) -RAIL_PITCH);
-		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+		Vec3 vec = Vec3.createVectorHelper(0, 0, -this.getBarrelLength());
+		vec.rotateAroundX((float) RAIL_PITCH);
+		vec.rotateAroundY((float) (Math.PI - this.rotationYaw));
 
 		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) RAIL_PITCH);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);

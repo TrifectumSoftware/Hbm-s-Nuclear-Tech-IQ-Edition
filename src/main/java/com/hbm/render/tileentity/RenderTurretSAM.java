@@ -31,7 +31,7 @@ public class RenderTurretSAM extends RenderTurretBase implements IItemRendererPr
 
 		ResourceManager.turret_sam.renderPart("Base");
 
-		double yaw = -Math.toDegrees(turret.lastRotationYaw + (turret.rotationYaw - turret.lastRotationYaw) * interp) - 90D;
+		double yaw = 180D - Math.toDegrees(turret.lastRotationYaw + (turret.rotationYaw - turret.lastRotationYaw) * interp);
 		GL11.glRotated(yaw, 0, 1, 0);
 		ResourceManager.turret_sam.renderPart("Launcher");
 

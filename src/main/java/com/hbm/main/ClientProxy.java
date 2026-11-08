@@ -297,6 +297,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSentryDamaged.class, new RenderTurretSentry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretRailgun.class, new RenderTurretRailgun());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSAM.class, new RenderTurretSAM());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSAM2.class, new RenderTurretSAM2());
 		//mines
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLandmine.class, new RenderLandmine());
 		//machines
@@ -647,6 +648,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_decoy, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_anti_ballistic, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ABM));
 		MinecraftForgeClient.registerItemRenderer(ModItems.ammo_sam, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ABM));
+		MinecraftForgeClient.registerItemRenderer(ModItems.ammo_sam_advanced, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ABM));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_incendiary_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_cluster_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));

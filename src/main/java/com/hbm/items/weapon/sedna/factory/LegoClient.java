@@ -308,8 +308,9 @@ public class LegoClient {
 
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
-		GL11.glRotated(117.5, 0, 0, 1);
-		GL11.glTranslatef(-0.5126043F, -3.0150292F, 0);
+		GL11.glRotated(180, 0, 1, 0);
+		GL11.glRotated(117.5, 1, 0, 0);
+		GL11.glTranslatef(0, -2.473F, 0.305F);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.turret_sam_tex);
 		ResourceManager.turret_sam.renderPart("MissileLoaded");
@@ -319,6 +320,23 @@ public class LegoClient {
 		GL11.glTranslatef(0.375F, 0, 0);
 		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
 		if(length > 0) renderBulletStandard(Tessellator.instance, 0x808080, 0xFFF2A7, length * 2, true);
+	};
+
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_SAM2 = (bullet, interp) -> {
+
+		GL11.glPushMatrix();
+		GL11.glScalef(0.667F, 0.667F, 0.667F);
+		GL11.glRotated(180, 0, 1, 0);
+		GL11.glTranslatef(-0.062F, -2.607F, -0.596F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.turret_sam2_tex);
+		ResourceManager.turret_sam2.renderPart("Missile1");
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+
+		GL11.glTranslatef(0.375F, 0, 0);
+		double length2 = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length2 > 0) renderBulletStandard(Tessellator.instance, 0x808080, 0xFFF2A7, length2 * 2, true);
 	};
 	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LIGHTNING = (bullet, interp) -> {
