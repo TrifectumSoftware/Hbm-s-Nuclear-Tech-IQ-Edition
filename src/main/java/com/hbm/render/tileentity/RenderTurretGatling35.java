@@ -36,7 +36,10 @@ public class RenderTurretGatling35 extends RenderTurretBase implements IItemRend
 
 		double yaw = 180D - Math.toDegrees(turret.lastRotationYaw + (turret.rotationYaw - turret.lastRotationYaw) * interp);
 		double pitch = Math.toDegrees(turret.lastRotationPitch + (turret.rotationPitch - turret.lastRotationPitch) * interp);
-		float spin = turret.lastBarrelSpin + (turret.barrelSpin - turret.lastBarrelSpin) * interp;
+		float spin = 0F;
+		if(turret.target != null && turret.getWorldObj() != null) {
+			spin = (float)((turret.getWorldObj().getTotalWorldTime() * 30L) % 360L);
+		}
 
 		// Yaw wheel + turret body
 		GL11.glRotated(yaw, 0, 1, 0);
