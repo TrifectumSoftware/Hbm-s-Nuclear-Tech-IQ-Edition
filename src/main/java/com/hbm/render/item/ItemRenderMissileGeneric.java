@@ -72,7 +72,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		case TYPE_TIER2: guiScale = 2D; guiOffset = 6.5D; break;
 		case TYPE_TIER3: guiScale = 1.25D; guiOffset = 1D; break;
 		case TYPE_STEALTH: guiScale = 1.75D; guiOffset = 4.75D; break;
-		case TYPE_ABM: guiScale = 2.25D; guiOffset = 9D; break;
+		case TYPE_ABM: guiScale = 2.25D; guiOffset = 7D; break;
 		case TYPE_NUCLEAR: guiScale = 1.375D; guiOffset = 1.5D; break;
 		case TYPE_ROBIN: guiScale = 1.25D; guiOffset = 2D; break;
 		}
@@ -98,11 +98,12 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 			break;
 		case INVENTORY:
 			RenderHelper.enableGUIStandardItemLighting();
-			GL11.glTranslated(6, 4, 0);
+			boolean isSam = item != null && (item.getItem() == ModItems.ammo_sam || item.getItem() == ModItems.ammo_sam_advanced);
+			if(isSam) GL11.glTranslated(6, 4, 0);
 			GL11.glScaled(guiScale, guiScale, guiScale);
 			GL11.glRotated(135, 0, 0, 1);
 			GL11.glRotatef(System.currentTimeMillis() / 15 % 360, 0, 1, 0);
-			GL11.glTranslated(0, -16 + guiOffset, 0);
+			GL11.glTranslated(0, -16 + guiOffset + (isSam ? 2 : 0), 0);
 			break;
 		default: break;
 		}
