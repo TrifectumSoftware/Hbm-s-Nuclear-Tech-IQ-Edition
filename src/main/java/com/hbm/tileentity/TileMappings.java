@@ -337,6 +337,7 @@ public class TileMappings {
 		put(TileEntityTurretRailgun.class, "tileentity_turret_railgun");
 		put(TileEntityTurretSAM.class, "tileentity_turret_sam");
 		put(TileEntityTurretSAM2.class, "tileentity_turret_sam2");
+		put(TileEntityTurretGatling35.class, "tileentity_turret_gatling35");
 	}
 
 	private static void putMachines() {

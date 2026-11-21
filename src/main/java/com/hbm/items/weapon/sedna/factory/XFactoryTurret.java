@@ -24,6 +24,9 @@ public class XFactoryTurret {
 	public static BulletConfig shell_ap;
 	public static BulletConfig shell_du;
 	public static BulletConfig shell_w9;
+	public static BulletConfig bullet_airburst;
+	public static BulletConfig bullet_airburst_pellet;
+	public static BulletConfig bullet_hei;
 	
 	public static void init() {
 		dgk_normal = new BulletConfig().setItem(new ItemStack(ModItems.ammo_dgk));
@@ -44,5 +47,18 @@ public class XFactoryTurret {
 		shell_ap = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_T)).setDamage(2F).setDoesPenetrate(true).setCasing(CASINNG240MM.clone().register("240w"));
 		shell_du = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU)).setDamage(2.5F).setDoesPenetrate(true).setDamageFalloffByPen(false).setCasing(CASINNG240MM.clone().register("240u"));
 		shell_w9 = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.W9)).setDamage(2.5F).setCasing(CASINNG240MM.clone().register("240n")).setOnImpact(XFactoryCatapult.LAMBDA_NUKE_STANDARD);
+
+		bullet_airburst_pellet = new BulletConfig().setLife(20).setSelfDamageDelay(1).setVel(1F).setGrav(0D).setSpread(0F)
+				.setOnImpact((b, mop) -> { b.setDead(); })
+				.setDamage(0.25F).setImpactsEntities(true);
+
+		bullet_hei = new BulletConfig().setLife(100).setSelfDamageDelay(2).setVel(8F).setGrav(0D).setSpread(0.5F)
+				.setOnImpact(XFactoryRocket.LAMBDA_STANDARD_EXPLODE_INC)
+				.setDamage(2F).setImpactsEntities(true).setItem(ModItems.ammo_35mm_hei);
+
+		bullet_airburst = new BulletConfig().setLife(100).setSelfDamageDelay(2).setVel(8F).setGrav(0D).setSpread(0.5F)
+				.setOnUpdate(XFactoryRocket.LAMBDA_AIRBURST_UPDATE)
+				.setOnImpact((b, mop) -> { XFactoryRocket.airburst(b); b.setDead(); })
+				.setDamage(2F).setImpactsEntities(true).setItem(ModItems.ammo_35mm_airburst);
 	}
 }

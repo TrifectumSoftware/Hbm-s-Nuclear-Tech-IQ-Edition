@@ -376,6 +376,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	public void conusmeAmmo(ComparableStack ammo) {
 
+		if(ammo == null) return;
+
 		for(int i = 1; i < 10; i++) {
 
 			if(slots[i] != null && ammo.matchesRecipe(slots[i], true)) {

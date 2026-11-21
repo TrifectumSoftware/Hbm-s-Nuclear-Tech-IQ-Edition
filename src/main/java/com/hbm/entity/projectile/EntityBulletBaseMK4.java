@@ -31,6 +31,10 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 	public Entity lockonTarget = null;
 	public double distanceTraveled = 0D;
 	public int lockonStartTick = 0;
+	/** Distance to target at fire time; bullet bursts (airburst) this many blocks before the target. -1 disables. */
+	public double airburstDistance = -1D;
+	/** Whether the airburst has already triggered. */
+	public boolean airburstTriggered = false;
 
 	public EntityBulletBaseMK4(World world) {
 		super(world);

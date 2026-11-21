@@ -79,9 +79,11 @@ public class RenderTurretSAM2 extends RenderTurretBase implements IItemRendererP
 					boolean front = (side == 0);
 					java.util.Random rnd = front ? rndFront : rndBack;
 					// weak fling off the tube, then fall
-					float vx = (rnd.nextFloat() - 0.5F) * 0.06F;
+					// travel ~0.5 blocks forward/backward over the lifespan, with +/-0.2 blocks randomness
+					float baseVx = (front ? 1 : -1) * (0.5F / 50.0F);
+					float vx = baseVx + (rnd.nextFloat() - 0.5F) * (0.2F / 50.0F) * 2;
 					float vy = 0.08F + rnd.nextFloat() * 0.06F;
-					float vz = (front ? -1 : 1) * (0.04F + rnd.nextFloat() * 0.04F) * ((i <= 3) ? -1F : 1F);
+					float vz = (front ? -1 : 1) * (0.03F + rnd.nextFloat() * 0.03F) * ((i <= 3) ? -1F : 1F);
 					float grav = 0.02F;
 					float dx = vx * t;
 					float dy = vy * t - 0.5F * grav * t * t;

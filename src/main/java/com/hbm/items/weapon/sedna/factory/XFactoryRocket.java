@@ -64,6 +64,77 @@ public class XFactoryRocket {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < 7) bullet.accel += 0.4D;
 	};
+
+	/** AHEAD-style airburst: detonates ~10 blocks before the target distance, tiny explosion + particles. */
+	public static Consumer<Entity> LAMBDA_AIRBURST_UPDATE = (entity) -> {
+		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
+		if(bullet.airburstDistance < 0 || bullet.airburstTriggered) return;
+		double D = bullet.airburstDistance;
+		double armDist = Math.max(0D, D - 20D);
+		double burstDist = Math.max(0D, D - 6D);
+		if(bullet.distanceTraveled < armDist) return;
+		if(bullet.distanceTraveled < burstDist) return;
+		airburst(bullet);
+		bullet.airburstTriggered = true;
+		bullet.setDead();
+	};
+
+	public static void airburst(EntityBulletBaseMK4 bullet) {
+		World world = bullet.worldObj;
+		if(!world.isRemote) {
+			// tiny explosion for area damage
+			ExplosionVNT vnt = new ExplosionVNT(world, bullet.posX, bullet.posY, bullet.posZ, 1.5F, bullet.getThrower());
+			vnt.setBlockAllocator(new BlockAllocatorStandard());
+			vnt.setBlockProcessor(new BlockProcessorStandard());
+			vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage));
+			vnt.setPlayerProcessor(new PlayerProcessorStandard());
+			vnt.setSFX(new ExplosionEffectWeapon(2, 0.5F, 0.5F));
+			vnt.explode();
+
+			// cone of ~24 pellets
+			Vec3 fwd = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
+			double flen = fwd.lengthVector();
+			if(flen > 0) fwd = fwd.normalize();
+			// build perpendicular basis
+			Vec3 up = Math.abs(fwd.yCoord) < 0.9 ? Vec3.createVectorHelper(0, 1, 0) : Vec3.createVectorHelper(1, 0, 0);
+			Vec3 u = fwd.crossProduct(up);
+			double ulen = u.lengthVector();
+			if(ulen > 0) u = u.normalize();
+			Vec3 v = u.crossProduct(fwd).normalize();
+			double halfAngle = Math.toRadians(15.0);
+			EntityLivingBase thrower = bullet.getThrower();
+			for(int i = 0; i < 24; i++) {
+				double azimuth = world.rand.nextDouble() * 2 * Math.PI;
+				double polar = world.rand.nextDouble() * halfAngle;
+				// smidge of extra randomness
+				polar += (world.rand.nextDouble() - 0.5) * Math.toRadians(4.0);
+				azimuth += (world.rand.nextDouble() - 0.5) * Math.toRadians(6.0);
+				double cosP = Math.cos(polar);
+				double sinP = Math.sin(polar);
+				double cosA = Math.cos(azimuth);
+				double sinA = Math.sin(azimuth);
+				double dx = fwd.xCoord * cosP + u.xCoord * sinP * cosA + v.xCoord * sinP * sinA;
+				double dy = fwd.yCoord * cosP + u.yCoord * sinP * cosA + v.yCoord * sinP * sinA;
+				double dz = fwd.zCoord * cosP + u.zCoord * sinP * cosA + v.zCoord * sinP * sinA;
+				EntityBulletBaseMK4 pellet = new EntityBulletBaseMK4(world, thrower, XFactoryTurret.bullet_airburst_pellet, 0.25F, 0F, bullet.posX, bullet.posY, bullet.posZ, dx, dy, dz);
+				double speed = 4.0D + (world.rand.nextDouble() - 0.5) * 0.8D;
+				pellet.motionX *= speed;
+				pellet.motionY *= speed;
+				pellet.motionZ *= speed;
+				pellet.airburstDistance = -1D;
+				world.spawnEntityInWorld(pellet);
+			}
+		}
+		// particles on client
+		if(world.isRemote) {
+			for(int i = 0; i < 12; i++) {
+				world.spawnParticle("smoke", bullet.posX, bullet.posY, bullet.posZ, world.rand.nextGaussian() * 0.1D, world.rand.nextGaussian() * 0.1D, world.rand.nextGaussian() * 0.1D);
+			}
+			for(int i = 0; i < 8; i++) {
+				world.spawnParticle("flame", bullet.posX, bullet.posY, bullet.posZ, world.rand.nextGaussian() * 0.05D, world.rand.nextGaussian() * 0.05D, world.rand.nextGaussian() * 0.05D);
+			}
+		}
+	}
 	public static Consumer<Entity> LAMBDA_SAM_ACCELERATE = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < (7D * 2D / 3D)) bullet.accel = Math.min(bullet.accel + 0.4D, (7D * 2D / 3D));
